@@ -1,6 +1,5 @@
 package com.booking;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,8 +10,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 class ShowControllerTest {
@@ -36,22 +34,22 @@ class ShowControllerTest {
 
     @Test
     public void shouldMakeBooking() throws Exception {
-        Show show = new Show(1L, "name_1", "desc_1", 34.1);
+        Show show = new Show("name_1", "desc_1", 34.1);
         when(showRepository.save(show)).thenReturn(show);
 
-        mockMvc.perform(post("/book")
+        mockMvc.perform(post("/shows")
                 .content(bookingReqPayload()).contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content()
-                        .string(new ObjectMapper()
-                                .writeValueAsString(show)));
+                .andExpect(jsonPath("$.name").value("name_1"))
+                .andExpect(jsonPath("$.price").value("34.1"))
+                .andExpect(jsonPath("$.description").value("desc_1"));
 
         verify(showRepository).save(show);
     }
 
     private String bookingReqPayload() {
-        return "{\"numberOfSeats\": \"1\"," +
-                "\"userId\": \"uid\", " +
-                "\"showId\": \"sid\"}";
+        return "{\"name\": \"name_1\"," +
+                "\"description\": \"desc_1\", " +
+                "\"price\": 34.1}";
     }
 }

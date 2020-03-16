@@ -23,22 +23,46 @@ public class Show {
     public Show() {
     }
 
-    public Show(Long id, String name, String description, double price) {
-        this.id = id;
+    public Show(String name, String description, double price) {
         this.name = name;
         this.description = description;
         this.price = price;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Show show = (Show) o;
-        return price == show.price &&
-                id.equals(show.id) &&
-                name.equals(show.name) &&
-                description.equals(show.description);
+        return Double.compare(show.price, price) == 0 &&
+                Objects.equals(id, show.id) &&
+                Objects.equals(name, show.name) &&
+                Objects.equals(description, show.description);
     }
 
     @Override
