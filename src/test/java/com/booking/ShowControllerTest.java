@@ -1,13 +1,9 @@
 package com.booking;
 
-import com.booking.Booking;
-import com.booking.BookingController;
-import com.booking.BookingRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -18,21 +14,21 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(MockitoJUnitRunner.class)
-class BookingControllerTest {
-    private BookingRepository bookingRepository;
+@SpringBootTest
+class ShowControllerTest {
+    private ShowRepository showRepository;
     private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        bookingRepository = mock(BookingRepository.class);
+        showRepository = mock(ShowRepository.class);
         mockMvc = MockMvcBuilders
-                .standaloneSetup(new BookingController(bookingRepository)).build();
+                .standaloneSetup(new ShowController(showRepository)).build();
     }
 
     @Test
     public void greetingsTest() throws Exception {
-        mockMvc.perform(get("/"))
+        mockMvc.perform(get("/shows"))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .string("greetings from booking. !"));
@@ -40,17 +36,17 @@ class BookingControllerTest {
 
     @Test
     public void shouldMakeBooking() throws Exception {
-        Booking booking = new Booking(1, "uid", "sid");
-        when(bookingRepository.save(booking)).thenReturn(booking);
+        Show show = new Show(1L, "name_1", "desc_1", 34.1);
+        when(showRepository.save(show)).thenReturn(show);
 
         mockMvc.perform(post("/book")
                 .content(bookingReqPayload()).contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content()
                         .string(new ObjectMapper()
-                                .writeValueAsString(booking)));
+                                .writeValueAsString(show)));
 
-        verify(bookingRepository).save(booking);
+        verify(showRepository).save(show);
     }
 
     private String bookingReqPayload() {

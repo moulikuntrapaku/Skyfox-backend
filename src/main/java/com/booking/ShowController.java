@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class BookingController {
-    private final BookingRepository bookingRepository;
+@RestController("/shows")
+public class ShowController {
+    private final ShowRepository showRepository;
 
-    public BookingController(BookingRepository bookingRepository) {
-        this.bookingRepository = bookingRepository;
+    public ShowController(ShowRepository showRepository) {
+        this.showRepository = showRepository;
     }
 
     @GetMapping
@@ -19,7 +19,7 @@ public class BookingController {
     }
 
     @PostMapping
-    public Booking book(@RequestBody Booking booking) {
-        return bookingRepository.save(booking);
+    public Show book(@RequestBody Show show) {
+        return showRepository.save(show);
     }
 }

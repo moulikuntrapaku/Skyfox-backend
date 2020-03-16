@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://localhost:5431/bookingengine
+    username: bookingengine
+    password: postgres
+logging:
+  level:
+    root: INFO

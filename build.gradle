@@ -23,13 +23,18 @@ test {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-dependencies:2.2.5.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.2.5.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.2.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.postgresql:postgresql:42.2.5'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.2.5.RELEASE'
-    testImplementation('org.junit.jupiter:junit-jupiter-api:5.3.2')
-    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.3.2')
+    compile 'org.flywaydb:flyway-core'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: "junit", module: "junit"
+    }
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     components {
         withModule('org.springframework:spring-beans') {
