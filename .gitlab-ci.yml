@@ -9,8 +9,6 @@ test:
     - ./gradlew test
   artifacts:
     expire_in: 1 week
-    reports:
-      junit: build/test-results/test/TEST-*.xml
     paths:
       - build
       - .gradle
@@ -20,6 +18,7 @@ build:
   stage: build
   script: ./gradlew --build-cache bootjar
   artifacts:
+    expire_in: 1 week
     paths:
       - build
       - .gradle
