@@ -1,5 +1,6 @@
 package com.booking.shows;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,10 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/shows")
 public class ShowController {
-    private final ShowRepository showRepository;
+    private final ShowService showService;
 
-    public ShowController(ShowRepository showRepository) {
-        this.showRepository = showRepository;
+    @Autowired
+    public ShowController(ShowService showService) {
+        this.showService = showService;
     }
 
     @GetMapping
@@ -20,6 +22,6 @@ public class ShowController {
 
     @PostMapping
     public Show book(@RequestBody Show show) {
-        return showRepository.save(show);
+        return showService.save(show);
     }
 }

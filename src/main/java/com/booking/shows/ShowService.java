@@ -1,5 +1,8 @@
 package com.booking.shows;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ShowService {
     private final ShowRepository showRepository;
 
