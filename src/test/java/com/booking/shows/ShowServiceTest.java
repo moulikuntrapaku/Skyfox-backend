@@ -1,4 +1,4 @@
-package com.booking;
+package com.booking.shows;
 
 import com.booking.shows.Show;
 import com.booking.shows.ShowRepository;

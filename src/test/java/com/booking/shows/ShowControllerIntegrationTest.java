@@ -1,11 +1,17 @@
-package com.booking;
+package com.booking.shows;
 
+import com.booking.App;
 import com.booking.shows.Show;
 import com.booking.shows.ShowController;
 import com.booking.shows.ShowRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -15,17 +21,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@SpringBootTest(classes = App.class)
+@AutoConfigureMockMvc
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class ShowControllerIntegrationTest {
-    private ShowRepository showRepository;
+    @Autowired
     private MockMvc mockMvc;
-
-    @BeforeEach
-    void setUp() {
-        showRepository = mock(ShowRepository.class);
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(new ShowController(showRepository)).build();
-    }
 
     @Test
     public void greetingsTest() throws Exception {
@@ -37,8 +38,6 @@ class ShowControllerIntegrationTest {
 
     @Test
     public void shouldMakeBooking() throws Exception {
-        Show show = new Show("name_1", "desc_1", 34.1);
-        when(showRepository.save(show)).thenReturn(show);
 
         mockMvc.perform(post("/shows")
                 .content(bookingReqPayload()).contentType(APPLICATION_JSON))
@@ -47,7 +46,6 @@ class ShowControllerIntegrationTest {
                 .andExpect(jsonPath("$.price").value("34.1"))
                 .andExpect(jsonPath("$.description").value("desc_1"));
 
-        verify(showRepository).save(show);
     }
 
     private String bookingReqPayload() {
