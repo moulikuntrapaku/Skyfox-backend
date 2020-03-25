@@ -1,0 +1,24 @@
+stages:
+  - test
+  - build
+
+test:
+  image: gradle:alpine
+  stage: test
+  script:
+    - ./gradlew gradle test jacocoTestReport
+    - cat build/reports/jacoco/test/html/index.html | grep -o 'Total[^%]*%'
+  artifacts:
+    paths:
+      - build
+      - .gradle
+
+build:
+  image: gradle:alpine
+  stage: build
+  script: ./gradlew --build-cache bootjar
+  artifacts:
+    paths:
+      - build
+      - .gradle
+
