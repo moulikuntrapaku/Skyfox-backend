@@ -1,5 +1,8 @@
 package com.booking;
 
+import com.booking.shows.Show;
+import com.booking.shows.ShowRepository;
+import com.booking.shows.ShowService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

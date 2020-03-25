@@ -1,5 +1,8 @@
 package com.booking;
 
+import com.booking.shows.Show;
+import com.booking.shows.ShowController;
+import com.booking.shows.ShowRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-class ShowControllerTest {
+class ShowControllerIntegrationTest {
     private ShowRepository showRepository;
     private MockMvc mockMvc;
 

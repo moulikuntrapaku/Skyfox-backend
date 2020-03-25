@@ -1,4 +1,4 @@
-package com.booking;
+package com.booking.shows;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;

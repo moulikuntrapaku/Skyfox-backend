@@ -1,4 +1,4 @@
-package com.booking;
+package com.booking.shows;
 
 public class ShowService {
     private final ShowRepository showRepository;
