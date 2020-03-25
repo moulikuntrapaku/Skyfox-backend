@@ -6,8 +6,7 @@ test:
   image: gradle:5.3.0-jdk11
   stage: test
   script:
-    - ./gradlew test jacocoTestReport
-    - cat build/reports/jacoco/test/html/index.html | grep -o 'Total[^%]*%'
+    - ./gradlew test
   artifacts:
     paths:
       - build
