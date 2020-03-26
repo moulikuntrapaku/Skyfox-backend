@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController("/shows")
 public class ShowController {
     private final ShowService showService;
@@ -16,8 +18,8 @@ public class ShowController {
     }
 
     @GetMapping
-    public String greetings() {
-        return "greetings from booking. !";
+    public List<Show> fetchAll() {
+        return showService.fetchAll();
     }
 
     @PostMapping

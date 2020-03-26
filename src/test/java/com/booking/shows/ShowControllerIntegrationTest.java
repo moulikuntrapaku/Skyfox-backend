@@ -1,9 +1,7 @@
 package com.booking.shows;
 
 import com.booking.App;
-import com.booking.shows.Show;
-import com.booking.shows.ShowController;
-import com.booking.shows.ShowRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +9,14 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.Mockito.*;
+import static java.util.Arrays.asList;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = App.class)
 @AutoConfigureMockMvc
@@ -28,16 +25,34 @@ class ShowControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
-    public void greetingsTest() throws Exception {
-        mockMvc.perform(get("/shows"))
-                .andExpect(status().isOk())
-                .andExpect(content()
-                        .string("greetings from booking. !"));
+    @Autowired
+    private ShowRepository showRepository;
+
+    @BeforeEach
+    public void before(){
+        showRepository.deleteAll();
+    }
+
+    @AfterEach
+    public void after(){
+        showRepository.deleteAll();
     }
 
     @Test
-    public void shouldMakeBooking() throws Exception {
+    public void retrieveAllExistingShows() throws Exception {
+        Show show1 = new Show("hello", "world", 7);
+        Show show2 = new Show("abc", "dummy description", 1);
+        final var shows = asList(show1, show2);
+        showRepository.saveAll(shows);
+        mockMvc.perform(get("/shows"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].id").isNotEmpty())
+                .andExpect(jsonPath("$[0].name").value("hello"))
+                .andExpect(jsonPath("$[1].description").value("dummy description"));
+    }
+
+    @Test
+    public void makeAPostRequestToSaveAShow() throws Exception {
 
         mockMvc.perform(post("/shows")
                 .content(bookingReqPayload()).contentType(APPLICATION_JSON))

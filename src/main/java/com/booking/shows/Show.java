@@ -12,7 +12,7 @@ public class Show {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 5, max = 30, message = "The show name must be {min} to {max} characters in length.")
+    @Size(min = 3, max = 30, message = "The show name must be {min} to {max} characters in length.")
     private String name;
 
     @Size(min = 5, max = 200, message = "The description must be {min} to {max} characters in length.")
