@@ -1,10 +1,8 @@
 package com.booking.shows;
 
-import com.booking.shows.Show;
-import com.booking.shows.ShowRepository;
-import com.booking.shows.ShowService;
 import org.junit.jupiter.api.Test;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -19,6 +17,16 @@ public class ShowServiceTest {
         ShowService showService = new ShowService(repository);
 
         assertEquals(savedShow, showService.save(originalShow));
+    }
 
+    @Test
+    public void shouldRetrieveAllShows(){
+        ShowRepository showRepository = mock(ShowRepository.class);
+        final var showList = asList(new Show("1", "1", 1), new Show("2", "2", 2));
+        when(showRepository.findAll()).thenReturn(showList);
+
+        ShowService showService = new ShowService(showRepository);
+
+        assertEquals(showList, showService.fetchAll());
     }
 }
