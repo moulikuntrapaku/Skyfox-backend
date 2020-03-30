@@ -9,17 +9,6 @@ javac -version
 ```
 
 ## Install postgres
-
-## Run the application
-- Build the application and run the test along with coverage
-```shell script
-./gradlew build
-```
-- Run the server locally on localhost:8080
-```shell script
-./gradlew bootRun
-```
-
 - Setup Postgres using docker
     - Install Dockerhub for mac
     - Create an account in the dockerhub and login
@@ -32,3 +21,15 @@ javac -version
     ```
     - Connect to db command
     `psql -h localhost -U bookingengine -d bookingengine` 
+
+## Run the application
+- Build the application and run the test along with coverage
+```shell script
+./gradlew clean
+./gradlew build
+```
+- Run the server locally on localhost:8080
+```shell script
+./gradlew bootRun
+```
+
