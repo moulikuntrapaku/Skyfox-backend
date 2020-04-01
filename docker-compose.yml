@@ -1,15 +1,33 @@
 version: '3.0'
 services:
   db:
-    image: postgresdb
+    image: registry.gitlab.com/tw-catalyst/booking/postgres
+    container_name: postgresdb
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_DB=bookingengine
       - POSTGRES_USER=bookingengine
       - POSTGRES_PASSWORD=postgres
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-create-group: "true"
+        awslogs-region: "ap-south-1"
+        awslogs-group: "catalyst-log-group"
+        awslogs-stream-prefix: "catalyst"
 
   web:
-    image: booking
+    image: registry.gitlab.com/tw-catalyst/booking/bookingapi
+    container_name: bookingapi
+    links:
+      - db
     ports:
       - "8080:8080"
+    logging:
+      driver: "awslogs"
+      options:
+        awslogs-region: "ap-south-1"
+        awslogs-create-group: "true"
+        awslogs-group: "catalyst-log-group"
+        awslogs-stream-prefix: "catalyst"

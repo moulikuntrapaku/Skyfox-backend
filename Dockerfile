@@ -5,4 +5,4 @@ COPY src/main/resources/prod.yml application.yml
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","booking.jar", "application.yml"]
+ENTRYPOINT ["/bin/sh", "-c" , "echo 127.0.0.1 $HOSTNAME >> /etc/hosts && java -jar booking.jar application.yml"]
