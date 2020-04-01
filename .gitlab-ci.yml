@@ -38,7 +38,7 @@ deploy:
     - chmod +x /usr/local/bin/ecs-cli
     - ecs-cli configure --cluster $CLUSTER_NAME --default-launch-type EC2 --config-name $CLUSTER_CONFIG_NAME --region ap-south-1
     - ecs-cli configure profile --access-key $AWS_ACCESS_KEY --secret-key $AWS_SECRET_KEY --profile-name $CLUSTER_PROFILE_NAME
-    - ecs-cli up --keypair catalyst --capability-iam --size 1 --instance-type t2.medium --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --force
+    - ecs-cli up --keypair $CATALYST_KEY --capability-iam --size 1 --instance-type t2.medium --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --force
     - ecs-cli registry-creds up ./creds_input_file.yml --role-name catalystSecretsExecutionRoleCI
     - rm -rf ecs-registry-creds_*.yml
     - ecs-cli compose --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME up --create-log-groups
