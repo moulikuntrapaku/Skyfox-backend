@@ -23,6 +23,7 @@ build:
     paths:
       - build
       - .gradle
+
 variables:
   CLUSTER_NAME: ec2-catalyst-cluster-ci
   CLUSTER_PROFILE_NAME: ec2-catalyst-cluster-profile-ci
@@ -30,6 +31,7 @@ variables:
 
 deploy:
   image: python:latest
+  stage: deploy
   script:
     - pip install awscli
     - ecs-cli configure --cluster $CLUSTER_NAME --default-launch-type EC2 --config-name $CLUSTER_CONFIG_NAME --region ap-south-1
