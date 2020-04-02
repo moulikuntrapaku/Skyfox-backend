@@ -10,6 +10,8 @@ stages:
   - build
   - build-image
   - deploy-integration
+  - promote-staging
+  - deploy-staging
 
 test:
   image: gradle:5.3.0-jdk11
@@ -50,11 +52,38 @@ docker-build:
     - docker push $BOOKING_IMAGE
     - docker push $POSTGRES_IMAGE
 
-deploy:
+deploy-integration:
   image: registry.gitlab.com/gitlab-org/cloud-deploy
   stage: deploy-integration
   environment:
     name: integration
+  script:
+    - echo "image info - $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_ENVIRONMENT_SLUG $CI_COMMIT_SHA"
+    - ./deploy.sh $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_COMMIT_SHA $CI_ENVIRONMENT_SLUG
+
+promote-staging:
+  image: registry.gitlab.com/gitlab-org/cloud-deploy
+  stage: promote-staging
+  when: manual
+  environment:
+    name: staging
+  script:
+    - export BOOKING_IMAGE=$BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-integration
+    - export POSTGRES_IMAGE=$POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-integration
+    - echo "pomoting images - $BOOKING_IMAGE $POSTGRES_IMAGE"
+    - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
+    - docker pull $BOOKING_IMAGE
+    - docker pull $POSTGRES_IMAGE
+    - docker tag $POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG $POSTGRES_IMAGE
+    - docker tag $BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG $BOOKING_IMAGE
+    - docker push $BOOKING_IMAGE
+    - docker push $POSTGRES_IMAGE
+
+deploy-staging:
+  image: registry.gitlab.com/gitlab-org/cloud-deploy
+  stage: deploy-staging
+  environment:
+    name: staging
   script:
     - echo "image info - $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_ENVIRONMENT_SLUG $CI_COMMIT_SHA"
     - ./deploy.sh $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_COMMIT_SHA $CI_ENVIRONMENT_SLUG
