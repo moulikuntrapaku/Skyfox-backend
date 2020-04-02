@@ -3,11 +3,10 @@ services:
   db:
     image: "${POSTGRES_IMAGE}"
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:5432"
     environment:
       - POSTGRES_DB=bookingengine
       - POSTGRES_USER=bookingengine
-      - POSTGRES_PASSWORD="${POSTGRES_PASSWORD}"
     logging:
       driver: "awslogs"
       options:
@@ -21,7 +20,7 @@ services:
     links:
       - db
     ports:
-      - "8080:8080"
+      - "${BACKEND_PORT}:8080"
     logging:
       driver: "awslogs"
       options:

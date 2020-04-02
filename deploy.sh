@@ -8,6 +8,9 @@ export ENVIRONMENT=$4
 
 export BOOKING_IMAGE=$1:$COMMIT_SHA-$ENVIRONMENT
 export POSTGRES_IMAGE=$2:$COMMIT_SHA-$ENVIRONMENT
+export BACKEND_PORT=$ENV_BACKEND_PORT
+export DB_PORT=$ENV_BACKEND_PORT
+export DB_HOST=$ENV_DB_HOST
 
 apt-get install jq -y
 curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
