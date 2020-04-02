@@ -29,7 +29,7 @@ docker-build:
   image: docker:latest
   stage: build-image
   script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
     - docker build -t booking:latest . --no-cache
     - docker push booking:latest
 
