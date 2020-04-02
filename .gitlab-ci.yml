@@ -53,4 +53,4 @@ deploy:
   script:
     - export BOOKING_IMAGE=$BOOKING_IMAGE_NAME-$CI_ENVIRONMENT_SLUG
     - echo $BOOKING_IMAGE
-    - ./deploy.sh $BOOKING_IMAGE
+    - ./deploy.sh $BOOKING_IMAGE $CI_ENVIRONMENT_SLUG
