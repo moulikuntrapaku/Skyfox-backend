@@ -4,5 +4,5 @@ registry_credentials:
     username: ${GITLAB_REGISTRY_USERNAME}
     password: ${GITLAB_REGISTRY_PASSWORD}
     container_names:
-      - integration_db
-      - integration_web
+      - db
+      - web
