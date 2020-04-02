@@ -1,8 +1,14 @@
+variables:
+  CLUSTER_NAME: ec2-catalyst-cluster-ci
+  CLUSTER_PROFILE_NAME: ec2-catalyst-cluster-profile-ci
+  CLUSTER_CONFIG_NAME: ec2-catalyst-cluster-config-ci
+  BOOKING_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/bookingapi:$CI_COMMIT_SHA_$CI_ENVIRONMENT_SLUG
+
 stages:
   - test
   - build
   - build-image
-  - deploy
+  - deploy-integration
 
 test:
   image: gradle:5.3.0-jdk11
@@ -32,29 +38,13 @@ docker-build:
     - docker:dind
   script:
     - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
-    - docker build -t registry.gitlab.com/tw-catalyst/booking/bookingapi . --no-cache
-    - docker push registry.gitlab.com/tw-catalyst/booking/bookingapi
-
-variables:
-  CLUSTER_NAME: ec2-catalyst-cluster-ci
-  CLUSTER_PROFILE_NAME: ec2-catalyst-cluster-profile-ci
-  CLUSTER_CONFIG_NAME: ec2-catalyst-cluster-config-ci
+    - docker build -t $BOOKING_IMAGE_NAME . --no-cache
+    - docker push $BOOKING_IMAGE_NAME
 
 deploy:
   image: registry.gitlab.com/gitlab-org/cloud-deploy
-  stage: deploy
+  stage: deploy-integration
+  environment:
+    name: integrattion
   script:
-    - apt-get install jq -y
-    - curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
-    - echo "$(curl -s https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest.md5) /usr/local/bin/ecs-cli" | md5sum -c -
-    - chmod +x /usr/local/bin/ecs-cli
-    - ecs-cli configure --cluster $CLUSTER_NAME --default-launch-type EC2 --config-name $CLUSTER_CONFIG_NAME --region ap-south-1
-    - ecs-cli configure profile --access-key $AWS_ACCESS_KEY --secret-key $AWS_SECRET_KEY --profile-name $CLUSTER_PROFILE_NAME
-    - ./aws_check_cluster_status.sh
-    - ecs-cli registry-creds up ./creds_input_file.yml --role-name catalystSecretsExecutionRoleCI
-    - ecs-cli compose --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME up --create-log-groups
-    - ecs-cli compose down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
-    - ecs-cli compose service up --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
-    - ecs-cli ps --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
-    - ecs-cli compose service ps --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
-    - rm -rf ecs-registry-creds_*.yml
+    - ./deploy.sh
