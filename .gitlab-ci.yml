@@ -3,6 +3,7 @@ variables:
   CLUSTER_PROFILE_NAME: ec2-catalyst-cluster-profile-ci
   CLUSTER_CONFIG_NAME: ec2-catalyst-cluster-config-ci
   BOOKING_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/bookingapi:$CI_COMMIT_SHA
+  POSTGRES_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/postgres:$CI_COMMIT_SHA
 
 stages:
   - test
@@ -43,6 +44,7 @@ docker-build:
     - echo $BOOKING_IMAGE
     - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
     - docker build -t $BOOKING_IMAGE . --no-cache
+    - docker tag $CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG registry.gitlab.com/tw-catalyst/booking/postgres
     - docker push $BOOKING_IMAGE
 
 deploy:
@@ -51,6 +53,7 @@ deploy:
   environment:
     name: integration
   script:
-    - export BOOKING_IMAGE=$BOOKING_IMAGE_NAME-$CI_ENVIRONMENT_SLUG
     - echo $BOOKING_IMAGE
-    - ./deploy.sh $BOOKING_IMAGE $CI_ENVIRONMENT_SLUG
+    - echo $POSTGRES_IMAGE
+    - echo $CI_ENVIRONMENT_SLUG
+    - ./deploy.sh $BOOKING_IMAGE $POSTGRES_IMAGE $CI_ENVIRONMENT_SLUG

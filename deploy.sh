@@ -1,7 +1,11 @@
 #!/bin/bash
 
-export BOOKING_IMAGE=$1
-export ENVIRONMENT=$2
+
+export ENVIRONMENT=$3
+
+# used  in compose file
+export BOOKING_IMAGE=$1-$ENVIRONMENT
+export POSTGRES_IMAGE=$2-$ENVIRONMENT
 
 apt-get install jq -y
 curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
@@ -16,12 +20,12 @@ ecs-cli configure profile --access-key $AWS_ACCESS_KEY --secret-key $AWS_SECRET_
 ecs-cli registry-creds up ./creds_input_file.yml --role-name catalystSecretsExecutionRoleCI
 
 echo  "using image.. $BOOKING_IMAGE"
-ecs-cli compose service rm --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
-ecs-cli compose down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
+ecs-cli compose service rm --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT
+ecs-cli compose down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT
 ecs-cli compose --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT up --create-log-groups
 
-ecs-cli compose down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
-ecs-cli compose service up --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
+ecs-cli compose down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT
+ecs-cli compose service up --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT
 
 ecs-cli ps --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
 ecs-cli compose service ps --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
