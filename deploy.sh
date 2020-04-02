@@ -19,12 +19,12 @@ ecs-cli configure profile --access-key $AWS_ACCESS_KEY --secret-key $AWS_SECRET_
 ecs-cli registry-creds up ./creds_input_file.yml --role-name catalystSecretsExecutionRoleCI
 
 echo  "using image.. $BOOKING_IMAGE"
-ecs-cli compose service rm --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT
-ecs-cli compose down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT
-ecs-cli compose --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT up --create-log-groups
+ecs-cli compose --project-name $ENVIRONMENT service rm --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
+ecs-cli compose --project-name $ENVIRONMENT down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
+ecs-cli compose --project-name $ENVIRONMENT --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME up --create-log-groups
 
-ecs-cli compose down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT
-ecs-cli compose service up --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME --project-name $ENVIRONMENT
+ecs-cli compose --project-name $ENVIRONMENT down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
+ecs-cli compose --project-name $ENVIRONMENT service up --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
 
 ecs-cli ps --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
 ecs-cli compose service ps --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
