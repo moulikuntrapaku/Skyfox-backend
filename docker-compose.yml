@@ -17,7 +17,7 @@ services:
         awslogs-stream-prefix: "catalyst"
 
   web:
-    image: $BOOKING_IMAGE
+    image: "${BOOKING_IMAGE}"
     links:
       - db
     ports:

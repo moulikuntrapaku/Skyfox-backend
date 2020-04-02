@@ -38,9 +38,8 @@ docker-build:
     - docker:dind
   environment:
     name: integration
-  variables:
-    BOOKING_IMAGE: $BOOKING_IMAGE_NAME-$CI_ENVIRONMENT_SLUG
   script:
+    - export BOOKING_IMAGE=$BOOKING_IMAGE_NAME-$CI_ENVIRONMENT_SLUG
     - echo $BOOKING_IMAGE
     - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
     - docker build -t $BOOKING_IMAGE . --no-cache
@@ -51,8 +50,7 @@ deploy:
   stage: deploy-integration
   environment:
     name: integration
-  variables:
-    BOOKING_IMAGE: $BOOKING_IMAGE_NAME-$CI_ENVIRONMENT_SLUG
   script:
+    - export BOOKING_IMAGE=$BOOKING_IMAGE_NAME-$CI_ENVIRONMENT_SLUG
     - echo $BOOKING_IMAGE
-    - ./deploy.sh
+    - ./deploy.sh $BOOKING_IMAGE

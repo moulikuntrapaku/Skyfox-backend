@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export BOOKING_IMAGE=$1
+
 apt-get install jq -y
 curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
 echo "$(curl -s https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest.md5) /usr/local/bin/ecs-cli" | md5sum -c -
@@ -12,6 +14,7 @@ ecs-cli configure profile --access-key $AWS_ACCESS_KEY --secret-key $AWS_SECRET_
 
 ecs-cli registry-creds up ./creds_input_file.yml --role-name catalystSecretsExecutionRoleCI
 
+echo  "using image.. $BOOKING_IMAGE"
 ecs-cli compose --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME up --create-log-groups
 
 ecs-cli compose down --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
