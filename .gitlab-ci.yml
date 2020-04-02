@@ -2,7 +2,7 @@ variables:
   CLUSTER_NAME: ec2-catalyst-cluster-ci
   CLUSTER_PROFILE_NAME: ec2-catalyst-cluster-profile-ci
   CLUSTER_CONFIG_NAME: ec2-catalyst-cluster-config-ci
-  BOOKING_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/bookingapi:$CI_COMMIT_SHA_$CI_ENVIRONMENT_SLUG
+  BOOKING_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/bookingapi:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
 
 stages:
   - test
