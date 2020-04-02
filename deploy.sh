@@ -1,11 +1,10 @@
 #!/bin/bash
 
-
-export ENVIRONMENT=$3
+export TAG=$3
 
 # used  in compose file
-export BOOKING_IMAGE=$1-$ENVIRONMENT
-export POSTGRES_IMAGE=$2-$ENVIRONMENT
+export BOOKING_IMAGE=$1:$TAG
+export POSTGRES_IMAGE=$2:$TAG
 
 apt-get install jq -y
 curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
