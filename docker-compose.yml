@@ -17,7 +17,7 @@ services:
         awslogs-stream-prefix: "catalyst"
 
   web:
-    image: registry.gitlab.com/tw-catalyst/booking/bookingapi:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
+    image: $BOOKING_IMAGE
     links:
       - db
     ports:

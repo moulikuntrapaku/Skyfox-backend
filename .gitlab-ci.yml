@@ -2,7 +2,7 @@ variables:
   CLUSTER_NAME: ec2-catalyst-cluster-ci
   CLUSTER_PROFILE_NAME: ec2-catalyst-cluster-profile-ci
   CLUSTER_CONFIG_NAME: ec2-catalyst-cluster-config-ci
-  BOOKING_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/bookingapi:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
+  BOOKING_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/bookingapi:$CI_COMMIT_SHA
 
 stages:
   - test
@@ -36,15 +36,18 @@ docker-build:
   stage: build-image
   services:
     - docker:dind
+  environment:
+    name: integration
   script:
+    - export BOOKING_IMAGE=$BOOKING_IMAGE_NAME-$CI_ENVIRONMENT_SLUG
     - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
-    - docker build -t $BOOKING_IMAGE_NAME . --no-cache
-    - docker push $BOOKING_IMAGE_NAME
+    - docker build -t $BOOKING_IMAGE . --no-cache
+    - docker push $BOOKING_IMAGE
 
 deploy:
   image: registry.gitlab.com/gitlab-org/cloud-deploy
   stage: deploy-integration
   environment:
-    name: integrattion
+    name: integration
   script:
     - ./deploy.sh
