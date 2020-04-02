@@ -62,7 +62,7 @@ deploy-integration:
     - ./deploy.sh $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_COMMIT_SHA $CI_ENVIRONMENT_SLUG
 
 promote-staging:
-  image: registry.gitlab.com/gitlab-org/cloud-deploy
+  image: docker:latest
   stage: promote-staging
   when: manual
   environment:
