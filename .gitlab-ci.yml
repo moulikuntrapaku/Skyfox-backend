@@ -42,7 +42,7 @@ docker-build:
   script:
     - export BOOKING_IMAGE=$BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
     - export POSTGRES_IMAGE=$POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
-    - echo "$BOOKING_IMAGE $POSTGRES_IMAGE"
+    - echo "image info - $BOOKING_IMAGE $POSTGRES_IMAGE"
     - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
     - docker build -t $BOOKING_IMAGE . --no-cache
     - docker pull $POSTGRES_IMAGE_NAME
@@ -56,5 +56,5 @@ deploy:
   environment:
     name: integration
   script:
-    - echo "$BOOKING_IMAGE $POSTGRES_IMAGE $CI_ENVIRONMENT_SLUG $CI_COMMIT_SHA"
-    - ./deploy.sh $BOOKING_IMAGE $POSTGRES_IMAGE $CI_COMMIT_SHA $CI_ENVIRONMENT_SLUG
+    - echo "image info - $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_ENVIRONMENT_SLUG $CI_COMMIT_SHA"
+    - ./deploy.sh $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_COMMIT_SHA $CI_ENVIRONMENT_SLUG
