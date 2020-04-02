@@ -1,6 +1,7 @@
 stages:
   - test
   - build
+  - build-image
   - deploy
 
 test:
@@ -24,6 +25,15 @@ build:
       - build
       - .gradle
 
+docker-build:
+  image: docker:latest
+  stage: build-image
+  script:
+    - docker rmi --force booking:latest
+    - docker build -t booking:latest . --no-cache
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker push booking:latest
+
 variables:
   CLUSTER_NAME: ec2-catalyst-cluster-ci
   CLUSTER_PROFILE_NAME: ec2-catalyst-cluster-profile-ci
@@ -46,4 +56,4 @@ deploy:
     - ecs-cli compose service up --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
     - ecs-cli ps --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
     - ecs-cli compose service ps --cluster-config $CLUSTER_CONFIG_NAME --ecs-profile $CLUSTER_PROFILE_NAME
-    - rm -rf ecs-registry-creds_*.yml 
+    - rm -rf ecs-registry-creds_*.yml

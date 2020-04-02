@@ -2,7 +2,6 @@ version: '3.0'
 services:
   db:
     image: registry.gitlab.com/tw-catalyst/booking/postgres
-    container_name: postgresdb
     ports:
       - "5432:5432"
     environment:
@@ -19,7 +18,6 @@ services:
 
   web:
     image: registry.gitlab.com/tw-catalyst/booking/bookingapi
-    container_name: bookingapi
     links:
       - db
     ports:
