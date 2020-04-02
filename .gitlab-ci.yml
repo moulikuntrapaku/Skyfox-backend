@@ -28,6 +28,8 @@ build:
 docker-build:
   image: docker:latest
   stage: build-image
+  services:
+    - docker:dind
   script:
     - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
     - docker build -t booking:latest . --no-cache
