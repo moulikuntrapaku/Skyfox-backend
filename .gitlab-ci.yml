@@ -78,8 +78,8 @@ promote-staging:
     - docker pull $POSTGRES_IMAGE
     - docker tag $POSTGRES_IMAGE $POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
     - docker tag $BOOKING_IMAGE $BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
-    - docker push $BOOKING_IMAGE
-    - docker push $POSTGRES_IMAGE
+    - docker push $BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
+    - docker push $POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
 
 deploy-staging:
   image: registry.gitlab.com/gitlab-org/cloud-deploy
