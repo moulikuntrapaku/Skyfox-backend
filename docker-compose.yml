@@ -3,7 +3,7 @@ services:
   db:
     image: "${POSTGRES_IMAGE}"
     ports:
-      - "${DB_PORT}:5432"
+      - "${HOST_DB_PORT}:5432"
     environment:
       - POSTGRES_DB=bookingengine
       - POSTGRES_USER=bookingengine
