@@ -65,6 +65,8 @@ promote-staging:
   image: docker:latest
   stage: promote-staging
   when: manual
+  services:
+    - docker:dind
   environment:
     name: staging
   script:
