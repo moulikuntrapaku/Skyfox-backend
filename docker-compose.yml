@@ -14,7 +14,7 @@ services:
         awslogs-create-group: "true"
         awslogs-region: "ap-south-1"
         awslogs-group: "catalyst-log-group"
-        awslogs-stream-prefix: "catalyst"
+        awslogs-stream-prefix: "${ENVIRONMENT}-catalyst"
 
   web:
     image: "${BOOKING_IMAGE}"
@@ -32,4 +32,4 @@ services:
         awslogs-region: "ap-south-1"
         awslogs-create-group: "true"
         awslogs-group: "catalyst-log-group"
-        awslogs-stream-prefix: "catalyst"
+        awslogs-stream-prefix: "${ENVIRONMENT}-catalyst"
