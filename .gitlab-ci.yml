@@ -76,8 +76,8 @@ promote-staging:
     - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
     - docker pull $BOOKING_IMAGE
     - docker pull $POSTGRES_IMAGE
-    - docker tag $POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG $POSTGRES_IMAGE
-    - docker tag $BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG $BOOKING_IMAGE
+    - docker tag $POSTGRES_IMAGE $POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
+    - docker tag $BOOKING_IMAGE $BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
     - docker push $BOOKING_IMAGE
     - docker push $POSTGRES_IMAGE
 
