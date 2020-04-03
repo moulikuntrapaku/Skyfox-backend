@@ -7,6 +7,7 @@ services:
     environment:
       - POSTGRES_DB=bookingengine
       - POSTGRES_USER=bookingengine
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     logging:
       driver: "awslogs"
       options:
@@ -17,6 +18,10 @@ services:
 
   web:
     image: "${BOOKING_IMAGE}"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     links:
       - db
     ports:
