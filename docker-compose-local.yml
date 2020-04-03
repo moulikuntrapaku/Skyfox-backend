@@ -1,0 +1,21 @@
+version: '3.0'
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=bookingengine
+      - POSTGRES_USER=bookingengine
+      - POSTGRES_PASSWORD=postgres
+
+  web:
+    build: .
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - POSTGRES_PASSWORD=postgres
+    links:
+      - db
+    ports:
+      - "8080:8080"

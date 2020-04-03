@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -v
 export TAG=$3
 
 # used  in compose file
@@ -32,3 +33,5 @@ ecs-cli compose --project-name "$ENVIRONMENT" --cluster-config "$CLUSTER_CONFIG_
 ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
 
 rm -rf ecs-registry-creds_*.yml
+
+set +v
