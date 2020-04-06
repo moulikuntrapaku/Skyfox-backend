@@ -8,7 +8,7 @@ variables:
 stages:
   - test
   - build
-  - build-image
+  - package
   - deploy-integration
   - promote-staging
   - deploy-staging
@@ -36,7 +36,7 @@ build:
 
 docker-build:
   image: docker:latest
-  stage: build-image
+  stage: package
   services:
     - docker:dind
   environment:
@@ -65,27 +65,43 @@ promote-staging:
   image: docker:latest
   stage: promote-staging
   when: manual
+  variables:
+    PROMOTE_FROM: integration
   services:
     - docker:dind
   environment:
     name: staging
   script:
-    - export BOOKING_IMAGE=$BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-integration
-    - export POSTGRES_IMAGE=$POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-integration
-    - echo "pomoting images - $BOOKING_IMAGE $POSTGRES_IMAGE"
-    - docker -v login -u gitlab-ci-token -p $GITLAB_REGISTRY_PASSWORD registry.gitlab.com
-    - docker pull $BOOKING_IMAGE
-    - docker pull $POSTGRES_IMAGE
-    - docker tag $POSTGRES_IMAGE $POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
-    - docker tag $BOOKING_IMAGE $BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
-    - docker push $BOOKING_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
-    - docker push $POSTGRES_IMAGE_NAME:$CI_COMMIT_SHA-$CI_ENVIRONMENT_SLUG
+    - ./promote.sh $PROMOTE_FROM
 
 deploy-staging:
   image: registry.gitlab.com/gitlab-org/cloud-deploy
   stage: deploy-staging
   environment:
     name: staging
+  when: manual
+  script:
+    - echo "image info - $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_ENVIRONMENT_SLUG $CI_COMMIT_SHA"
+    - ./deploy.sh $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_COMMIT_SHA $CI_ENVIRONMENT_SLUG
+
+promote-prod:
+  image: docker:latest
+  stage: promote-prod
+  when: manual
+  variables:
+    PROMOTE_FROM: staging
+  services:
+    - docker:dind
+  environment:
+    name: prod
+  script:
+    - ./promote.sh $PROMOTE_FROM
+
+deploy-prod:
+  image: registry.gitlab.com/gitlab-org/cloud-deploy
+  stage: deploy-prod
+  environment:
+    name: prod
   when: manual
   script:
     - echo "image info - $BOOKING_IMAGE_NAME $POSTGRES_IMAGE_NAME $CI_ENVIRONMENT_SLUG $CI_COMMIT_SHA"
