@@ -11,8 +11,8 @@ sourceCompatibility = '11'
 logger.info('1. System.env.CI_COMMIT_SHORT_SHA : ', System.env.CI_COMMIT_SHORT_SHA )
 logger.info('2. System.env.CI_COMMIT_SHORT_SHA : ', System.getenv("CI_COMMIT_SHORT_SHA") )
 
-if (System.env.CI_COMMIT_SHORT_SHA) {
-    String versionWithTag = "${appVersion}-${System.env.CI_COMMIT_SHORT_SHA}"
+if (System.getenv("CI_COMMIT_SHORT_SHA")) {
+     String versionWithTag = "${appVersion}-${System.getenv("CI_COMMIT_SHORT_SHA")}"
     logger.info("Setting version to {}", versionWithTag)
     version versionWithTag
 }
