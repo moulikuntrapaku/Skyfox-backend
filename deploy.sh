@@ -36,4 +36,6 @@ ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFI
 
 rm -rf ecs-registry-creds_*.yml
 
+curl http://$EC2_HOST:$ENV_BACKEND_PORT/version
+
 set +v
