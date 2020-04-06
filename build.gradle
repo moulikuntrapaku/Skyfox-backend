@@ -4,13 +4,24 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.7.RELEASE'
 }
 
-group 'org.example' 
+group 'org.example'
 version '1.0-SNAPSHOT'
-
 sourceCompatibility = '11'
+
+if (System.env.CI_COMMIT_SHA) {
+    String commitSha = System.env.CI_COMMIT_SHA.substring(0, 8)
+    version "${appVersion}-${commitSha}"
+}
 
 repositories {
     mavenCentral()
+}
+
+bootJar {
+    manifest {
+        attributes "Implementation-Title": "Gradle"
+        attributes "Implementation-Version": version
+    }
 }
 
 tasks.withType(Test) {
