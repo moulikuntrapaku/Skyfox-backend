@@ -12,6 +12,8 @@ stages:
   - deploy-integration
   - promote-staging
   - deploy-staging
+  - promote-prod
+  - deploy-prod
 
 test:
   image: gradle:5.3.0-jdk11
