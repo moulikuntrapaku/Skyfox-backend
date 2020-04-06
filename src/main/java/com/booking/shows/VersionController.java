@@ -15,10 +15,11 @@ public class VersionController {
     @GetMapping("/version")
     public HashMap<String, String> getVersion() throws IOException {
         HashMap<String, String> result = new HashMap<>();
-            InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("/META-INF/MANIFEST.MF");
+        InputStream resourceAsStream = getClass().getClassLoader()
+                .getResourceAsStream("/META-INF/MANIFEST.MF");
+
         Manifest manifest = new Manifest(resourceAsStream);
         Attributes attr = manifest.getMainAttributes();
-
         result.put("version", attr.getValue("Implementation-Version"));
 
         return result;
