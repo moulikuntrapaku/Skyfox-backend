@@ -2,10 +2,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-    properties:
-      jdbc:
-        lob:
-          non_contextual_creation: true
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/bookingengine
     username: bookingengine

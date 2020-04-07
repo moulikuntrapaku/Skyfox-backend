@@ -1,6 +1,7 @@
 package com.booking.shows;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ public class Show {
     @Size(min = 5, max = 200, message = "The description must be {min} to {max} characters in length.")
     private String description;
 
-    @Size(min = 1, message = "The price must be at least {min}.")
+    @DecimalMin(value = "1", message = "Price must at least be {value}")
     private double price;
 
     public Show() {

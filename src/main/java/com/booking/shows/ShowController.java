@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController("/shows")
@@ -23,7 +24,7 @@ public class ShowController {
     }
 
     @PostMapping
-    public Show book(@RequestBody Show show) {
+    public Show book(@Valid @RequestBody Show show) {
         return showService.save(show);
     }
 }
