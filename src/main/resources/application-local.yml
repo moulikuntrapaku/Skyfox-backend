@@ -9,3 +9,5 @@ spring:
 logging:
   level:
     root: INFO
+application:
+  uiHost: http://localhost:3000

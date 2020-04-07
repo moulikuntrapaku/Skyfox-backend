@@ -13,6 +13,7 @@ export BACKEND_PORT=$ENV_BACKEND_PORT
 export DB_PORT=$ENV_DB_PORT_CONNECT
 export HOST_DB_PORT=$ENV_DB_PORT
 export DB_HOST=$ENV_DB_HOST
+export UI_HOST=$ENV_UI_HOST
 
 apt-get install jq -y
 curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest

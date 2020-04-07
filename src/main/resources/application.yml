@@ -10,4 +10,4 @@ logging:
   level:
     root: INFO
 application:
-  uiHost: http://localhost:3000
+  uiHost: ${UI_HOST}
