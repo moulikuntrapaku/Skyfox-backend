@@ -30,6 +30,10 @@ bootJar {
     }
 }
 
+bootRun {
+    args = ["--spring.profiles.active=local"]
+}
+
 tasks.withType(Test) {
     testLogging {
         events "standardOut", "started", "passed", "skipped", "failed"

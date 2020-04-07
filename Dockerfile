@@ -3,7 +3,7 @@ FROM openjdk:11-jdk
 ARG VERSION=1.0-SNAPSHOT
 
 COPY build/libs/com.app.booking-${VERSION}.jar booking.jar
-COPY src/main/resources/prod.yml application.yml
+COPY src/main/resources/application.yml application.yml
 
 EXPOSE 8080
 
