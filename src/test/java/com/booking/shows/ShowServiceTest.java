@@ -2,6 +2,7 @@ package com.booking.shows;
 
 import org.junit.jupiter.api.Test;
 
+import static com.booking.shows.ShowStatus.RUNNING;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -10,7 +11,7 @@ import static org.mockito.Mockito.when;
 public class ShowServiceTest {
     @Test
     public void shouldSaveTheShowToTheRepositoryAndReturnTheSavedShow(){
-        final Show originalShow = new Show("movie_show", "some_desc", 299);
+        final Show originalShow = new Show("movie_show", "some_desc", 299, RUNNING);
         ShowRepository repository = mock(ShowRepository.class);
         Show savedShow = new Show();
         when(repository.save(originalShow)).thenReturn(savedShow);
@@ -22,7 +23,8 @@ public class ShowServiceTest {
     @Test
     public void shouldRetrieveAllShows(){
         ShowRepository showRepository = mock(ShowRepository.class);
-        final var showList = asList(new Show("1", "1", 1), new Show("2", "2", 2));
+        final var showList = asList(new Show("1", "1", 1, RUNNING),
+            new Show("2", "2", 2, RUNNING));
         when(showRepository.findAll()).thenReturn(showList);
 
         ShowService showService = new ShowService(showRepository);

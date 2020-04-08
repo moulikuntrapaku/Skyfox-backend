@@ -22,13 +22,17 @@ public class Show {
     @DecimalMin(value = "1", message = "Price must at least be {value}")
     private double price;
 
+    @Enumerated(EnumType.STRING)
+    private ShowStatus status;
+
     public Show() {
     }
 
-    public Show(String name, String description, double price) {
+    public Show(String name, String description, double price, ShowStatus status) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.status = status;
     }
 
     public String getName() {
@@ -59,15 +63,24 @@ public class Show {
         return id;
     }
 
+    public ShowStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShowStatus status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Show show = (Show) o;
         return Double.compare(show.price, price) == 0 &&
-                Objects.equals(id, show.id) &&
-                Objects.equals(name, show.name) &&
-                Objects.equals(description, show.description);
+            Objects.equals(id, show.id) &&
+            Objects.equals(name, show.name) &&
+            Objects.equals(description, show.description) &&
+            Objects.equals(status, status);
     }
 
     @Override
@@ -78,10 +91,11 @@ public class Show {
     @Override
     public String toString() {
         return "Show{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                '}';
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", description='" + description + '\'' +
+            ", price=" + price +
+            ", status=" + status +
+            '}';
     }
 }

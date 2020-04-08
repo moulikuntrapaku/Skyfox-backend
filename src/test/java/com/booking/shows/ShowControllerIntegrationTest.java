@@ -29,43 +29,46 @@ class ShowControllerIntegrationTest {
     private ShowRepository showRepository;
 
     @BeforeEach
-    public void before(){
+    public void before() {
         showRepository.deleteAll();
     }
 
     @AfterEach
-    public void after(){
+    public void after() {
         showRepository.deleteAll();
     }
 
     @Test
     public void retrieveAllExistingShows() throws Exception {
-        Show show1 = new Show("hello", "world", 7);
-        Show show2 = new Show("abc", "dummy description", 1);
+        Show show1 = new Show("hello", "world", 7, ShowStatus.RUNNING);
+        Show show2 = new Show("abc", "dummy description", 1, ShowStatus.RUNNING);
         final var shows = asList(show1, show2);
         showRepository.saveAll(shows);
         mockMvc.perform(get("/shows"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[0].name").value("hello"))
-                .andExpect(jsonPath("$[1].description").value("dummy description"));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[*].id").isNotEmpty())
+            .andExpect(jsonPath("$[0].name").value("hello"))
+            .andExpect(jsonPath("$[1].description").value("dummy description"))
+            .andExpect(jsonPath("$[1].status").value("RUNNING"));
     }
 
     @Test
     public void makeAPostRequestToSaveAShow() throws Exception {
 
         mockMvc.perform(post("/shows")
-                .content(bookingReqPayload()).contentType(APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("name_1"))
-                .andExpect(jsonPath("$.price").value("34.1"))
-                .andExpect(jsonPath("$.description").value("desc_1"));
+            .content(addShowRequestPayload()).contentType(APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.name").value("name_1"))
+            .andExpect(jsonPath("$.price").value("34.1"))
+            .andExpect(jsonPath("$.description").value("desc_1"))
+            .andExpect(jsonPath("$.status").value("RUNNING"));
 
     }
 
-    private String bookingReqPayload() {
+    private String addShowRequestPayload() {
         return "{\"name\": \"name_1\"," +
-                "\"description\": \"desc_1\", " +
-                "\"price\": 34.1}";
+            "\"description\": \"desc_1\", " +
+            "\"price\": 34.1," +
+            "\"status\":\"RUNNING\"}";
     }
 }
