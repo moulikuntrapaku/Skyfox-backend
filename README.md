@@ -33,3 +33,45 @@ javac -version
 ./gradlew bootRun
 ```
 
+## Run the application using docker compose
+- Build the application and run the test along with coverage
+```shell script
+./gradlew clean
+./gradlew build
+```
+- Run the server locally on localhost:8080
+```shell script
+docker-compose -f docker-compose-local.yml up 
+```
+
+## Deployment
+###  Deployment prerequisite -
+Deployment assumes that the cluster with  below configuration is created
+- run below commands to setup cluster on aws
+
+- `ecs-cli configure --cluster "$CLUSTER_NAME" --default-launch-type EC2 --config-name "$CLUSTER_CONFIG_NAME" --region ap-south-1`
+- `ecs-cli configure profile --access-key "$AWS_ACCESS_KEY" --secret-key "$AWS_SECRET_KEY" --profile-name "$CLUSTER_PROFILE_NAME"`
+- `ecs-cli up --keypair catalyst --capability-iam --size 1 --instance-type t2.medium --cluster-config` 
+
+values for $CLUSTER_NAME, $CLUSTER_PROFILE_NAME, $CLUSTER_CONFIG_NAME and other  env  variables should be referenced from configuration from gitlab
+
+Currently the pipeline supports deployment to integration, staging and prod environments.
+The deployment to integration environment is automatic as opposed to staging and prod environments. 
+Every deployment has two stages category of stages 
+1. promote stage (ex. promote-staging)  and 
+2. deploy stage (ex. deploy-staging)
+
+### 1. Promote stage 
+- Tags the image built on the last stage with the current commit id and environment name. 
+- pushes newly tagged image to gitlab container registry
+- Tag format : [registry url][project namespace][app name]:[COMMIT_SHA]-[ENVIRONMENT]
+- Example: registry.gitlab.com/tw-catalyst/booking-web/reactapp:8721c173-integration
+
+### 2. Deploy stage:
+- Sets up secret registry to authenticate gitlab container registry from aws.  
+- deploys the apps to the aws ecs service using images tagged with current commit sha.
+- curls /version endpoint at the end of every deployment. 
+
+### Resources : 
+- ecs-cli - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cmd-ecs-cli.html
+- gitlab ci - https://docs.gitlab.com/ee/ci/
