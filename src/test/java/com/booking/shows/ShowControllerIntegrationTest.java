@@ -57,7 +57,7 @@ class ShowControllerIntegrationTest {
 
         mockMvc.perform(post("/shows")
             .content(addShowRequestPayload()).contentType(APPLICATION_JSON))
-            .andExpect(status().isOk())
+            .andExpect(status().isAccepted())
             .andExpect(jsonPath("$.name").value("name_1"))
             .andExpect(jsonPath("$.price").value("34.1"))
             .andExpect(jsonPath("$.description").value("desc_1"))
