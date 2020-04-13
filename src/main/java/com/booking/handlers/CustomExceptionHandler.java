@@ -20,7 +20,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     private ArrayList<String> emptyDetails = new ArrayList<>();
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
+    public final ResponseEntity<ErrorResponse> handleAllExceptions() {
         ErrorResponse errorResponse = new ErrorResponse("Something has gone wrong", emptyDetails);
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
