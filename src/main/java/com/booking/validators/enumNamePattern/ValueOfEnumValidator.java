@@ -1,12 +1,15 @@
 package com.booking.validators.enumNamePattern;
 
+import org.springframework.stereotype.Component;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, Enum<?>> {
+@Component
+public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, Object> {
     private List<String> acceptedValues;
     private String violationMessage;
 
@@ -19,12 +22,12 @@ public class ValueOfEnumValidator implements ConstraintValidator<ValueOfEnum, En
     }
 
     @Override
-    public boolean isValid(Enum<?> enumeration, ConstraintValidatorContext context) {
+    public boolean isValid(Object enumeration, ConstraintValidatorContext context) {
         if (enumeration == null) {
             return true;
         }
 
-        if (!acceptedValues.contains(enumeration.name())) {
+        if (!acceptedValues.contains(enumeration.toString())) {
             context
                     .buildConstraintViolationWithTemplate(violationMessage)
                     .addConstraintViolation();
