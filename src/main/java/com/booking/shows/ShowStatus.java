@@ -21,15 +21,15 @@ public enum ShowStatus {
     }
 
     @JsonCreator
-    public static ShowStatus create (String value) throws EnumValidationException {
-        if(value == null) {
+    public static ShowStatus create(String value) throws EnumValidationException {
+        if (value == null) {
             throw new EnumValidationException(value, "ShowStatus");
         }
-        for(ShowStatus v : values()) {
-            if(value.equals(v.getStatus())) {
+        for (ShowStatus v : values()) {
+            if (value.equals(v.getStatus())) {
                 return v;
             }
         }
         throw new EnumValidationException(value, "ShowStatus");
     }
-    }
+}

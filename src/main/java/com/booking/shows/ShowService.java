@@ -1,5 +1,6 @@
 package com.booking.shows;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,5 +19,17 @@ public class ShowService {
 
     public List<Show> fetchAll() {
         return showRepository.findAll();
+    }
+
+    public void delete(long id) {
+        showRepository.deleteById(id);
+    }
+
+    public Show update(long id, Show updatedShow) {
+        if (!showRepository.existsById(id)) {
+            throw new EmptyResultDataAccessException("Show with id=" + id + " not found", 1);
+        }
+
+        return showRepository.save(updatedShow.withId(id));
     }
 }

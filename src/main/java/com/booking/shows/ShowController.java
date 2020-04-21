@@ -42,4 +42,31 @@ public class ShowController {
     public Show book(@Valid @RequestBody @ApiParam(value = "The show payload") Show show) {
         return showService.save(show);
     }
+
+    @DeleteMapping(path = "/{id}")
+    @ApiOperation(value = "Delete a show")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Show deleted successfully"),
+            @ApiResponse(code = 400, message = "Request isn't valid", response = ErrorResponse.class),
+            @ApiResponse(code = 404, message = "Show not found", response = ErrorResponse.class),
+            @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
+    })
+    public void delete(@PathVariable("id") @ApiParam(value = "The show id") long id) {
+        showService.delete(id);
+    }
+
+    @PutMapping(path = "/{id}")
+    @ApiOperation(value = "Update a show")
+    @ResponseStatus(code = HttpStatus.ACCEPTED)
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = "Show updated successfully"),
+            @ApiResponse(code = 400, message = "Request isn't valid", response = ErrorResponse.class),
+            @ApiResponse(code = 404, message = "Show not found", response = ErrorResponse.class),
+            @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
+    })
+    public Show update(@PathVariable("id") @ApiParam(value = "The show id") long id,
+                       @Valid @RequestBody @ApiParam(value = "The updated show payload") Show updatedShow) {
+        return showService.update(id, updatedShow);
+    }
 }

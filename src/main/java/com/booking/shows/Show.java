@@ -93,6 +93,11 @@ public class Show {
         this.status = status;
     }
 
+    public Show withId(long id) {
+        this.id = id;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
