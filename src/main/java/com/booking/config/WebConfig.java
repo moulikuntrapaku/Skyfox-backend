@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-    private AppConfig appConfig;
+    private final AppConfig appConfig;
 
     @Autowired
     public WebConfig(AppConfig appConfig) {
