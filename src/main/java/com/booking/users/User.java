@@ -21,7 +21,7 @@ public class User {
     @NotBlank(message = "User name must be provided")
     @Column(nullable = false, unique = true)
     @ApiModelProperty(name = "username", value = "Name of user (must be unique)", required = true, example = "user_name", position = 1)
-    private String userName;
+    private String username;
 
     @JsonProperty
     @NotBlank(message = "Password name must be provided")
@@ -32,8 +32,8 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String password) {
-        this.userName = userName;
+    public User(String username, String password) {
+        this.username = username;
         setPassword(password);
     }
 
@@ -41,12 +41,12 @@ public class User {
         return id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getPassword() {
