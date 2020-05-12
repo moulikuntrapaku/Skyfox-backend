@@ -4,6 +4,7 @@ variables:
   CLUSTER_CONFIG_NAME: ec2-catalyst-cluster-config-ci
   BOOKING_IMAGE_NAME: $CI_REGISTRY_IMAGE/bookingapi
   POSTGRES_IMAGE_NAME: $CI_REGISTRY_IMAGE/postgres
+  BASE_POSTGRES_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/postgres
 
 stages:
   - test
@@ -54,7 +55,7 @@ package:
     - echo "image info - $BOOKING_IMAGE $POSTGRES_IMAGE"
     - docker -v login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD registry.gitlab.com
     - docker build -t $BOOKING_IMAGE . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA"
-    - docker pull $POSTGRES_IMAGE_NAME
+    - docker pull $BASE_POSTGRES_IMAGE_NAME
     - docker tag $POSTGRES_IMAGE_NAME $POSTGRES_IMAGE
     - docker push $BOOKING_IMAGE
     - docker push $POSTGRES_IMAGE
