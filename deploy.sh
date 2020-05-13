@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 set -v
 export TAG=$3
 

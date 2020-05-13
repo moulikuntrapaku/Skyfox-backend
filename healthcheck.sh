@@ -1,11 +1,11 @@
 #!/bin/bash
 set -v
-
+set -e
 export EC2_HOST=$1
 export ENV_BACKEND_PORT=$2
 export VERSION=$3
 
-response=$(curl http://$EC2_HOST:$ENV_BACKEND_PORT/version)
+response=$(curl --silent http://$EC2_HOST:$ENV_BACKEND_PORT/version)
 
 if [ "$response" = "$VERSION" ]; then
   echo "currently deployed version is $response"
