@@ -37,6 +37,8 @@ ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFI
 
 rm -rf ecs-registry-creds_*.yml
 
-curl http://$EC2_HOST:$ENV_BACKEND_PORT/version
+export "$(cat gradle.properties | grep appVersion)" # bash syntax
+export VERSION=$appVersion-$COMMIT_SHA
+./healthcheck.sh "$EC2_HOST" "$ENV_BACKEND_PORT" "$VERSION"
 
 set +v
