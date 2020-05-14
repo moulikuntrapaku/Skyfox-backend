@@ -32,7 +32,7 @@ echo  "using image.. $BOOKING_IMAGE"
 ecs-cli compose --verbose --project-name "$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
 ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
 
-ecs-cli compose --verbose --project-name "$ENVIRONMENT" service up --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
+ecs-cli compose --verbose --project-name "$ENVIRONMENT" service up --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" --deployment-min-healthy-percent 0
 
 ecs-cli compose --verbose --project-name "$ENVIRONMENT" --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" up --create-log-groups --force-update
 ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
