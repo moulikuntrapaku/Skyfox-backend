@@ -23,6 +23,11 @@ services:
       - DB_PORT=${DB_PORT}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - UI_HOST=${UI_HOST}
+    healthcheck:
+      test: ["CMD-SHELL", "/bin/bash", "/healthcheck.sh", "localhost", "${BACKEND_PORT}", "${VERSION}"]
+      interval: 10s
+      timeout: 30s
+      retries: 3
     links:
       - db
     ports:

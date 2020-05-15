@@ -14,6 +14,8 @@ export DB_PORT=$ENV_DB_PORT_CONNECT
 export HOST_DB_PORT=$ENV_DB_PORT
 export DB_HOST=$ENV_DB_HOST
 export UI_HOST=$ENV_UI_HOST
+export "$(cat gradle.properties | grep appVersion)" # bash syntax
+export VERSION=$appVersion-$COMMIT_SHA
 
 apt-get install jq -y
 curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest
@@ -35,12 +37,9 @@ ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFI
 ecs-cli compose --verbose --project-name "$ENVIRONMENT" service up --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" --deployment-min-healthy-percent 0
 
 ecs-cli compose --verbose --project-name "$ENVIRONMENT" --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" up --create-log-groups --force-update
-ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
+
+./verify.sh
 
 rm -rf ecs-registry-creds_*.yml
-
-export "$(cat gradle.properties | grep appVersion)" # bash syntax
-export VERSION=$appVersion-$COMMIT_SHA
-./healthcheck.sh "$EC2_HOST" "$ENV_BACKEND_PORT" "$VERSION"
 
 set +v
