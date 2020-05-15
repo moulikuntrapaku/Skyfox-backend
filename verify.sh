@@ -4,7 +4,7 @@ set -e
 function check_status() {
   ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
   status=$(ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" --desired-status RUNNING | grep "$ENVIRONMENT" | grep web | awk '{print $NF}')
-  if [ $status = "healthy" ]; then
+  if [ $status = "HEALTHY" ]; then
     echo "cluster returned $status status for booking service."
     echo "deployment for version $VERSION is successful."
     exit 0
