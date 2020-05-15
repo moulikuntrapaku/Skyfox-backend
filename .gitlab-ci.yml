@@ -1,7 +1,7 @@
 variables:
-  CLUSTER_NAME: ec2-catalyst-cluster-ci
-  CLUSTER_PROFILE_NAME: ec2-catalyst-cluster-profile-ci
-  CLUSTER_CONFIG_NAME: ec2-catalyst-cluster-config-ci
+  CLUSTER_NAME: team$TEAM_ID
+  CLUSTER_PROFILE_NAME: team$TEAM_ID-profile
+  CLUSTER_CONFIG_NAME: team$TEAM_ID-config
   BOOKING_IMAGE_NAME: $CI_REGISTRY_IMAGE/bookingapi
   POSTGRES_IMAGE_NAME: $CI_REGISTRY_IMAGE/postgres
   BASE_POSTGRES_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/postgres
