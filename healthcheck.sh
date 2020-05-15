@@ -1,5 +1,4 @@
 #!/bin/bash
-set -v
 set -e
 export EC2_HOST=$1
 export ENV_BACKEND_PORT=$2
@@ -13,5 +12,3 @@ else
   echo "deployment not successful. version $response returned by server does not match deployment version $VERSION"
   exit 1
 fi
-
-set +v
