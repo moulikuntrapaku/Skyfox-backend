@@ -28,15 +28,19 @@ ecs-cli configure profile --access-key "$AWS_ACCESS_KEY" --secret-key "$AWS_SECR
 ./aws_check_cluster_status.sh
 
 echo  "using image.. $BOOKING_IMAGE"
+timestamp="$(date +"%s")"
+cp ecs-registry-creds.yml  "ecs-registry-creds_$timestamp.yml"
+sed -i -e "s/ENV_GITLAB_REGISTRY_SECRET_ARN/$GITLAB_REGISTRY_SECRET_ARN" "ecs-registry-creds_$timestamp.yml"
 
-ecs-cli compose --verbose --registry-creds ./ecs-registry-creds.yml --project-name "$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
+ecs-cli compose --verbose --project-name "$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
 ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
 
-ecs-cli compose --verbose --registry-creds ./ecs-registry-creds.yml --project-name "$ENVIRONMENT" --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" up --create-log-groups --force-update
+ecs-cli compose --verbose --project-name "$ENVIRONMENT" --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" up --create-log-groups --force-update
 
-ecs-cli compose --verbose --registry-creds ./ecs-registry-creds.yml --project-name "$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
-ecs-cli compose --verbose --registry-creds ./ecs-registry-creds.yml --project-name "$ENVIRONMENT" service up --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" --deployment-min-healthy-percent 0
+ecs-cli compose --verbose --project-name "$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
+ecs-cli compose --verbose --project-name "$ENVIRONMENT" service up --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" --deployment-min-healthy-percent 0
 
 ./verify.sh
+rm -rf ecs-registry-creds_*.yml
 
 set +v
