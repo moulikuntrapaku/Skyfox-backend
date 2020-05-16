@@ -29,8 +29,8 @@ ecs-cli configure profile --access-key "$AWS_ACCESS_KEY" --secret-key "$AWS_SECR
 
 echo  "using image.. $BOOKING_IMAGE"
 timestamp="$(date +"%s")"
-cp ecs-registry-creds.yml  "ecs-registry-creds_$timestamp.yml"
-sed -i -e "s/ENV_GITLAB_REGISTRY_SECRET_ARN/$GITLAB_REGISTRY_SECRET_ARN" "ecs-registry-creds_$timestamp.yml"
+cp ecs-registry-creds.yml "ecs-registry-creds_$timestamp.yml"
+sed -i -e "s/ENV_GITLAB_REGISTRY_SECRET_ARN/$GITLAB_REGISTRY_SECRET_ARN/g" "ecs-registry-creds_$timestamp.yml"
 
 ecs-cli compose --verbose --project-name "$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
 ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
