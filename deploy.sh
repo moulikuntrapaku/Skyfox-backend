@@ -39,6 +39,4 @@ ecs-cli compose --verbose --project-name "$ENVIRONMENT" service up --cluster-con
 
 ./verify.sh
 
-rm -rf ecs-registry-creds_*.yml
-
 set +v
