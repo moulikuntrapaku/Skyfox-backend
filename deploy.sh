@@ -27,8 +27,6 @@ ecs-cli configure profile --access-key "$AWS_ACCESS_KEY" --secret-key "$AWS_SECR
 
 ./aws_check_cluster_status.sh
 
-ecs-cli registry-creds up ./creds_input_file.yml --role-name catalystSecretsExecutionRoleCI --no-role
-
 echo  "using image.. $BOOKING_IMAGE"
 
 ecs-cli compose --verbose --project-name "$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
