@@ -12,6 +12,7 @@ import java.util.List;
 @Api(tags = "Shows")
 @RestController
 @RequestMapping("/shows")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ShowController {
     private final ShowService showService;
 
