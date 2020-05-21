@@ -1,13 +1,13 @@
-package com.booking.shows;
+package com.booking.movieGateway.models;
 
-import com.booking.validators.enumNamePattern.EnumValidationException;
+import com.booking.exceptions.EnumValidationException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public enum ShowStatus {
+public enum MovieStatus {
     RUNNING("RUNNING"), UPCOMING("UPCOMING");
     private final String status;
 
-    ShowStatus(String status) {
+    MovieStatus(String status) {
         this.status = status;
     }
 
@@ -21,15 +21,15 @@ public enum ShowStatus {
     }
 
     @JsonCreator
-    public static ShowStatus create(String value) throws EnumValidationException {
+    public static MovieStatus create(String value) throws EnumValidationException {
         if (value == null) {
-            throw new EnumValidationException(value, "ShowStatus");
+            throw new EnumValidationException(null, MovieStatus.class.toString());
         }
-        for (ShowStatus v : values()) {
+        for (MovieStatus v : values()) {
             if (value.equals(v.getStatus())) {
                 return v;
             }
         }
-        throw new EnumValidationException(value, "ShowStatus");
+        throw new EnumValidationException(value, MovieStatus.class.toString());
     }
 }

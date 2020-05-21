@@ -1,71 +1,77 @@
 package com.booking.shows;
 
+import com.booking.movieGateway.MovieGateway;
+import com.booking.shows.respository.Show;
+import com.booking.shows.respository.ShowRepository;
+import com.booking.slots.repository.Slot;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.dao.EmptyResultDataAccessException;
 
-import static com.booking.shows.ShowStatus.RUNNING;
-import static com.booking.shows.ShowStatus.UPCOMING;
-import static java.util.Arrays.asList;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ShowServiceTest {
-    @Test
-    public void shouldSaveTheShowToTheRepositoryAndReturnTheSavedShow() {
-        final Show originalShow = new Show("movie_show", "some_desc", 299, RUNNING);
-        ShowRepository repository = mock(ShowRepository.class);
-        Show savedShow = new Show();
-        when(repository.save(originalShow)).thenReturn(savedShow);
-        ShowService showService = new ShowService(repository);
+    private ShowRepository showRepository;
+    private MovieGateway movieGateway;
 
-        assertThat(showService.save(originalShow), is(equalTo(savedShow)));
+    @BeforeEach
+    public void beforeEach() {
+        showRepository = mock(ShowRepository.class);
+        movieGateway = mock(MovieGateway.class);
     }
 
     @Test
-    public void shouldRetrieveAllShows() {
-        ShowRepository showRepository = mock(ShowRepository.class);
-        final var showList = asList(new Show("1", "1", 1, RUNNING),
-                new Show("2", "2", 2, RUNNING));
-        when(showRepository.findAll()).thenReturn(showList);
+    public void should_fetch_all_shows_and_set_movie_gateway() {
+        List<Show> shows = new ArrayList<>();
+        Slot slotOne = new Slot();
+        Slot slotTwo = new Slot();
 
-        ShowService showService = new ShowService(showRepository);
+        shows.add(new Show(
+                1L,
+                Date.valueOf("2020-01-01"),
+                slotOne,
+                new BigDecimal("299.99"),
+                "movie_1",
+                null));
 
-        assertThat(showService.fetchAll(), is(equalTo(showList)));
-    }
+        shows.add(new Show(
+                1L,
+                Date.valueOf("2020-01-01"),
+                slotTwo,
+                new BigDecimal("299.99"),
+                "movie_1",
+                null));
 
-    @Test
-    public void shouldDeleteShowById() {
-        ShowRepository showRepository = mock(ShowRepository.class);
-        ShowService showService = new ShowService(showRepository);
-        showService.delete(5L);
+        when(showRepository.findAll()).thenReturn(shows);
+        ShowService showService = new ShowService(showRepository, movieGateway);
 
-        verify(showRepository, times(1)).deleteById(5L);
-    }
+        List<Show> actualShows = showService.fetchAll();
 
-    @Test
-    public void shouldNotAllowToUpdateIfIdNotPresent() {
-        ShowRepository showRepository = mock(ShowRepository.class);
-        ShowService showService = new ShowService(showRepository);
-        when(showRepository.existsById(5L)).thenReturn(false);
-        Show dummyShow = new Show();
+        List<Show> expectedShows = new ArrayList<>();
+        expectedShows.add(new Show(
+                1L,
+                Date.valueOf("2020-01-01"),
+                slotOne,
+                new BigDecimal("299.99"),
+                "movie_1",
+                movieGateway));
 
-        EmptyResultDataAccessException exception =
-                assertThrows(EmptyResultDataAccessException.class, () -> showService.update(5L, dummyShow));
-        assertThat(exception.getMessage(), is(equalTo("Show with id=5 not found")));
-    }
+        expectedShows.add(new Show(
+                1L,
+                Date.valueOf("2020-01-01"),
+                slotTwo,
+                new BigDecimal("299.99"),
+                "movie_1",
+                movieGateway));
 
-    @Test
-    public void shouldUpdateIfIdPresent() {
-        ShowRepository showRepository = mock(ShowRepository.class);
-        ShowService showService = new ShowService(showRepository);
-        when(showRepository.existsById(5L)).thenReturn(true);
-        Show updatedShow = new Show("Update name", "Updated description", 100, UPCOMING);
-        Show updatedShowWithId = updatedShow.withId(5);
-        when(showRepository.save(updatedShowWithId)).thenReturn(updatedShowWithId);
-
-        assertThat(showService.update(5L, updatedShow), is(equalTo(updatedShow)));
+        assertThat(actualShows, is(equalTo(expectedShows)));
     }
 }

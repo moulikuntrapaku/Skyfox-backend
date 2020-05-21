@@ -1,9 +1,9 @@
-package com.booking.validators.enumNamePattern;
+package com.booking.exceptions;
 
 public class EnumValidationException extends Exception {
 
-    private String enumValue = null;
-    private String enumName = null;
+    private final String enumValue;
+    private final String enumName;
 
     public EnumValidationException(String enumValue, String enumName) {
         super(enumValue);

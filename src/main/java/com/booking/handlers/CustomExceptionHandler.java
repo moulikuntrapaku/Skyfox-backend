@@ -1,7 +1,7 @@
 package com.booking.handlers;
 
+import com.booking.exceptions.EnumValidationException;
 import com.booking.handlers.models.ErrorResponse;
-import com.booking.validators.enumNamePattern.EnumValidationException;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;

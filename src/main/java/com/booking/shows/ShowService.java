@@ -1,6 +1,9 @@
 package com.booking.shows;
 
-import org.springframework.dao.EmptyResultDataAccessException;
+import com.booking.movieGateway.MovieGateway;
+import com.booking.shows.respository.Show;
+import com.booking.shows.respository.ShowRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,28 +11,17 @@ import java.util.List;
 @Service
 public class ShowService {
     private final ShowRepository showRepository;
+    private final MovieGateway movieGateway;
 
-    public ShowService(ShowRepository showRepository) {
+    @Autowired
+    public ShowService(ShowRepository showRepository, MovieGateway movieGateway) {
         this.showRepository = showRepository;
-    }
-
-    public Show save(Show show) {
-        return showRepository.save(show);
+        this.movieGateway = movieGateway;
     }
 
     public List<Show> fetchAll() {
-        return showRepository.findAll();
-    }
-
-    public void delete(long id) {
-        showRepository.deleteById(id);
-    }
-
-    public Show update(long id, Show updatedShow) {
-        if (!showRepository.existsById(id)) {
-            throw new EmptyResultDataAccessException("Show with id=" + id + " not found", 1);
-        }
-
-        return showRepository.save(updatedShow.withId(id));
+        List<Show> shows = showRepository.findAll();
+        shows.forEach(show -> show.setMovieGateway(movieGateway));
+        return shows;
     }
 }
