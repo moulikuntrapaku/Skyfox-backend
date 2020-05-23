@@ -33,6 +33,7 @@ public class ShowServiceTest {
         List<Show> shows = new ArrayList<>();
         Slot slotOne = new Slot();
         Slot slotTwo = new Slot();
+        Date date = Date.valueOf("2020-01-01");
 
         shows.add(new Show(
                 1L,
@@ -50,10 +51,10 @@ public class ShowServiceTest {
                 "movie_1",
                 null));
 
-        when(showRepository.findAll()).thenReturn(shows);
+        when(showRepository.findByDate(date)).thenReturn(shows);
         ShowService showService = new ShowService(showRepository, movieGateway);
 
-        List<Show> actualShows = showService.fetchAll();
+        List<Show> actualShows = showService.fetchAll(date);
 
         List<Show> expectedShows = new ArrayList<>();
         expectedShows.add(new Show(

@@ -6,6 +6,7 @@ import com.booking.shows.respository.ShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -19,8 +20,8 @@ public class ShowService {
         this.movieGateway = movieGateway;
     }
 
-    public List<Show> fetchAll() {
-        List<Show> shows = showRepository.findAll();
+    public List<Show> fetchAll(Date date) {
+        List<Show> shows = showRepository.findByDate(date);
         shows.forEach(show -> show.setMovieGateway(movieGateway));
         return shows;
     }

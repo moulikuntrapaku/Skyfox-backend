@@ -74,22 +74,25 @@ public class ShowControllerIntegrationTest {
                                 MovieStatus.RUNNING
                         )
                 );
-        Slot slot = new Slot(1, "Test slot", Time.valueOf("13:30:00"), Time.valueOf("16:00:00"));
-        Show showOne = new Show(1L, Date.valueOf("2020-01-01"), slot, new BigDecimal("299.99"), "movie_1", movieGateway);
-        Show showTwo = new Show(2L, Date.valueOf("2020-01-02"), slot, new BigDecimal("249.99"), "movie_1", movieGateway);
-        List<Show> shows = asList(showOne, showTwo);
-        slotRepository.save(slot);
+        Slot slotOne = new Slot(1, "Test slot one", Time.valueOf("09:30:00"), Time.valueOf("12:00:00"));
+        Slot slotTwo = new Slot(2, "Test slot two", Time.valueOf("13:30:00"), Time.valueOf("16:00:00"));
+        Show showOne = new Show(1L, Date.valueOf("2020-01-01"), slotOne, new BigDecimal("249.99"), "movie_1", movieGateway);
+        Show showTwo = new Show(2L, Date.valueOf("2020-01-01"), slotTwo, new BigDecimal("299.99"), "movie_1", movieGateway);
+        Show showThree = new Show(3L, Date.valueOf("2020-01-02"), slotOne, new BigDecimal("249.99"), "movie_1", movieGateway);
+        List<Show> shows = asList(showOne, showTwo, showThree);
+        slotRepository.save(slotOne);
+        slotRepository.save(slotTwo);
         showRepository.saveAll(shows);
 
-        mockMvc.perform(get("/shows"))
+        mockMvc.perform(get("/shows?date=2020-01-01"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         "[" +
-                                "{'id':1,'date':'2020-01-01','cost':299.99," +
-                                "'slot':{'id':1,'name':'Test slot','startTime':'1:30 PM','endTime':'4:00 PM'}," +
+                                "{'id':1,'date':'2020-01-01','cost':249.99," +
+                                "'slot':{'id':1,'name':'Test slot one','startTime':'9:30 AM','endTime':'12:00 PM'}," +
                                 "'movie':{'id':'movie_1','name':'Movie name','duration':'1h 30m','description':'Movie description','status':'RUNNING'}}," +
-                                "{'id':2,'date':'2020-01-02','cost':249.99," +
-                                "'slot':{'id':1,'name':'Test slot','startTime':'1:30 PM','endTime':'4:00 PM'}," +
+                                "{'id':2,'date':'2020-01-01','cost':299.99," +
+                                "'slot':{'id':2,'name':'Test slot two','startTime':'1:30 PM','endTime':'4:00 PM'}," +
                                 "'movie':{'id':'movie_1','name':'Movie name','duration':'1h 30m','description':'Movie description','status':'RUNNING'}}" +
                                 "]"));
     }

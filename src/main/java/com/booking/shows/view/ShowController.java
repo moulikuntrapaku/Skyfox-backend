@@ -9,11 +9,10 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,7 @@ public class ShowController {
             @ApiResponse(code = 200, message = "Fetched shows successfully"),
             @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
     })
-    public List<ShowResponse> fetchAll() {
-        return showService.fetchAll().stream().map(ShowResponse::new).collect(Collectors.toList());
+    public List<ShowResponse> fetchAll(@Valid @RequestParam(name = "date") Date date) {
+        return showService.fetchAll(date).stream().map(ShowResponse::new).collect(Collectors.toList());
     }
 }
