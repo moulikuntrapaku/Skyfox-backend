@@ -36,7 +36,6 @@ public class ShowServiceTest {
         Date date = Date.valueOf("2020-01-01");
 
         shows.add(new Show(
-                1L,
                 Date.valueOf("2020-01-01"),
                 slotOne,
                 new BigDecimal("299.99"),
@@ -44,7 +43,6 @@ public class ShowServiceTest {
                 null));
 
         shows.add(new Show(
-                1L,
                 Date.valueOf("2020-01-01"),
                 slotTwo,
                 new BigDecimal("299.99"),
@@ -58,7 +56,6 @@ public class ShowServiceTest {
 
         List<Show> expectedShows = new ArrayList<>();
         expectedShows.add(new Show(
-                1L,
                 Date.valueOf("2020-01-01"),
                 slotOne,
                 new BigDecimal("299.99"),
@@ -66,7 +63,6 @@ public class ShowServiceTest {
                 movieGateway));
 
         expectedShows.add(new Show(
-                1L,
                 Date.valueOf("2020-01-01"),
                 slotTwo,
                 new BigDecimal("299.99"),

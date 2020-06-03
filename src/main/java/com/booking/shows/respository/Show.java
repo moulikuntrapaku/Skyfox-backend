@@ -58,8 +58,7 @@ public class Show {
     public Show() {
     }
 
-    public Show(Long id, Date date, Slot slot, BigDecimal cost, String movieId, MovieGateway movieGateway) {
-        this.id = id;
+    public Show(Date date, Slot slot, BigDecimal cost, String movieId, MovieGateway movieGateway) {
         this.date = date;
         this.slot = slot;
         this.cost = cost;
@@ -74,6 +73,10 @@ public class Show {
         this.slot = show.slot;
         this.cost = show.cost;
         this.movieGateway = show.movieGateway;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setMovieGateway(MovieGateway movieGateway) {

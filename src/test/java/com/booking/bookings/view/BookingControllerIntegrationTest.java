@@ -1,6 +1,9 @@
-package com.booking.shows.view;
+package com.booking.bookings.view;
 
 import com.booking.App;
+import com.booking.bookings.repository.BookingRepository;
+import com.booking.customers.repository.Customer;
+import com.booking.customers.repository.CustomerRepository;
 import com.booking.movieGateway.MovieGateway;
 import com.booking.movieGateway.models.Movie;
 import com.booking.movieGateway.models.MovieStatus;
@@ -24,20 +27,26 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
+import java.util.Collections;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(classes = App.class)
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @WithMockUser
-public class ShowControllerIntegrationTest {
+public class BookingControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private BookingRepository bookingRepository;
 
     @Autowired
     private ShowRepository showRepository;
@@ -45,23 +54,30 @@ public class ShowControllerIntegrationTest {
     @Autowired
     private SlotRepository slotRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @MockBean
     private MovieGateway movieGateway;
 
     @BeforeEach
-    public void before() {
+    public void beforeEach() {
+        bookingRepository.deleteAll();
         showRepository.deleteAll();
         slotRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @AfterEach
-    public void after() {
+    public void afterEach() {
+        bookingRepository.deleteAll();
         showRepository.deleteAll();
         slotRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @Test
-    public void retrieveAllExistingShows() throws Exception {
+    public void should_save_booking_and_customer_detail() throws Exception {
         when(movieGateway.getMovieFromId("movie_1"))
                 .thenReturn(
                         new Movie(
@@ -72,22 +88,19 @@ public class ShowControllerIntegrationTest {
                                 MovieStatus.RUNNING
                         )
                 );
-        final Slot slotOne = slotRepository.save(new Slot("Test slot one", Time.valueOf("09:30:00"), Time.valueOf("12:00:00")));
-        final Slot slotTwo = slotRepository.save(new Slot("Test slot two", Time.valueOf("13:30:00"), Time.valueOf("16:00:00")));
+        final Slot slotOne = slotRepository.save(new Slot("Test slot", Time.valueOf("09:30:00"), Time.valueOf("12:00:00")));
         final Show showOne = showRepository.save(new Show(Date.valueOf("2020-01-01"), slotOne, new BigDecimal("249.99"), "movie_1", movieGateway));
-        final Show showTwo = showRepository.save(new Show(Date.valueOf("2020-01-01"), slotTwo, new BigDecimal("299.99"), "movie_1", movieGateway));
-        showRepository.save(new Show(Date.valueOf("2020-01-02"), slotOne, new BigDecimal("249.99"), "movie_1", movieGateway));
+        final Customer customer = new Customer("Customer 1", "9922334455");
+        final Date bookingDate = Date.valueOf("2020-06-01");
 
-        mockMvc.perform(get("/shows?date=2020-01-01"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(
-                        "[" +
-                                "{'id':" + showOne.getId() + ",'date':'2020-01-01','cost':249.99," +
-                                "'slot':{'id':" + slotOne.getId() + ",'name':'Test slot one','startTime':'9:30 AM','endTime':'12:00 PM'}," +
-                                "'movie':{'id':'movie_1','name':'Movie name','duration':'1h 30m','description':'Movie description','status':'RUNNING'}}," +
-                                "{'id':" + showTwo.getId() + ",'date':'2020-01-01','cost':299.99," +
-                                "'slot':{'id':" + slotTwo.getId() + ",'name':'Test slot two','startTime':'1:30 PM','endTime':'4:00 PM'}," +
-                                "'movie':{'id':'movie_1','name':'Movie name','duration':'1h 30m','description':'Movie description','status':'RUNNING'}}" +
-                                "]"));
+        mockMvc.perform(post("/booking")
+                .requestAttr("date", bookingDate)
+                .requestAttr("show", showOne)
+                .requestAttr("customer", customer)
+                .requestAttr("noOfSeats", 2))
+                .andExpect(status().isOk());
+
+        assertThat(customerRepository.findAll(), equalTo(Collections.singletonList(customer)));
+        assertThat(bookingRepository.findAll().size(), is(1));
     }
 }

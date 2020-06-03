@@ -26,8 +26,8 @@ class ShowResponseTest {
     @BeforeEach
     public void beforeEach() {
         movieGateway = mock(MovieGateway.class);
-        slot = new Slot(1, "Slot name", Time.valueOf("13:30:00"), Time.valueOf("16:00:00"));
-        show = new Show(null, null, slot, null, "movie_id", movieGateway);
+        slot = new Slot("Slot name", Time.valueOf("13:30:00"), Time.valueOf("16:00:00"));
+        show = new Show(null, slot, null, "movie_id", movieGateway);
     }
 
     @Test

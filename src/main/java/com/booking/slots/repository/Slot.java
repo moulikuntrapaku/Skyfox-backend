@@ -43,10 +43,13 @@ public class Slot {
     public Slot() {
     }
 
-    public Slot(Integer id, String name, Time startTime, Time endTime) {
-        this.id = id;
+    public Slot(String name, Time startTime, Time endTime) {
         this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }
