@@ -97,4 +97,8 @@ public class Show {
     public int hashCode() {
         return Objects.hash(id, date, slot, cost, movieId, movieGateway);
     }
+
+    public BigDecimal costFor(int noOfSeats) {
+        return cost.multiply(BigDecimal.valueOf(noOfSeats));
+    }
 }
