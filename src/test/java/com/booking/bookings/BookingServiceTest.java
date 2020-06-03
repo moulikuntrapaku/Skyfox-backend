@@ -4,6 +4,7 @@ import com.booking.bookings.repository.Booking;
 import com.booking.bookings.repository.BookingRepository;
 import com.booking.customers.repository.Customer;
 import com.booking.customers.repository.CustomerRepository;
+import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.movieGateway.MovieGateway;
 import com.booking.shows.respository.Show;
 import com.booking.slots.repository.Slot;
@@ -14,6 +15,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 
+import static com.booking.bookings.repository.Booking.TOTAL_NO_OF_SEATS;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 public class BookingServiceTest {
@@ -36,7 +39,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void should_save_booking() {
+    public void should_save_booking() throws NoSeatAvailableException {
         int noOfSeats = 2;
         Booking booking = new Booking(bookingDate, show, customer, noOfSeats, BigDecimal.valueOf(500));
 
@@ -46,9 +49,24 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void should_save_customer_who_requests_booking() {
+    public void should_save_customer_who_requests_booking() throws NoSeatAvailableException {
         bookingService.book(customer, show, bookingDate, 2);
 
         verify(customerRepository).save(customer);
+    }
+
+    @Test
+    public void should_not_book_seat_when_no_of_seats_exceeds_total_seats() {
+        assertThrows(NoSeatAvailableException.class, () -> bookingService.book(customer, show, bookingDate, TOTAL_NO_OF_SEATS + 1));
+        verifyZeroInteractions(customerRepository);
+        verify(bookingRepository, never()).save(any(Booking.class));
+    }
+
+    @Test
+    public void should_not_book_seat_when_seats_are_not_available() {
+        when(bookingRepository.countByShow(show)).thenReturn(99L);
+        assertThrows(NoSeatAvailableException.class, () -> bookingService.book(customer, show, bookingDate, 2));
+        verifyZeroInteractions(customerRepository);
+        verify(bookingRepository, never()).save(any(Booking.class));
     }
 }

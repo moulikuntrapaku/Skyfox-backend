@@ -2,6 +2,7 @@ package com.booking.bookings.view;
 
 import com.booking.bookings.BookingService;
 import com.booking.customers.repository.Customer;
+import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.movieGateway.MovieGateway;
 import com.booking.shows.respository.Show;
 import com.booking.slots.repository.Slot;
@@ -24,7 +25,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    public void should_create_booking_for_customer() {
+    public void should_create_booking_for_customer() throws NoSeatAvailableException {
         final BookingController bookingController = new BookingController(bookingService);
         final Date bookingDate = Date.valueOf("2020-06-01");
         final Slot slot = new Slot("13:00-16:00", Time.valueOf("13:00:00"), Time.valueOf("16:00:00"));

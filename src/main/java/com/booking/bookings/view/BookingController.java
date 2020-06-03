@@ -2,6 +2,7 @@ package com.booking.bookings.view;
 
 import com.booking.bookings.BookingService;
 import com.booking.customers.repository.Customer;
+import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.handlers.models.ErrorResponse;
 import com.booking.shows.respository.Show;
 import io.swagger.annotations.Api;
@@ -33,7 +34,7 @@ public class BookingController {
             @ApiResponse(code = 200, message = "Created a booking successfully"),
             @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
     })
-    public void book(@Valid @RequestAttribute(name = "date") Date date, @Valid @RequestAttribute(name = "show") Show show, @Valid @RequestAttribute(name = "customer") Customer customer, @Valid @RequestAttribute(name = "noOfSeats") int noOfSeats) {
+    public void book(@Valid @RequestAttribute(name = "date") Date date, @Valid @RequestAttribute(name = "show") Show show, @Valid @RequestAttribute(name = "customer") Customer customer, @Valid @RequestAttribute(name = "noOfSeats") int noOfSeats) throws NoSeatAvailableException {
         bookingService.book(customer, show, date, noOfSeats);
     }
 }
