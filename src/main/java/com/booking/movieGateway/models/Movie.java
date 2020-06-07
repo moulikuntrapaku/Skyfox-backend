@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.Duration;
+import java.util.Objects;
 
 @ApiModel(value = "Movie")
 public class Movie {
@@ -26,17 +27,28 @@ public class Movie {
 
     @JsonProperty
     @ApiModelProperty(name = "description", value = "Description of the movie", required = true, example = "Movie Description", position = 4)
-    private final String description;
+    private final String plot;
 
-    @JsonProperty
-    @ApiModelProperty(name = "status", value = "Status of the movie", required = true, example = "RUNNING", position = 5)
-    private final MovieStatus status;
-
-    public Movie(String id, String name, Duration duration, String description, MovieStatus status) {
+    public Movie(String id, String name, Duration duration, String plot) {
         this.id = id;
         this.name = name;
         this.duration = duration;
-        this.description = description;
-        this.status = status;
+        this.plot = plot;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return id.equals(movie.id) &&
+                name.equals(movie.name) &&
+                duration.equals(movie.duration) &&
+                plot.equals(movie.plot);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, duration, plot);
     }
 }

@@ -23,6 +23,7 @@ services:
       - DB_PORT=${DB_PORT}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - UI_HOST=${UI_HOST}
+      - MOVIE_SERVICE_HOST=${MOVIE_SERVICE_HOST}
     healthcheck:
       test: ["CMD-SHELL", "/bin/bash", "/healthcheck.sh", "localhost", "${BACKEND_PORT}", "${VERSION}"]
       interval: 10s

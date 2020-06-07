@@ -5,11 +5,13 @@ import com.booking.users.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class DataSeeder {
 
     @Bean
+    @Profile("local")
     CommandLineRunner initDatabase(UserRepository repository) {
         return args -> {
             if (repository.findByUsername("seed-user-1").isEmpty()) {

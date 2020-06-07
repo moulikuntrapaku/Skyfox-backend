@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     private String uiHost;
+    private String movieServiceHost;
 
     public String getUiHost() {
         return uiHost;
@@ -15,5 +16,13 @@ public class AppConfig {
 
     public void setUiHost(String uiHost) {
         this.uiHost = uiHost;
+    }
+
+    public String getMovieServiceHost() {
+        return movieServiceHost;
+    }
+
+    public void setMovieServiceHost(String movieServiceHost) {
+        this.movieServiceHost = movieServiceHost;
     }
 }

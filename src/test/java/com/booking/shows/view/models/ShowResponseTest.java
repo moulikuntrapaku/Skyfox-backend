@@ -1,13 +1,14 @@
 package com.booking.shows.view.models;
 
 import com.booking.movieGateway.MovieGateway;
+import com.booking.movieGateway.exceptions.FormatException;
 import com.booking.movieGateway.models.Movie;
-import com.booking.movieGateway.models.MovieStatus;
 import com.booking.shows.respository.Show;
 import com.booking.slots.repository.Slot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.sql.Time;
 import java.time.Duration;
 
@@ -31,8 +32,8 @@ class ShowResponseTest {
     }
 
     @Test
-    public void should_get_movie_from_gateway() {
-        Movie expectedMovie = new Movie("movie_id", "Movie name", Duration.ofHours(1), "Movie description", MovieStatus.RUNNING);
+    public void should_get_movie_from_gateway() throws IOException, FormatException {
+        Movie expectedMovie = new Movie("movie_id", "Movie name", Duration.ofHours(1), "Movie description");
         when(movieGateway.getMovieFromId("movie_id")).thenReturn(expectedMovie);
         ShowResponse showResponse = new ShowResponse(show);
 

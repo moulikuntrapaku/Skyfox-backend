@@ -14,6 +14,7 @@ export DB_PORT=$ENV_DB_PORT_CONNECT
 export HOST_DB_PORT=$ENV_DB_PORT
 export DB_HOST=$ENV_DB_HOST
 export UI_HOST=$ENV_UI_HOST
+export MOVIE_SERVICE_HOST=$ENV_MOVIE_SERVICE_HOST
 export "$(cat gradle.properties | grep appVersion)" # bash syntax
 export VERSION=$appVersion-$COMMIT_SHA
 

@@ -3,7 +3,6 @@ package com.booking.shows.view;
 import com.booking.App;
 import com.booking.movieGateway.MovieGateway;
 import com.booking.movieGateway.models.Movie;
-import com.booking.movieGateway.models.MovieStatus;
 import com.booking.shows.respository.Show;
 import com.booking.shows.respository.ShowRepository;
 import com.booking.slots.repository.Slot;
@@ -68,8 +67,7 @@ public class ShowControllerIntegrationTest {
                                 "movie_1",
                                 "Movie name",
                                 Duration.ofHours(1).plusMinutes(30),
-                                "Movie description",
-                                MovieStatus.RUNNING
+                                "Movie plot"
                         )
                 );
         final Slot slotOne = slotRepository.save(new Slot("Test slot one", Time.valueOf("09:30:00"), Time.valueOf("12:00:00")));
@@ -84,10 +82,10 @@ public class ShowControllerIntegrationTest {
                         "[" +
                                 "{'id':" + showOne.getId() + ",'date':'2020-01-01','cost':249.99," +
                                 "'slot':{'id':" + slotOne.getId() + ",'name':'Test slot one','startTime':'9:30 AM','endTime':'12:00 PM'}," +
-                                "'movie':{'id':'movie_1','name':'Movie name','duration':'1h 30m','description':'Movie description','status':'RUNNING'}}," +
+                                "'movie':{'id':'movie_1','name':'Movie name','duration':'1h 30m','plot':'Movie plot'}}," +
                                 "{'id':" + showTwo.getId() + ",'date':'2020-01-01','cost':299.99," +
                                 "'slot':{'id':" + slotTwo.getId() + ",'name':'Test slot two','startTime':'1:30 PM','endTime':'4:00 PM'}," +
-                                "'movie':{'id':'movie_1','name':'Movie name','duration':'1h 30m','description':'Movie description','status':'RUNNING'}}" +
+                                "'movie':{'id':'movie_1','name':'Movie name','duration':'1h 30m','plot':'Movie plot'}}" +
                                 "]"));
     }
 }

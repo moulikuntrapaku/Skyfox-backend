@@ -6,8 +6,8 @@ import com.booking.customers.repository.Customer;
 import com.booking.customers.repository.CustomerRepository;
 import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.movieGateway.MovieGateway;
+import com.booking.movieGateway.exceptions.FormatException;
 import com.booking.movieGateway.models.Movie;
-import com.booking.movieGateway.models.MovieStatus;
 import com.booking.shows.respository.Show;
 import com.booking.shows.respository.ShowRepository;
 import com.booking.slots.repository.Slot;
@@ -25,6 +25,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
@@ -66,7 +67,7 @@ public class BookingControllerIntegrationTest {
     private Date bookingDate;
 
     @BeforeEach
-    public void beforeEach() {
+    public void beforeEach() throws IOException, FormatException {
         bookingRepository.deleteAll();
         showRepository.deleteAll();
         slotRepository.deleteAll();
@@ -78,8 +79,7 @@ public class BookingControllerIntegrationTest {
                                 "movie_1",
                                 "Movie name",
                                 Duration.ofHours(1).plusMinutes(30),
-                                "Movie description",
-                                MovieStatus.RUNNING
+                                "Movie description"
                         )
                 );
         Slot slotOne = slotRepository.save(new Slot("Test slot", Time.valueOf("09:30:00"), Time.valueOf("12:00:00")));
