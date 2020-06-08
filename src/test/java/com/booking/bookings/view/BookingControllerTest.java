@@ -29,7 +29,7 @@ public class BookingControllerTest {
         final BookingController bookingController = new BookingController(bookingService);
         final Date bookingDate = Date.valueOf("2020-06-01");
         final Slot slot = new Slot("13:00-16:00", Time.valueOf("13:00:00"), Time.valueOf("16:00:00"));
-        final Show show = new Show(bookingDate, slot, BigDecimal.valueOf(250), "1", mock(MovieGateway.class));
+        final Show show = new Show(bookingDate, slot, BigDecimal.valueOf(250), "1");
         final Customer customer = new Customer("Customer name", "9090909090");
         int noOfSeats = 2;
 

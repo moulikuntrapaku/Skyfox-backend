@@ -12,14 +12,19 @@ import java.io.IOException;
 
 @ApiModel("Show Response")
 public class ShowResponse extends Show {
-    public ShowResponse(Show show) {
+    private final Movie movie;
+    private final Slot slot;
+
+    public ShowResponse(Movie movie, Slot slot, Show  show) {
         super(show);
+        this.movie = movie;
+        this.slot = slot;
     }
 
     @JsonProperty("movie")
     @ApiModelProperty(required = true, position = 4)
-    public Movie getMovie() throws IOException, FormatException {
-        return movieGateway.getMovieFromId(movieId);
+    public Movie getMovie() {
+        return movie;
     }
 
     @JsonProperty("slot")

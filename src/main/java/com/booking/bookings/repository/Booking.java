@@ -18,8 +18,6 @@ import java.util.Objects;
 @Entity
 @Table(name = "booking")
 public class Booking {
-    public static final int TOTAL_NO_OF_SEATS = 100;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty

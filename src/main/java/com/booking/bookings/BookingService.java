@@ -6,12 +6,13 @@ import com.booking.customers.repository.Customer;
 import com.booking.customers.repository.CustomerRepository;
 import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.shows.respository.Show;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import static com.booking.bookings.repository.Booking.TOTAL_NO_OF_SEATS;
+import static com.booking.shows.respository.Constants.TOTAL_NO_OF_SEATS;
 
 @Service
 public class BookingService {
@@ -33,6 +34,6 @@ public class BookingService {
     }
 
     private long availableSeats(Show show) {
-        return TOTAL_NO_OF_SEATS - bookingRepository.countByShow(show);
+        return TOTAL_NO_OF_SEATS - bookingRepository.bookedSeatsByShow(show.getId());
     }
 }

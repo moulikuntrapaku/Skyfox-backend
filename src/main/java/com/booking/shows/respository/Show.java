@@ -1,6 +1,5 @@
 package com.booking.shows.respository;
 
-import com.booking.movieGateway.MovieGateway;
 import com.booking.slots.repository.Slot;
 import com.booking.utilities.serializers.date.DateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,19 +50,14 @@ public class Show {
     @JsonIgnore
     protected String movieId;
 
-    @JsonIgnore
-    @Transient
-    protected MovieGateway movieGateway;
-
     public Show() {
     }
 
-    public Show(Date date, Slot slot, BigDecimal cost, String movieId, MovieGateway movieGateway) {
+    public Show(Date date, Slot slot, BigDecimal cost, String movieId) {
         this.date = date;
         this.slot = slot;
         this.cost = cost;
         this.movieId = movieId;
-        this.movieGateway = movieGateway;
     }
 
     public Show(Show show) {
@@ -72,15 +66,18 @@ public class Show {
         this.date = show.date;
         this.slot = show.slot;
         this.cost = show.cost;
-        this.movieGateway = show.movieGateway;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setMovieGateway(MovieGateway movieGateway) {
-        this.movieGateway = movieGateway;
+    public Slot getSlot() {
+        return slot;
+    }
+
+    public String getMovieId() {
+        return movieId;
     }
 
     @Override
@@ -92,13 +89,12 @@ public class Show {
                 Objects.equals(date, show.date) &&
                 Objects.equals(slot, show.slot) &&
                 Objects.equals(cost, show.cost) &&
-                Objects.equals(movieId, show.movieId) &&
-                Objects.equals(movieGateway, show.movieGateway);
+                Objects.equals(movieId, show.movieId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, slot, cost, movieId, movieGateway);
+        return Objects.hash(id, date, slot, cost, movieId);
     }
 
     public BigDecimal costFor(int noOfSeats) {

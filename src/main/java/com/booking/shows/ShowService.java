@@ -1,11 +1,15 @@
 package com.booking.shows;
 
+import com.booking.movieGateway.DefaultMovieGateway;
 import com.booking.movieGateway.MovieGateway;
+import com.booking.movieGateway.exceptions.FormatException;
+import com.booking.movieGateway.models.Movie;
 import com.booking.shows.respository.Show;
 import com.booking.shows.respository.ShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
@@ -21,8 +25,10 @@ public class ShowService {
     }
 
     public List<Show> fetchAll(Date date) {
-        List<Show> shows = showRepository.findByDate(date);
-        shows.forEach(show -> show.setMovieGateway(movieGateway));
-        return shows;
+        return showRepository.findByDate(date);
+    }
+
+    public Movie getMovieById(String movieId) throws IOException, FormatException {
+        return movieGateway.getMovieFromId(movieId);
     }
 }

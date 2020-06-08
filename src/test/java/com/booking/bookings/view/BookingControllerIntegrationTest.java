@@ -32,7 +32,7 @@ import java.sql.Time;
 import java.time.Duration;
 import java.util.Collections;
 
-import static com.booking.bookings.repository.Booking.TOTAL_NO_OF_SEATS;
+import static com.booking.shows.respository.Constants.TOTAL_NO_OF_SEATS;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
@@ -83,7 +83,7 @@ public class BookingControllerIntegrationTest {
                         )
                 );
         Slot slotOne = slotRepository.save(new Slot("Test slot", Time.valueOf("09:30:00"), Time.valueOf("12:00:00")));
-        showOne = showRepository.save(new Show(Date.valueOf("2020-01-01"), slotOne, new BigDecimal("249.99"), "movie_1", movieGateway));
+        showOne = showRepository.save(new Show(Date.valueOf("2020-01-01"), slotOne, new BigDecimal("249.99"), "movie_1"));
         customer = new Customer("Customer 1", "9922334455");
         bookingDate = Date.valueOf("2020-06-01");
     }

@@ -72,9 +72,9 @@ public class ShowControllerIntegrationTest {
                 );
         final Slot slotOne = slotRepository.save(new Slot("Test slot one", Time.valueOf("09:30:00"), Time.valueOf("12:00:00")));
         final Slot slotTwo = slotRepository.save(new Slot("Test slot two", Time.valueOf("13:30:00"), Time.valueOf("16:00:00")));
-        final Show showOne = showRepository.save(new Show(Date.valueOf("2020-01-01"), slotOne, new BigDecimal("249.99"), "movie_1", movieGateway));
-        final Show showTwo = showRepository.save(new Show(Date.valueOf("2020-01-01"), slotTwo, new BigDecimal("299.99"), "movie_1", movieGateway));
-        showRepository.save(new Show(Date.valueOf("2020-01-02"), slotOne, new BigDecimal("249.99"), "movie_1", movieGateway));
+        final Show showOne = showRepository.save(new Show(Date.valueOf("2020-01-01"), slotOne, new BigDecimal("249.99"), "movie_1"));
+        final Show showTwo = showRepository.save(new Show(Date.valueOf("2020-01-01"), slotTwo, new BigDecimal("299.99"), "movie_1"));
+        showRepository.save(new Show(Date.valueOf("2020-01-02"), slotOne, new BigDecimal("249.99"), "movie_1"));
 
         mockMvc.perform(get("/shows?date=2020-01-01"))
                 .andExpect(status().isOk())

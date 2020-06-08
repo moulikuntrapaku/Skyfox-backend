@@ -28,23 +28,22 @@ class ShowResponseTest {
     public void beforeEach() {
         movieGateway = mock(MovieGateway.class);
         slot = new Slot("Slot name", Time.valueOf("13:30:00"), Time.valueOf("16:00:00"));
-        show = new Show(null, slot, null, "movie_id", movieGateway);
+        show = new Show(null, slot, null, "movie_id");
     }
 
     @Test
     public void should_get_movie_from_gateway() throws IOException, FormatException {
-        Movie expectedMovie = new Movie("movie_id", "Movie name", Duration.ofHours(1), "Movie description");
-        when(movieGateway.getMovieFromId("movie_id")).thenReturn(expectedMovie);
-        ShowResponse showResponse = new ShowResponse(show);
+        Movie movie = mock(Movie.class);
+        ShowResponse showResponse = new ShowResponse(movie, slot, show);
 
         Movie actualMovie = showResponse.getMovie();
 
-        assertThat(actualMovie, is(equalTo(expectedMovie)));
+        assertThat(actualMovie, is(equalTo(movie)));
     }
 
     @Test
     public void should_get_slot() {
-        ShowResponse showResponse = new ShowResponse(show);
+        ShowResponse showResponse = new ShowResponse(mock(Movie.class), slot, show);
 
         Slot actualSlot = showResponse.getSlot();
 

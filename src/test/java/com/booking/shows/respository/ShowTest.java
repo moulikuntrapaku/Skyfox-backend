@@ -17,7 +17,7 @@ public class ShowTest {
     @Test
     public void should_return_cost_for_seats() {
         final Slot slot = new Slot("3pm-5pm", Time.valueOf("15:00:00"), Time.valueOf("17:00:00"));
-        final Show show = new Show(Date.valueOf("2020-12-01"), slot, BigDecimal.valueOf(200), "movieID", mock(MovieGateway.class));
+        final Show show = new Show(Date.valueOf("2020-12-01"), slot, BigDecimal.valueOf(200), "movieID");
 
         final BigDecimal totalCostForSeats = show.costFor(3);
 
