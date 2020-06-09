@@ -29,9 +29,9 @@ public class BookingController {
 
     @PostMapping
     @ApiOperation(value = "Create a booking")
-    @ResponseStatus(code = HttpStatus.OK)
+    @ResponseStatus(code = HttpStatus.CREATED)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Created a booking successfully"),
+            @ApiResponse(code = 201, message = "Created a booking successfully"),
             @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
     })
     public void book(@Valid @RequestAttribute(name = "date") Date date, @Valid @RequestAttribute(name = "show") Show show, @Valid @RequestAttribute(name = "customer") Customer customer, @Valid @RequestAttribute(name = "noOfSeats") int noOfSeats) throws NoSeatAvailableException {

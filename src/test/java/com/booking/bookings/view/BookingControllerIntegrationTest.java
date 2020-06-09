@@ -103,7 +103,7 @@ public class BookingControllerIntegrationTest {
                 .requestAttr("show", showOne)
                 .requestAttr("customer", customer)
                 .requestAttr("noOfSeats", 2))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         assertThat(customerRepository.findAll(), equalTo(Collections.singletonList(customer)));
         assertThat(bookingRepository.findAll().size(), is(1));
