@@ -18,7 +18,7 @@ import java.sql.Date;
 
 @Api(tags = "Bookings")
 @RestController
-@RequestMapping("/booking")
+@RequestMapping("/bookings")
 public class BookingController {
     private final BookingService bookingService;
 

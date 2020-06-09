@@ -98,7 +98,7 @@ public class BookingControllerIntegrationTest {
 
     @Test
     public void should_save_booking_and_customer_detail() throws Exception {
-        mockMvc.perform(post("/booking")
+        mockMvc.perform(post("/bookings")
                 .requestAttr("date", bookingDate)
                 .requestAttr("show", showOne)
                 .requestAttr("customer", customer)
@@ -111,7 +111,7 @@ public class BookingControllerIntegrationTest {
 
     @Test
     public void should_not_book_when_seat_is_not_available() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(post("/booking")
+        final MvcResult mvcResult = mockMvc.perform(post("/bookings")
                 .requestAttr("date", bookingDate)
                 .requestAttr("show", showOne)
                 .requestAttr("customer", customer)
