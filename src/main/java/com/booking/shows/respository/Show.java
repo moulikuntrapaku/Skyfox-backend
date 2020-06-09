@@ -19,36 +19,29 @@ import java.util.Objects;
 @Entity
 @Table(name = "show")
 public class Show {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty
-    @ApiModelProperty(name = "id", value = "The show id", example = "0", position = 1)
-    protected Long id;
+    private Long id;
 
     @Column(nullable = false)
     @JsonProperty
-    @JsonSerialize(using = DateSerializer.class)
     @NotNull(message = "Date must be provided")
-    @ApiModelProperty(name = "date", value = "Date of the show (yyyy-MM-dd)", dataType = "java.lang.String", required = true, example = "2020-01-01", position = 2)
-    protected Date date;
+    private Date date;
 
     @OneToOne
     @JoinColumn(name = "slot_id")
-    @JsonIgnore
-    protected Slot slot;
+    private Slot slot;
 
     @Column(nullable = false)
     @JsonProperty
     @DecimalMin(value = "0.0", inclusive = false, message = "Cost should be greater than {value}")
     @Digits(integer = 4, fraction = 2, message = "Cost can have at most {integer} integral digits, and {fraction} fractional digits")
-    @ApiModelProperty(name = "cost", value = "Cost of the show", required = true, example = "249.99", position = 3)
-    protected BigDecimal cost;
+    private BigDecimal cost;
 
     @Column(nullable = false)
     @NotBlank(message = "Movie id has to be provided")
-    @JsonIgnore
-    protected String movieId;
+    private String movieId;
 
     public Show() {
     }
@@ -66,6 +59,14 @@ public class Show {
         this.date = show.date;
         this.slot = show.slot;
         this.cost = show.cost;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public BigDecimal getCost() {
+        return cost;
     }
 
     public Long getId() {
