@@ -1,11 +1,7 @@
 package com.booking.shows.respository;
 
 import com.booking.slots.repository.Slot;
-import com.booking.utilities.serializers.date.DateSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;

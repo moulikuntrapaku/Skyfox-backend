@@ -1,6 +1,5 @@
 package com.booking.shows;
 
-import com.booking.movieGateway.DefaultMovieGateway;
 import com.booking.movieGateway.MovieGateway;
 import com.booking.movieGateway.exceptions.FormatException;
 import com.booking.movieGateway.models.Movie;

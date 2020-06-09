@@ -6,7 +6,6 @@ import com.booking.customers.repository.Customer;
 import com.booking.customers.repository.CustomerRepository;
 import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.shows.respository.Show;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
