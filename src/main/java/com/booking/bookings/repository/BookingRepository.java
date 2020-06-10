@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    @Query(value = "select count(no_of_seats) from booking where show_id=?1", nativeQuery = true)
+    @Query(value = "select sum(no_of_seats) from booking where show_id=?1", nativeQuery = true)
     Integer bookedSeatsByShow(Long showId);
 }

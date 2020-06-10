@@ -120,7 +120,43 @@ public class BookingControllerIntegrationTest {
         mockMvc.perform(post("/bookings")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(moreThanAllowedSeatsRequestJson))
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().isBadRequest())
                 .andReturn();
+    }
+
+    @Test
+    public void should_not_book_when_max_capacity_for_seats_exceeds() throws Exception {
+        setupBookingSeatsForSameShow();
+
+        final String overCapacityRequest = "{" +
+                "\"date\": \"2020-06-01\"," +
+                "\"show\": " + "{\"id\":" + showOne.getId() + ",\"date\":\"2020-01-01\",\"cost\":249.99}," +
+                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
+                "\"noOfSeats\": 11" +
+                "}";
+
+        mockMvc.perform(post("/bookings")
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(overCapacityRequest))
+                .andExpect(status().is5xxServerError())
+                .andReturn();
+
+    }
+
+    private void setupBookingSeatsForSameShow() throws Exception {
+        final String successRequest = "{" +
+                "\"date\": \"2020-06-01\"," +
+                "\"show\": " + "{\"id\":" + showOne.getId() + ",\"date\":\"2020-01-01\",\"cost\":249.99}," +
+                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
+                "\"noOfSeats\": " + MAX_NO_OF_SEATS_PER_BOOKING +
+                "}";
+
+        for (int i = 0; i < 6; i++) { // simulate booking for 90 seats for a same show
+            mockMvc.perform(post("/bookings")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                    .content(successRequest))
+                    .andExpect(status().isCreated())
+                    .andReturn();
+        }
     }
 }
