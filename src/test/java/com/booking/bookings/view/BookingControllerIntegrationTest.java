@@ -2,7 +2,6 @@ package com.booking.bookings.view;
 
 import com.booking.App;
 import com.booking.bookings.repository.BookingRepository;
-import com.booking.customers.repository.Customer;
 import com.booking.customers.repository.CustomerRepository;
 import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.movieGateway.MovieGateway;
@@ -21,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,11 +30,11 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
-import java.util.Collections;
 
 import static com.booking.shows.respository.Constants.TOTAL_NO_OF_SEATS;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,8 +63,6 @@ public class BookingControllerIntegrationTest {
     @MockBean
     private MovieGateway movieGateway;
     private Show showOne;
-    private Customer customer;
-    private Date bookingDate;
 
     @BeforeEach
     public void beforeEach() throws IOException, FormatException {
@@ -84,8 +82,6 @@ public class BookingControllerIntegrationTest {
                 );
         Slot slotOne = slotRepository.save(new Slot("Test slot", Time.valueOf("09:30:00"), Time.valueOf("12:00:00")));
         showOne = showRepository.save(new Show(Date.valueOf("2020-01-01"), slotOne, new BigDecimal("249.99"), "movie_1"));
-        customer = new Customer("Customer 1", "9922334455");
-        bookingDate = Date.valueOf("2020-06-01");
     }
 
     @AfterEach
@@ -98,24 +94,35 @@ public class BookingControllerIntegrationTest {
 
     @Test
     public void should_save_booking_and_customer_detail() throws Exception {
+        final String requestJson = "{" +
+                "\"date\": \"2020-06-01\"," +
+                "\"show\": " + "{\"id\":" + showOne.getId() + ",\"date\":\"2020-01-01\",\"cost\":249.99}," +
+                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
+                "\"noOfSeats\": 2" +
+                "}";
+
         mockMvc.perform(post("/bookings")
-                .requestAttr("date", bookingDate)
-                .requestAttr("show", showOne)
-                .requestAttr("customer", customer)
-                .requestAttr("noOfSeats", 2))
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(requestJson))
                 .andExpect(status().isCreated());
 
-        assertThat(customerRepository.findAll(), equalTo(Collections.singletonList(customer)));
+        assertThat(customerRepository.findAll().size(), is(1));
         assertThat(bookingRepository.findAll().size(), is(1));
     }
 
     @Test
     public void should_not_book_when_seat_is_not_available() throws Exception {
+        final String moreThanAvailableSeatsRequestJson = "{" +
+                "\"date\": \"2020-06-01\"," +
+                "\"show\": " + "{\"id\":" + showOne.getId() + ",\"date\":\"2020-01-01\",\"cost\":249.99}," +
+                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
+                "\"noOfSeats\": " + (TOTAL_NO_OF_SEATS + 1) +
+                "}";
+
+
         final MvcResult mvcResult = mockMvc.perform(post("/bookings")
-                .requestAttr("date", bookingDate)
-                .requestAttr("show", showOne)
-                .requestAttr("customer", customer)
-                .requestAttr("noOfSeats", TOTAL_NO_OF_SEATS + 1))
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(moreThanAvailableSeatsRequestJson))
                 .andExpect(status().is5xxServerError())
                 .andReturn();
 

@@ -1,5 +1,6 @@
 package com.booking.customers.repository;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -14,7 +15,7 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty
+    @JsonIgnore
     @ApiModelProperty(name = "id", value = "The customer id", example = "0", position = 1)
     private Long id;
 

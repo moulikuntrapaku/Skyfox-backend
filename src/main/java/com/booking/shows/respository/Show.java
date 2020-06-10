@@ -1,6 +1,7 @@
 package com.booking.shows.respository;
 
 import com.booking.slots.repository.Slot;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Show {
 
     @Column(nullable = false)
     @JsonProperty
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @NotNull(message = "Date must be provided")
     private Date date;
 
