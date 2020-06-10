@@ -55,15 +55,8 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void should_not_book_seat_when_no_of_seats_exceeds_total_seats() {
-        assertThrows(NoSeatAvailableException.class, () -> bookingService.book(customer, show, bookingDate, TOTAL_NO_OF_SEATS + 1));
-        verifyZeroInteractions(customerRepository);
-        verify(bookingRepository, never()).save(any(Booking.class));
-    }
-
-    @Test
     public void should_not_book_seat_when_seats_are_not_available() {
-        when(bookingRepository.bookedSeatsByShow(show.getId())).thenReturn(100);
+        when(bookingRepository.bookedSeatsByShow(show.getId())).thenReturn(TOTAL_NO_OF_SEATS);
         assertThrows(NoSeatAvailableException.class, () -> bookingService.book(customer, show, bookingDate, 2));
         verifyZeroInteractions(customerRepository);
         verify(bookingRepository, never()).save(any(Booking.class));

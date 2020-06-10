@@ -24,7 +24,7 @@ public class BookingService {
     }
 
     public void book(Customer customer, Show show, Date bookingDate, int noOfSeats) throws NoSeatAvailableException {
-        if (noOfSeats > TOTAL_NO_OF_SEATS || availableSeats(show) < noOfSeats) {
+        if (availableSeats(show) < noOfSeats) {
             throw new NoSeatAvailableException("No seats available");
         }
         customerRepository.save(customer);

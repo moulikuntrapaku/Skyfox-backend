@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Api(tags = "Bookings")
 @RestController
 @RequestMapping("/bookings")
@@ -28,9 +30,10 @@ public class BookingController {
     @ResponseStatus(code = HttpStatus.CREATED)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created a booking successfully"),
-            @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
+            @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class),
+            @ApiResponse(code = 400, message = "Server cannot process request due to client error", response = ErrorResponse.class)
     })
-    public void book(@RequestBody BookingRequest bookingRequest) throws NoSeatAvailableException {
+    public void book(@Valid @RequestBody BookingRequest bookingRequest) throws NoSeatAvailableException {
         bookingService.book(bookingRequest.getCustomer(), bookingRequest.getShow(), bookingRequest.getDate(), bookingRequest.getNoOfSeats());
     }
 }

@@ -6,7 +6,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.DecimalMax;
 import java.sql.Date;
+
+import static com.booking.shows.respository.Constants.MAX_NO_OF_SEATS_PER_BOOKING;
 
 public class BookingRequest {
     @JsonProperty
@@ -23,7 +26,8 @@ public class BookingRequest {
     private Customer customer;
 
     @JsonProperty
-    @ApiModelProperty(name = "no of seats", value = "Seats requested to be booked", required = true, position = 4)
+    @DecimalMax(value = MAX_NO_OF_SEATS_PER_BOOKING, message = "Maximum {value} seats allowed per booking")
+    @ApiModelProperty(name = "no of seats", value = "Seats requested to be booked", example = "3", required = true, position = 4)
     private int noOfSeats;
 
     public Date getDate() {
@@ -43,6 +47,12 @@ public class BookingRequest {
     }
 
     public BookingRequest(){
+    }
 
+    public BookingRequest(Date date, Show show, Customer customer, int noOfSeats) {
+        this.date = date;
+        this.show = show;
+        this.customer = customer;
+        this.noOfSeats = noOfSeats;
     }
 }

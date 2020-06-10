@@ -3,7 +3,6 @@ package com.booking.bookings.view;
 import com.booking.App;
 import com.booking.bookings.repository.BookingRepository;
 import com.booking.customers.repository.CustomerRepository;
-import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.movieGateway.MovieGateway;
 import com.booking.movieGateway.exceptions.FormatException;
 import com.booking.movieGateway.models.Movie;
@@ -23,7 +22,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -31,9 +29,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.Duration;
 
-import static com.booking.shows.respository.Constants.TOTAL_NO_OF_SEATS;
+import static com.booking.shows.respository.Constants.MAX_NO_OF_SEATS_PER_BOOKING;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -111,22 +108,19 @@ public class BookingControllerIntegrationTest {
     }
 
     @Test
-    public void should_not_book_when_seat_is_not_available() throws Exception {
-        final String moreThanAvailableSeatsRequestJson = "{" +
+    public void should_not_book_when_seats_booking_is_greater_than_allowed() throws Exception {
+        final String moreThanAllowedSeatsRequestJson = "{" +
                 "\"date\": \"2020-06-01\"," +
                 "\"show\": " + "{\"id\":" + showOne.getId() + ",\"date\":\"2020-01-01\",\"cost\":249.99}," +
                 "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
-                "\"noOfSeats\": " + (TOTAL_NO_OF_SEATS + 1) +
+                "\"noOfSeats\": " + (Integer.parseInt(MAX_NO_OF_SEATS_PER_BOOKING) + 1) +
                 "}";
 
 
-        final MvcResult mvcResult = mockMvc.perform(post("/bookings")
+        mockMvc.perform(post("/bookings")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                .content(moreThanAvailableSeatsRequestJson))
-                .andExpect(status().is5xxServerError())
+                .content(moreThanAllowedSeatsRequestJson))
+                .andExpect(status().is4xxClientError())
                 .andReturn();
-
-        final Exception resolvedException = mvcResult.getResolvedException();
-        assertThat(resolvedException.getCause(), instanceOf(NoSeatAvailableException.class));
     }
 }
