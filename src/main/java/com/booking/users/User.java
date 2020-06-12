@@ -2,8 +2,6 @@ package com.booking.users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,8 +9,6 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "usertable")
 public class User {
-    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,7 +30,7 @@ public class User {
 
     public User(String username, String password) {
         this.username = username;
-        setPassword(password);
+        this.password = password;
     }
 
     public Long getId() {
@@ -54,6 +50,6 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = PASSWORD_ENCODER.encode(password);
+        this.password = password;
     }
 }

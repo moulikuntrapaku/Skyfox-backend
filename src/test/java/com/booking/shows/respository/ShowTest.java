@@ -1,6 +1,5 @@
 package com.booking.shows.respository;
 
-import com.booking.movieGateway.MovieGateway;
 import com.booking.slots.repository.Slot;
 import org.junit.jupiter.api.Test;
 
@@ -8,9 +7,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.mock;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 
 
 public class ShowTest {

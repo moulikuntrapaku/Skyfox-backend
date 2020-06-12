@@ -46,7 +46,7 @@ public class BookingRequest {
         return noOfSeats;
     }
 
-    public BookingRequest(){
+    public BookingRequest() {
     }
 
     public BookingRequest(Date date, Show show, Customer customer, int noOfSeats) {

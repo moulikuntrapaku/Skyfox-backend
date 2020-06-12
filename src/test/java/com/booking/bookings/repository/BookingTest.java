@@ -1,7 +1,6 @@
 package com.booking.bookings.repository;
 
 import com.booking.customers.repository.Customer;
-import com.booking.movieGateway.MovieGateway;
 import com.booking.shows.respository.Show;
 import com.booking.slots.repository.Slot;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 public class BookingTest {
 

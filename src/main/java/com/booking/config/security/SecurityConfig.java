@@ -1,6 +1,5 @@
 package com.booking.config.security;
 
-import com.booking.users.User;
 import com.booking.users.UserPrincipalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,7 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(User.PASSWORD_ENCODER);
         daoAuthenticationProvider.setUserDetailsService(userPrincipalService);
         return daoAuthenticationProvider;
     }
