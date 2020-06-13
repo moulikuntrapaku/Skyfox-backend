@@ -32,7 +32,7 @@ public class ShowController {
     }
 
     @GetMapping
-    @ApiOperation(value = "Fetch all shows")
+    @ApiOperation(value = "Fetch shows")
     @ResponseStatus(code = HttpStatus.OK)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Fetched shows successfully"),

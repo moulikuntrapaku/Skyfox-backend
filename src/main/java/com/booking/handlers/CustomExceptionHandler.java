@@ -3,6 +3,7 @@ package com.booking.handlers;
 import com.booking.exceptions.EnumValidationException;
 import com.booking.handlers.models.ErrorResponse;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final ArrayList<String> emptyDetails = new ArrayList<>();
 
+    @NotNull
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NotNull HttpHeaders headers, @NotNull HttpStatus status, @NotNull WebRequest request) {
         List<String> details = new ArrayList<>();
         for (ObjectError error : ex.getBindingResult().getAllErrors()) {
             details.add(error.getDefaultMessage());
@@ -50,8 +52,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ResponseEntity<ErrorResponse> handleEmptyResultException() {
-        ErrorResponse error = new ErrorResponse("Record not found", emptyDetails);
+    public ResponseEntity<ErrorResponse> handleEmptyResultException(EmptyResultDataAccessException e) {
+        ErrorResponse error = new ErrorResponse("Record not found", new ArrayList<>() {{
+            add(e.getMessage());
+        }});
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 

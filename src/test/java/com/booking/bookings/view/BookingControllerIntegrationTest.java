@@ -93,7 +93,7 @@ public class BookingControllerIntegrationTest {
     public void should_save_booking_and_customer_detail() throws Exception {
         final String requestJson = "{" +
                 "\"date\": \"2020-06-01\"," +
-                "\"show\": " + "{\"id\":" + showOne.getId() + ",\"date\":\"2020-01-01\",\"cost\":249.99}," +
+                "\"showId\": " + showOne.getId() + "," +
                 "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
                 "\"noOfSeats\": 2" +
                 "}";
@@ -111,7 +111,7 @@ public class BookingControllerIntegrationTest {
     public void should_not_book_when_seats_booking_is_greater_than_allowed() throws Exception {
         final String moreThanAllowedSeatsRequestJson = "{" +
                 "\"date\": \"2020-06-01\"," +
-                "\"show\": " + "{\"id\":" + showOne.getId() + ",\"date\":\"2020-01-01\",\"cost\":249.99}," +
+                "\"showId\": " + showOne.getId() + "," +
                 "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
                 "\"noOfSeats\": " + (Integer.parseInt(MAX_NO_OF_SEATS_PER_BOOKING) + 1) +
                 "}";
@@ -130,7 +130,7 @@ public class BookingControllerIntegrationTest {
 
         final String overCapacityRequest = "{" +
                 "\"date\": \"2020-06-01\"," +
-                "\"show\": " + "{\"id\":" + showOne.getId() + ",\"date\":\"2020-01-01\",\"cost\":249.99}," +
+                "\"showId\": " + showOne.getId() + "," +
                 "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
                 "\"noOfSeats\": 11" +
                 "}";
@@ -146,7 +146,7 @@ public class BookingControllerIntegrationTest {
     private void setupBookingSeatsForSameShow() throws Exception {
         final String successRequest = "{" +
                 "\"date\": \"2020-06-01\"," +
-                "\"show\": " + "{\"id\":" + showOne.getId() + ",\"date\":\"2020-01-01\",\"cost\":249.99}," +
+                "\"showId\": " + showOne.getId() + "," +
                 "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
                 "\"noOfSeats\": " + MAX_NO_OF_SEATS_PER_BOOKING +
                 "}";

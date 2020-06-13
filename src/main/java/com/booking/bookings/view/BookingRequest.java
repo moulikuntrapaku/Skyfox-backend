@@ -1,7 +1,6 @@
 package com.booking.bookings.view;
 
 import com.booking.customers.repository.Customer;
-import com.booking.shows.respository.Show;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,8 +17,8 @@ public class BookingRequest {
     private Date date;
 
     @JsonProperty
-    @ApiModelProperty(name = "show", value = "Show selected for booking", required = true, position = 2)
-    private Show show;
+    @ApiModelProperty(name = "showId", value = "The show id", required = true, position = 2)
+    private Long showId;
 
     @JsonProperty
     @ApiModelProperty(name = "customer", value = "Customer requesting booking", required = true, position = 3)
@@ -34,8 +33,8 @@ public class BookingRequest {
         return date;
     }
 
-    public Show getShow() {
-        return show;
+    public Long getShowId() {
+        return showId;
     }
 
     public Customer getCustomer() {
@@ -49,9 +48,9 @@ public class BookingRequest {
     public BookingRequest() {
     }
 
-    public BookingRequest(Date date, Show show, Customer customer, int noOfSeats) {
+    public BookingRequest(Date date, Long showId, Customer customer, int noOfSeats) {
         this.date = date;
-        this.show = show;
+        this.showId = showId;
         this.customer = customer;
         this.noOfSeats = noOfSeats;
     }
