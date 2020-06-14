@@ -22,6 +22,9 @@ public class RevenueService {
 
     public BigDecimal revenueByDate(Date date) {
         final var shows = showRepository.findByDate(date);
-        return shows.size() == 0 ? BigDecimal.valueOf(0) : bookingRepository.bookingAmountByShows(shows);
+        if(shows.size() == 0)
+            return BigDecimal.valueOf(0);
+        final var revenue = bookingRepository.bookingAmountByShows(shows);
+        return revenue == null ? BigDecimal.valueOf(0) : revenue;
     }
 }

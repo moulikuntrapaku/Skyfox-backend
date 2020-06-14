@@ -94,4 +94,26 @@ public class RevenueControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("850.00"));
     }
+
+    @Test
+    public void should_get_zero_revenue_for_no_bookings() throws Exception {
+        final var slotOne =
+                slotRepository.save(new Slot("Test slot one", Time.valueOf("09:30:00"), Time.valueOf("12:00:00")));
+        final var slotTwo =
+                slotRepository.save(new Slot("Test slot two", Time.valueOf("13:30:00"), Time.valueOf("16:00:00")));
+
+        showRepository.save(new Show(Date.valueOf("2020-01-01"), slotOne, BigDecimal.valueOf(200), "movie_1"));
+        showRepository.save(new Show(Date.valueOf("2020-01-01"), slotTwo, BigDecimal.valueOf(150), "movie_1"));
+        final Show showThree =
+                showRepository.save(new Show(Date.valueOf("2020-01-02"), slotTwo, BigDecimal.valueOf(250), "movie_1"));
+        final var customer = customerRepository.save(new Customer("Name", "9999999999"));
+
+        bookingRepository.save(
+                new Booking(Date.valueOf("2019-12-31"), showThree, customer, 1, BigDecimal.valueOf(250))
+        );
+
+        mockMvc.perform(get("/revenue?date=2020-01-01"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("0"));
+    }
 }
