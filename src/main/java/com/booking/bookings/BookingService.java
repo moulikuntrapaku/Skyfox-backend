@@ -27,7 +27,7 @@ public class BookingService {
         this.showRepository = showRepository;
     }
 
-    public void book(Customer customer, Long showId, Date bookingDate, int noOfSeats) throws NoSeatAvailableException {
+    public Booking book(Customer customer, Long showId, Date bookingDate, int noOfSeats) throws NoSeatAvailableException {
         final var show = showRepository.findById(showId)
                 .orElseThrow(() -> new EmptyResultDataAccessException("Show not found", 1));
 
@@ -36,7 +36,7 @@ public class BookingService {
         }
         customerRepository.save(customer);
         BigDecimal amountPaid = show.costFor(noOfSeats);
-        bookingRepository.save(new Booking(bookingDate, show, customer, noOfSeats, amountPaid));
+        return bookingRepository.save(new Booking(bookingDate, show, customer, noOfSeats, amountPaid));
     }
 
     private long availableSeats(Show show) {

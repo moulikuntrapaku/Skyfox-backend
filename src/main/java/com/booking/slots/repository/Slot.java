@@ -52,4 +52,8 @@ public class Slot {
     public Integer getId() {
         return id;
     }
+
+    public Time getStartTime() {
+        return startTime;
+    }
 }

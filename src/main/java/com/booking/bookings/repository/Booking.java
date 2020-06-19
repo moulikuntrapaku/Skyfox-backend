@@ -1,5 +1,6 @@
 package com.booking.bookings.repository;
 
+import com.booking.bookings.view.BookingConfirmationResponse;
 import com.booking.customers.repository.Customer;
 import com.booking.shows.respository.Show;
 import com.booking.utilities.serializers.date.DateSerializer;
@@ -66,7 +67,41 @@ public class Booking {
     }
 
     public Booking() {
+    }
 
+    public BookingConfirmationResponse constructBookingConfirmation() {
+        return new BookingConfirmationResponse(
+                id,
+                customer.getName(),
+                show.getDate(),
+                show.getSlot().getStartTime(),
+                amountPaid,
+                noOfSeats
+        );
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public Show getShow() {
+        return show;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Integer getNoOfSeats() {
+        return noOfSeats;
+    }
+
+    public BigDecimal getAmountPaid() {
+        return amountPaid;
     }
 
     @Override

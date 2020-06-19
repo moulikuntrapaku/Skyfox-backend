@@ -32,9 +32,10 @@ import java.time.Duration;
 import static com.booking.shows.respository.Constants.MAX_NO_OF_SEATS_PER_BOOKING;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = App.class)
 @AutoConfigureMockMvc
@@ -98,10 +99,18 @@ public class BookingControllerIntegrationTest {
                 "\"noOfSeats\": 2" +
                 "}";
 
+
         mockMvc.perform(post("/bookings")
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(requestJson))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(content().json("{" +
+                        "\"customerName\":\"Customer 1\"," +
+                        "\"showDate\":\"2020-01-01\"," +
+                        "\"startTime\":\"09:30:00\"," +
+                        "\"amountPaid\":499.98," +
+                        "\"noOfSeats\":2}"));
 
         assertThat(customerRepository.findAll().size(), is(1));
         assertThat(bookingRepository.findAll().size(), is(1));

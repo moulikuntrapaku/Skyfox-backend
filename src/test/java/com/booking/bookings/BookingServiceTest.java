@@ -51,10 +51,13 @@ public class BookingServiceTest {
         int noOfSeats = 2;
         Booking booking = new Booking(bookingDate, show, customer, noOfSeats, BigDecimal.valueOf(500));
         when(showRepository.findById(TEST_SHOW_ID)).thenReturn(Optional.of(show));
+        Booking mockBooking = mock(Booking.class);
+        when(bookingRepository.save(booking)).thenReturn(mockBooking);
 
-        bookingService.book(customer, TEST_SHOW_ID, bookingDate, noOfSeats);
+        Booking actualBooking = bookingService.book(customer, TEST_SHOW_ID, bookingDate, noOfSeats);
 
         verify(bookingRepository).save(booking);
+        assertThat(actualBooking, is(equalTo(mockBooking)));
     }
 
     @Test

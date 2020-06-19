@@ -1,5 +1,6 @@
 package com.booking.bookings.repository;
 
+import com.booking.bookings.view.BookingConfirmationResponse;
 import com.booking.customers.repository.Customer;
 import com.booking.shows.respository.Show;
 import com.booking.slots.repository.Slot;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,11 +29,12 @@ public class BookingTest {
     private Show show;
     private Customer customer;
     private Validator validator;
+    private Slot slot;
 
     @BeforeEach
     public void beforeEach() {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Slot slot = new Slot("Slot name", Time.valueOf("13:00:00"), Time.valueOf("15:00:00"));
+        slot = new Slot("Slot name", Time.valueOf("13:00:00"), Time.valueOf("15:00:00"));
         date = Date.valueOf("2020-06-01");
         show = new Show(date, slot, BigDecimal.valueOf(245.99), "movie-1");
         customer = new Customer("customer", "9081238761");
@@ -44,6 +47,25 @@ public class BookingTest {
         final Set<ConstraintViolation<Booking>> violations = validator.validate(booking);
 
         assertTrue(violations.isEmpty());
+    }
+
+    @Test
+    public void should_return_only_fields_reqiured_for_booking_confirmation() {
+        BigDecimal amountPaid = BigDecimal.valueOf(244.99);
+        final Booking booking = new Booking(date, show, customer, 2, amountPaid);
+
+        BookingConfirmationResponse bookingConfirmationResponse = booking.constructBookingConfirmation();
+
+        BookingConfirmationResponse expectedBookingConfirmationResponse = new BookingConfirmationResponse(
+                null,
+                customer.getName(),
+                date,
+                slot.getStartTime(),
+                amountPaid,
+                2
+        );
+
+        assertThat(bookingConfirmationResponse, is(equalTo(expectedBookingConfirmationResponse)));
     }
 
     @Test
