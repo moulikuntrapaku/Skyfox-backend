@@ -45,6 +45,8 @@ services:
       - db
     ports:
       - "${BACKEND_PORT}:8080"
+    volumes:
+      - "/tmp/pgdata/team#{TEAM_ID}${ENVIRONMENT}":"/var/lib/postgresql/data"
     logging:
       driver: "awslogs"
       options:
