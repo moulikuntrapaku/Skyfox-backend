@@ -6,6 +6,7 @@ export TAG=$3
 # used  in compose file
 export COMMIT_SHA=$3
 export ENVIRONMENT=$4
+export TEAM_ID=$TEAM_ID
 
 export BOOKING_IMAGE=$1:$COMMIT_SHA-$ENVIRONMENT
 export POSTGRES_IMAGE=$2:$COMMIT_SHA-$ENVIRONMENT
