@@ -37,17 +37,6 @@ public class BookingController {
     })
     public BookingConfirmationResponse book(@Valid @RequestBody BookingRequest bookingRequest) throws NoSeatAvailableException {
         Booking booking = bookingService.book(bookingRequest.getCustomer(), bookingRequest.getShowId(), bookingRequest.getDate(), bookingRequest.getNoOfSeats());
-        return constructResponse(booking);
-    }
-
-    private BookingConfirmationResponse constructResponse(Booking booking) {
-        return new BookingConfirmationResponse(
-                booking.getId(),
-                booking.getCustomer().getName(),
-                booking.getShow().getDate(),
-                booking.getShow().getSlot().getStartTime(),
-                booking.getAmountPaid(),
-                booking.getNoOfSeats()
-        );
+        return booking.constructBookingConfirmation();
     }
 }
