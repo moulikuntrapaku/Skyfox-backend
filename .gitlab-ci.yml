@@ -1,4 +1,5 @@
 variables:
+  TEAM_ID: $TEAM_ID
   CLUSTER_NAME: team$TEAM_ID
   CLUSTER_PROFILE_NAME: team$TEAM_ID-profile
   CLUSTER_CONFIG_NAME: team$TEAM_ID-config
