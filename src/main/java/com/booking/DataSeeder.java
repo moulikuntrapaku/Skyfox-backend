@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Profile;
 public class DataSeeder {
 
     @Bean
-    @Profile("local")
     CommandLineRunner initDatabase(UserRepository repository) {
         return args -> {
             if (repository.findByUsername("seed-user-1").isEmpty()) {
