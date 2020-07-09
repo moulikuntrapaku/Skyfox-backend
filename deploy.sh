@@ -35,13 +35,13 @@ creds_file_name="ecs-registry-creds_$timestamp.yml"
 cp ecs-registry-creds.yml "$creds_file_name"
 sed -i -e "s/ENV_GITLAB_REGISTRY_SECRET_ARN/$GITLAB_REGISTRY_SECRET_ARN/g" "ecs-registry-creds_$timestamp.yml"
 
-ecs-cli compose --verbose --registry-creds "$creds_file_name" --project-name "booking-$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
+ecs-cli compose --verbose --registry-creds "$creds_file_name" --project-name "booking$TEAM_ID-$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
 ecs-cli ps --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
 
-ecs-cli compose --verbose --registry-creds "$creds_file_name" --project-name "booking-$ENVIRONMENT" --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" up --create-log-groups --force-update
+ecs-cli compose --verbose --registry-creds "$creds_file_name" --project-name "booking$TEAM_ID-$ENVIRONMENT" --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" up --create-log-groups --force-update
 
-ecs-cli compose --verbose --registry-creds "$creds_file_name" --project-name "booking-$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
-ecs-cli compose --verbose --registry-creds "$creds_file_name" --project-name "booking-$ENVIRONMENT" service up --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" --deployment-min-healthy-percent 0
+ecs-cli compose --verbose --registry-creds "$creds_file_name" --project-name "booking$TEAM_ID-$ENVIRONMENT" down --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME"
+ecs-cli compose --verbose --registry-creds "$creds_file_name" --project-name "booking$TEAM_ID-$ENVIRONMENT" service up --cluster-config "$CLUSTER_CONFIG_NAME" --ecs-profile "$CLUSTER_PROFILE_NAME" --deployment-min-healthy-percent 0
 
 ./verify.sh
 rm -rf ecs-registry-creds_*.yml
