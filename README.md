@@ -67,11 +67,11 @@ Every deployment has two stages category of stages
 - Tag format : [registry url][project namespace][app name]:[COMMIT_SHA]-[ENVIRONMENT]
 - Example: registry.gitlab.com/tw-catalyst/booking-web/reactapp:8721c173-integration
 
-### 2. Deploy stage:
+### 2. Deploy stage
 - Sets up secret registry to authenticate gitlab container registry from aws.  
 - deploys the apps to the aws ecs service using images tagged with current commit sha.
 - curls /version endpoint at the end of every deployment. 
 
-### Resources : 
+### Resources
 - ecs-cli - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cmd-ecs-cli.html
 - gitlab ci - https://docs.gitlab.com/ee/ci/
