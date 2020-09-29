@@ -6,6 +6,8 @@ variables:
   BOOKING_IMAGE_NAME: $CI_REGISTRY_IMAGE/bookingapi
   POSTGRES_IMAGE_NAME: $CI_REGISTRY_IMAGE/postgres
   BASE_POSTGRES_IMAGE_NAME: registry.gitlab.com/tw-catalyst/booking/postgres
+  DOCKER_DRIVER: overlay2
+  DOCKER_HOST: tcp://docker:2375
 
 stages:
   - test
