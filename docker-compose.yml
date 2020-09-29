@@ -15,7 +15,7 @@ services:
       - POSTGRES_USER=bookingengine
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - /tmp/pgdata/team${TEAM_ID}-${ENVIRONMENT}:/var/lib/postgresql/data
+      - /var/pgdata/team${TEAM_ID}-${ENVIRONMENT}:/var/lib/postgresql/data
     logging:
       driver: "awslogs"
       options:
