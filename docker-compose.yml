@@ -21,8 +21,7 @@ services:
       options:
         awslogs-create-group: "true"
         awslogs-region: "ap-south-1"
-        awslogs-group: "catalyst-log-group"
-        awslogs-stream-prefix: "${ENVIRONMENT}-catalyst"
+        awslogs-group: "${ENVIRONMENT}-skyfox-log-group"
 
   web:
     image: "${BOOKING_IMAGE}"
