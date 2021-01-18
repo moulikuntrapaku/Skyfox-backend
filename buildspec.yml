@@ -4,11 +4,15 @@ phases:
   pre_build:
     commands:
       - CI_COMMIT_SHORT_SHA=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-6)
-      - BOOKING_IMAGE=$REGISTRY_URI/bookingapi:$CI_COMMIT_SHORT_SHA
+      - ECR_BACKEND_REPOSITORY="$REGISTRY_URI/neev-$BATCH_ID-team-$TEAM_ID-backend-ecr"
       - echo "building $BOOKING_IMAGE"
   build:
     commands:
       - ./gradlew test
       - ./gradlew --build-cache --info bootjar
       - export $(cat gradle.properties | grep appVersion)
-      - docker build -t $BOOKING_IMAGE . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA"
+      - docker build -t bookingapi:latest . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA"
+      - docker tag bookingapi:latest $ECR_BACKEND_REPOSITORY
+  post_build:
+    commands:
+      - docker push $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
