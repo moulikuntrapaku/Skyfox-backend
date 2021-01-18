@@ -3,6 +3,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - aws --version
+      - docker --version
       - CI_COMMIT_SHORT_SHA=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-6)
       - ECR_BACKEND_REPOSITORY="$REGISTRY_URI/neev-$BATCH_ID-team-$TEAM_ID-backend-ecr"
       - echo "building $ECR_BACKEND_REPOSITORY with tag $CI_COMMIT_SHORT_SHA"
