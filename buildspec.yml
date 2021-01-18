@@ -1,7 +1,14 @@
 version: 0.2
 
 phases:
+  pre-build:
+    commands:
+      - CI_COMMIT_SHORT_SHA=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-6)
+      - BOOKING_IMAGE=$REGISTRY_URI/bookingapi:$CI_COMMIT_SHORT_SHA
+      - echo "building $BOOKING_IMAGE"
   build:
     commands:
       - ./gradlew test
       - ./gradlew --build-cache --info bootjar
+      - export $(cat gradle.properties | grep appVersion)
+      - docker build -t $BOOKING_IMAGE . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA"
