@@ -11,8 +11,8 @@ services:
     ports:
       - "${HOST_DB_PORT}:5432"
     environment:
-      - POSTGRES_DB=bookingengine
-      - POSTGRES_USER=bookingengine
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - /var/pgdata/team${TEAM_ID}-${ENVIRONMENT}:/var/lib/postgresql/data

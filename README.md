@@ -22,6 +22,14 @@ javac -version
     - Connect to db command
     `psql -h localhost -U bookingengine -d bookingengine` 
 
+## Seed data
+- set DB_PASSWORD as environment variable before running the script
+- params
+    - starting date
+    - number of weeks to seed data from given starting date
+
+`sh seedShowData.sh 12-12-2021 3`
+
 ## Run the application
 - Build the application and run the test along with coverage
 ```shell script
