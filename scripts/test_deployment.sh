@@ -2,4 +2,4 @@
 set -e
 set -v
 
-echo "This worked $PWD" > /home/ec2-user/this_worked
+env > /home/ec2-user/envs_available_at_deploytime
