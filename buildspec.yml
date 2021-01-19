@@ -13,17 +13,18 @@ phases:
     commands:
       - echo "Build step"
 #      - ./gradlew test
-#      - ./gradlew --build-cache --info bootjar
-#      - export $(cat gradle.properties | grep appVersion)
-#      - docker build -t bookingapi:latest . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA" --build-arg REGISTRY_URI="${REGISTRY_URI}"
-#      - docker tag bookingapi:latest $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
+      - ./gradlew --build-cache --info bootjar
+      - export $(cat gradle.properties | grep appVersion)
+      - docker build -t bookingapi:latest . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA" --build-arg REGISTRY_URI="${REGISTRY_URI}"
+      - docker tag bookingapi:latest $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
   post_build:
     commands:
       - echo "Post build step"
-#      - docker push $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
-#      - echo "Creating image definitions file"
-#      - printf '[{"name":"db","imageUri":"%s"},' "$REGISTRY_URI/neev-postgres:latest" >> imagedefinitions.json
-#      - printf '{"name":"backend","imageUri":"%s"}]' $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA >> imagedefinitions.json
+      - docker push $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
+      - aws ssm put-parameter --name "neev-$BATCH_ID/team-$TEAM_ID/integration/BOOKING_IMAGE" --type "String" --value "$ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA" --tags Key=batch,Value=$BATCH_ID Key=team,Value=$TEAM_ID
+      - echo "Creating image definitions file"
+      - printf '[{"name":"db","imageUri":"%s"},' "$REGISTRY_URI/neev-postgres:latest" >> imagedefinitions.json
+      - printf '{"name":"backend","imageUri":"%s"}]' $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA >> imagedefinitions.json
 
 artifacts:
   files:
