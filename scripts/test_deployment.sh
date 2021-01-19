@@ -2,4 +2,4 @@
 set -e
 set -v
 
-echo "This worked" > /home/ec2-user/this_worked
+echo "This worked $PWD" > /home/ec2-user/this_worked
