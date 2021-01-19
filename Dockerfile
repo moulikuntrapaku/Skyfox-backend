@@ -1,6 +1,7 @@
-FROM openjdk:11-jdk
-
 ARG VERSION=1.0-SNAPSHOT
+ARG REGISTRY_URI
+FROM ${REGISTRY_URI}/openjdk:11-jdk
+
 
 COPY build/libs/com.app.booking-${VERSION}.jar booking.jar
 COPY healthcheck.sh healthcheck.sh

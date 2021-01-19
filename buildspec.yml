@@ -14,7 +14,7 @@ phases:
       - ./gradlew test
       - ./gradlew --build-cache --info bootjar
       - export $(cat gradle.properties | grep appVersion)
-      - docker build -t bookingapi:latest . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA"
+      - docker build -t bookingapi:latest . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA" --build-arg REGISTRY_URI="${REGISTRY_URI}"
       - docker tag bookingapi:latest $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
   post_build:
     commands:
