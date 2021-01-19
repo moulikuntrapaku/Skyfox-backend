@@ -21,7 +21,7 @@ phases:
     commands:
       - echo "Post build step"
       - docker push $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
-      - aws ssm put-parameter --name "neev-$BATCH_ID/team-$TEAM_ID/integration/BOOKING_IMAGE" --type "String" --value "$ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA" --tags Key=batch,Value=$BATCH_ID Key=team,Value=$TEAM_ID
+      - aws ssm put-parameter --name "/neev-$BATCH_ID/team-$TEAM_ID/integration/BOOKING_IMAGE" --type "String" --value "$ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA" --tags Key=batch,Value=$BATCH_ID Key=team,Value=$TEAM_ID
       - echo "Creating image definitions file"
       - printf '[{"name":"db","imageUri":"%s"},' "$REGISTRY_URI/neev-postgres:latest" >> imagedefinitions.json
       - printf '{"name":"backend","imageUri":"%s"}]' $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA >> imagedefinitions.json
