@@ -2,6 +2,6 @@ version: 0.0
 os: linux
 hooks:
   BeforeInstall:
-    - location: test_deployment.sh
+    - location: scripts/test_deployment.sh
       timeout: 300
       runas: root
