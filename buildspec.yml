@@ -11,17 +11,19 @@ phases:
       - $(aws ecr get-login --no-include-email --region $REGION --registry-ids $REGISTRY_ID) # TODO : depricated; find a better way
   build:
     commands:
-      - ./gradlew test
-      - ./gradlew --build-cache --info bootjar
-      - export $(cat gradle.properties | grep appVersion)
-      - docker build -t bookingapi:latest . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA" --build-arg REGISTRY_URI="${REGISTRY_URI}"
-      - docker tag bookingapi:latest $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
+      - echo "Build step"
+#      - ./gradlew test
+#      - ./gradlew --build-cache --info bootjar
+#      - export $(cat gradle.properties | grep appVersion)
+#      - docker build -t bookingapi:latest . --no-cache --build-arg VERSION="$appVersion-$CI_COMMIT_SHORT_SHA" --build-arg REGISTRY_URI="${REGISTRY_URI}"
+#      - docker tag bookingapi:latest $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
   post_build:
     commands:
-      - docker push $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
-      - echo "Creating image definitions file"
-      - printf '[{"name":"db","imageUri":"%s"},' "$REGISTRY_URI/neev-postgres:latest" >> imagedefinitions.json
-      - printf '{"name":"backend","imageUri":"%s"}]' $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA >> imagedefinitions.json
+      - echo "Post build step"
+#      - docker push $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
+#      - echo "Creating image definitions file"
+#      - printf '[{"name":"db","imageUri":"%s"},' "$REGISTRY_URI/neev-postgres:latest" >> imagedefinitions.json
+#      - printf '{"name":"backend","imageUri":"%s"}]' $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA >> imagedefinitions.json
 
 artifacts:
   files:
