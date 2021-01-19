@@ -1,8 +1,7 @@
-ARG VERSION=1.0-SNAPSHOT
 ARG REGISTRY_URI
 FROM ${REGISTRY_URI}/openjdk:11-jdk
 
-
+ARG VERSION=1.0-SNAPSHOT
 COPY build/libs/com.app.booking-${VERSION}.jar booking.jar
 COPY healthcheck.sh healthcheck.sh
 COPY src/main/resources/application.yml application.yml
