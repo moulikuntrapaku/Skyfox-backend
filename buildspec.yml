@@ -19,6 +19,8 @@ phases:
   post_build:
     commands:
       - docker push $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA
+      - zip -r artifacts.zip scripts appspec.yml
+      - aws s3 cp artifacts.zip $S3_ARTIFACT_URI
       - echo "Creating image definitions file"
       - printf '[{"name":"db","imageUri":"%s"},' "$REGISTRY_URI/neev-postgres:latest" >> imagedefinitions.json
       - printf '{"name":"backend","imageUri":"%s"}]' $ECR_BACKEND_REPOSITORY:$CI_COMMIT_SHORT_SHA >> imagedefinitions.json
