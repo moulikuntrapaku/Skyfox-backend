@@ -26,7 +26,10 @@ export BACKEND_PORT=`aws ssm get-parameters --name "$PREFIX/BACKEND_PORT" | jq "
 export POSTGRES_PASSWORD=`aws ssm get-parameters --name "$PREFIX/POSTGRES_PASSWORD" | jq ".Parameters[0].Value" | tr -d \"`
 export VERSION=`aws ssm get-parameters --name "$PREFIX/VERSION" | jq ".Parameters[0].Value" | tr -d \"`
 export BOOKING_IMAGE=`aws ssm get-parameters --name "$PREFIX/BOOKING_IMAGE" | jq ".Parameters[0].Value" | tr -d \"`
+export REGISTRY_ID=`aws ssm get-parameters --name "$PREFIX/REGISTRY_ID" | jq ".Parameters[0].Value" | tr -d \"`
 
 env > /home/ec2-user/envs_available_at_deploytime
+echo "Logging into ECR"
+$(aws ecr get-login --no-include-email --registry-ids $REGISTRY_ID)
 /home/ec2-user/bin/docker-compose down || true
 /home/ec2-user/bin/docker-compose up
