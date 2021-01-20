@@ -2,4 +2,4 @@ fileignoreconfig:
 - filename: buildspec.yml
   checksum: 718b33cc7f6135e70c95805b079f9122e04321f598ca576f20186a1bad274e36
 - filename: scripts/test_deployment.sh
-  checksum: 79f1e1d92fd2442b48ddbeb75741ada1c4ffe367e77b5db00e4ac33235c619a8
+  checksum: d27bec4ba2b457de4045a468a7594c9f8c209a799e684f9d2afb1072303666ee
