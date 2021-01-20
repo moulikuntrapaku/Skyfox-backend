@@ -8,6 +8,7 @@ services:
           memory: 200M
         reservations:
           memory: 100M
+    container_name: db_${ENVIRONMENT}
     ports:
       - "${HOST_DB_PORT}:5432"
     environment:
@@ -31,6 +32,7 @@ services:
           memory: 250M
         reservations:
           memory: 150M
+    container_name: backend_${ENVIRONMENT}
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
