@@ -3,6 +3,14 @@ os: linux
 files:
   - source: docker-compose.yml
     destination: /home/ec2-user/deployment/
+permissions:
+  - object: /home/ec2-user/deployment/
+    pattern: docker-compose.yml
+    owner: ec2-user
+    group: ec2-user
+    mode: 500
+    type:
+      - file
 hooks:
   AfterInstall:
     - location: scripts/test_deployment.sh
