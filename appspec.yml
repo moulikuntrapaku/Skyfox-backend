@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: docker-compose.yml
-    destination: /home/ec2-user/deployment/
+    destination: /home/ec2-user/deployment/$DEPLOYMENT_GROUP_NAME
 hooks:
   AfterInstall:
     - location: scripts/test_deployment.sh
