@@ -1,5 +1,8 @@
 version: 0.0
 os: linux
+files:
+  - source: docker-compose.yml
+    destination: /home/ec2-user/deployment/
 hooks:
   BeforeInstall:
     - location: scripts/test_deployment.sh

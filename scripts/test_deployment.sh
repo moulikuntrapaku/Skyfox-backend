@@ -3,6 +3,11 @@ set -e
 set -v
 
 echo "Running this as `whoami`"
+echo "Currently running this in $PWD"
+
+cd /home/ec2-user/deployment/
+echo "Existing contents of the directory are"
+ls
 
 IFS='-' read -ra identifiers <<< $DEPLOYMENT_GROUP_NAME  # DEPLOYMENT_GROUP_NAME is of form neev-xx-team-xx-[backend|frontend]-deployment-[integration|staging|production]
 export BATCH_ID=${identifiers[1]}
