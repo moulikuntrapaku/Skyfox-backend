@@ -21,3 +21,4 @@ export VERSION=`aws ssm get-parameters --name "$PREFIX/VERSION" | jq ".Parameter
 export BOOKING_IMAGE=`aws ssm get-parameters --name "$PREFIX/BOOKING_IMAGE" | jq ".Parameters[0].Value"`
 
 env > /home/ec2-user/envs_available_at_deploytime
+docker-compose up
