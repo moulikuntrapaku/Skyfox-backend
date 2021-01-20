@@ -2,6 +2,8 @@
 set -e
 set -v
 
+echo "Running this as `whoami`"
+
 IFS='-' read -ra identifiers <<< $DEPLOYMENT_GROUP_NAME  # DEPLOYMENT_GROUP_NAME is of form neev-xx-team-xx-[backend|frontend]-deployment-[integration|staging|production]
 export BATCH_ID=${identifiers[1]}
 export TEAM_ID=${identifiers[3]}
@@ -21,4 +23,5 @@ export VERSION=`aws ssm get-parameters --name "$PREFIX/VERSION" | jq ".Parameter
 export BOOKING_IMAGE=`aws ssm get-parameters --name "$PREFIX/BOOKING_IMAGE" | jq ".Parameters[0].Value"`
 
 env > /home/ec2-user/envs_available_at_deploytime
-docker-compose up
+/home/ec2-user/bin/docker-compose down || true
+/home/ec2-user/bin/docker-compose up
