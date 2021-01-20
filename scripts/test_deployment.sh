@@ -32,4 +32,4 @@ env > /home/ec2-user/envs_available_at_deploytime
 echo "Logging into ECR"
 $(aws ecr get-login --no-include-email --registry-ids $REGISTRY_ID)
 /home/ec2-user/bin/docker-compose down || true
-/home/ec2-user/bin/docker-compose up
+/home/ec2-user/bin/docker-compose up -d
