@@ -20,6 +20,7 @@ export PREFIX="/neev-$BATCH_ID/team-$TEAM_ID/$ENVIRONMENT"
 cd /home/ec2-user/deployment/
 mkdir -p $ENVIRONMENT
 mv docker-compose.yml $ENVIRONMENT/
+mv outputs $ENVIRONMENT/
 cd $ENVIRONMENT
 echo "Existing contents of the directory are"
 ls
@@ -34,9 +35,9 @@ export UI_HOST=`aws ssm get-parameters --name "$PREFIX/UI_HOST" | jq ".Parameter
 export MOVIE_SERVICE_HOST=`aws ssm get-parameters --name "$PREFIX/MOVIE_SERVICE_HOST" | jq ".Parameters[0].Value" | tr -d \"`
 export BACKEND_PORT=`aws ssm get-parameters --name "$PREFIX/BACKEND_PORT" | jq ".Parameters[0].Value" | tr -d \"`
 export POSTGRES_PASSWORD=`aws ssm get-parameters --name "$PREFIX/POSTGRES_PASSWORD" | jq ".Parameters[0].Value" | tr -d \"`
-export VERSION=`aws ssm get-parameters --name "$PREFIX/VERSION" | jq ".Parameters[0].Value" | tr -d \"`
-export BOOKING_IMAGE=`aws ssm get-parameters --name "$PREFIX/BOOKING_IMAGE" | jq ".Parameters[0].Value" | tr -d \"`
 export REGISTRY_ID=`aws ssm get-parameters --name "$PREFIX/REGISTRY_ID" | jq ".Parameters[0].Value" | tr -d \"`
+
+sh ./outputs.sh # exports VERSION and BOOKING_IMAGE
 
 env > /home/ec2-user/envs_available_at_deploytime_$ENVIRONMENT
 echo "Logging into ECR"
