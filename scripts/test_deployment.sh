@@ -37,7 +37,7 @@ export BACKEND_PORT=`aws ssm get-parameters --name "$PREFIX/BACKEND_PORT" | jq "
 export POSTGRES_PASSWORD=`aws ssm get-parameters --name "$PREFIX/POSTGRES_PASSWORD" | jq ".Parameters[0].Value" | tr -d \"`
 export REGISTRY_ID=`aws ssm get-parameters --name "$PREFIX/REGISTRY_ID" | jq ".Parameters[0].Value" | tr -d \"`
 
-sh ./outputs.sh # exports VERSION and BOOKING_IMAGE
+. ./outputs.sh # exports VERSION and BOOKING_IMAGE
 
 env > /home/ec2-user/envs_available_at_deploytime_$ENVIRONMENT
 echo "Logging into ECR"
