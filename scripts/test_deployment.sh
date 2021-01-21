@@ -20,7 +20,7 @@ export PREFIX="/neev-$BATCH_ID/team-$TEAM_ID/$ENVIRONMENT"
 cd /home/ec2-user/deployment/
 mkdir -p $ENVIRONMENT
 mv docker-compose.yml $ENVIRONMENT/
-mv outputs $ENVIRONMENT/
+mv outputs.sh $ENVIRONMENT/
 cd $ENVIRONMENT
 echo "Existing contents of the directory are"
 ls
