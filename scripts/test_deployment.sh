@@ -22,6 +22,7 @@ cd /home/ec2-user/deployment/
 mkdir -p $ENVIRONMENT
 mv docker-compose.yml $ENVIRONMENT/
 mv outputs.sh $ENVIRONMENT/
+mv seedShowData.sh $ENVIRONMENT/
 cd $ENVIRONMENT
 echo "Existing contents of the directory are"
 ls
