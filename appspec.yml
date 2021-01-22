@@ -5,6 +5,8 @@ files:
     destination: /home/ec2-user/deployment/
   - source: outputs.sh
     destination: /home/ec2-user/deployment/
+  - source: seedShowData.sh
+    destination: /home/ec2-user/deployment/
 permissions:
   - object: /home/ec2-user/deployment/
     pattern: docker-compose.yml
@@ -15,6 +17,13 @@ permissions:
       - file
   - object: /home/ec2-user/deployment/
     pattern: outputs.sh
+    owner: ec2-user
+    group: ec2-user
+    mode: 500
+    type:
+      - file
+  - object: /home/ec2-user/deployment/
+    pattern: seedShowData.sh
     owner: ec2-user
     group: ec2-user
     mode: 500

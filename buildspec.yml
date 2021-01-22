@@ -36,3 +36,4 @@ artifacts:
     - scripts/test_deployment.sh
     - docker-compose.yml
     - outputs.sh
+    - seedShowData.sh

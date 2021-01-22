@@ -5,9 +5,10 @@ set -v
 echo "Running this as `whoami`"
 echo "Currently running this in $PWD"
 
-IFS='-' read -ra identifiers <<< $DEPLOYMENT_GROUP_NAME  # DEPLOYMENT_GROUP_NAME is of form neev-xx-team-xx-[backend|frontend]-deployment-[integration|staging|production]
+IFS='-' read -ra identifiers <<< $DEPLOYMENT_GROUP_NAME  # DEPLOYMENT_GROUP_NAME is of form neev-xx-team-xx-[backend|frontend]-[deployment|seed]-[integration|staging|production]
 export BATCH_ID=${identifiers[1]}
 export TEAM_ID=${identifiers[3]}
+export TASK=${identifiers[5]}
 export ENVIRONMENT=${identifiers[6]}
 export PREFIX="/neev-$BATCH_ID/team-$TEAM_ID/$ENVIRONMENT"
 
@@ -44,3 +45,8 @@ echo "Logging into ECR"
 $(aws ecr get-login --no-include-email --registry-ids $REGISTRY_ID)
 /home/ec2-user/bin/docker-compose down || true
 /home/ec2-user/bin/docker-compose up -d
+
+if [ "$TASK" == "seed" ]; then
+  docker cp seedShowData.sh db_$ENVIRONMENT:/usr/local/bin
+  docker exec db_$ENVIRONMENT /bin/bash -c "seedShowData.sh 2020-01-01 3"
+fi
