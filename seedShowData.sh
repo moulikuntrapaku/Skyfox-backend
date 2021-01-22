@@ -10,8 +10,8 @@ declare start_date
 declare next_date
 
 DB_HOST='localhost'
-DB_DATABASE="${DB_NAME}"
-DB_USERNAME="${POSTGRES_USERNAME}"
+DB_DATABASE="${POSTGRES_DB}"
+DB_USERNAME="${POSTGRES_USER}"
 
 OS_TYPE=$(uname -s)
 
