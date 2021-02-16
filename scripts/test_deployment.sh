@@ -29,10 +29,10 @@ ls
 
 export POSTGRES_IMAGE=`aws ssm get-parameters --name "$PREFIX/POSTGRES_IMAGE" | jq ".Parameters[0].Value" | tr -d \"`
 export HOST_DB_PORT=`aws ssm get-parameters --name "$PREFIX/HOST_DB_PORT" | jq ".Parameters[0].Value"  | tr -d \"`
-# export DB_HOST=`aws ssm get-parameters --name "$PREFIX/DB_HOST" | jq ".Parameters[0].Value" | tr -d \"`
-# export DB_PORT=`aws ssm get-parameters --name "$PREFIX/DB_PORT" | jq ".Parameters[0].Value" | tr -d \"`
-export DB_HOST=db # unique within the network
-export DB_PORT=5432 # for reasons I don't understand, its always 5432 (even if db container is mapped to a different port)
+export DB_HOST=`aws ssm get-parameters --name "$PREFIX/DB_HOST" | jq ".Parameters[0].Value" | tr -d \"`
+export DB_PORT=`aws ssm get-parameters --name "$PREFIX/DB_PORT" | jq ".Parameters[0].Value" | tr -d \"`
+# export DB_HOST=db # unique within the network
+# export DB_PORT=5432 # for reasons I don't understand, its always 5432 (even if db container is mapped to a different port)
 export POSTGRES_USERNAME=`aws ssm get-parameters --name "$PREFIX/POSTGRES_USERNAME" | jq ".Parameters[0].Value" | tr -d \"`
 export DB_NAME=`aws ssm get-parameters --name "$PREFIX/DB_NAME" | jq ".Parameters[0].Value" | tr -d \"`
 export UI_HOST=`aws ssm get-parameters --name "$PREFIX/UI_HOST" | jq ".Parameters[0].Value" | tr -d \"`
