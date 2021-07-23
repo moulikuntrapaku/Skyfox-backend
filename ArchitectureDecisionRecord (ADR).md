@@ -1,0 +1,14 @@
+# Architecture Decision Record (ADR)
+
+ID | Title | Context      | Consequences  | Status  | Link to ADR | 
+---| ------------ | ------------ | ------------- | ------- | ----------- | 
+ADR-001 | Using Java with springboot | Skyfox Ops team is familiar with the stack. It is also relatively easy to find talent in the stack | There is a learning curve for new developers | Accepted | |
+ADR-002 | Using separate repository for front-end and backend | Skyfox project backend code built using Spring boot which is different from front-end (React), so having different repo for separate the concerns | We will maintain two repos | Accepted | | 
+ADR-003 | Use Intellij IDE for backend development | Have consistent among the developers so that it will help in pairing. IntelliJ is one of best IDE for Java development |  | Accepted | |
+ADR-004 | Use of gitlab | We want to use GitLab as central repo to maintain the code remotely, Git Lab provides free pipeline minutes | What if we ran out of free pipeline minutes? | Deprecated | |
+ADR-005 | Use of AWS code commit | We do not want to manage AWS keys in Gitlab, we are exposing admin credentials within Gitlab | We need authenticate developers using OKTA | Superseded | ADR-004 |
+ADR-006 | Use saml2aws authentication | To authenticate developers using ThoughtWorks credentials  | Everyone who wants to access the code commit repo needs to configure before login | Accepted | |
+ADR-007 | INFRA: Use of Docker containers | Easy shipping of skyfox across different environments, Inculcate new learnings. |  | Accepted | |
+ADR-008 | INFRA: Setup budget actions | Limiting the expenditure on AWS-Neev account  |  | Accepted | |
+ADR-009 | INFRA: AWS-Nuke | Limiting the expenditure on AWS-Neev account   |  | Accepted | |
+ADR-010 | INFRA: Limit access to specific IPs by using VPN | Restrict the users to access the environments, need to connect to TW VPN whoever wants to access the environments  |  | Accepted | |
