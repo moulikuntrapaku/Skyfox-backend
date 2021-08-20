@@ -29,7 +29,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 250M
+          memory: 350M
         reservations:
           memory: 150M
     container_name: backend_${ENVIRONMENT}
