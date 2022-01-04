@@ -51,7 +51,7 @@ dependencies {
     compile("com.squareup.okhttp3:okhttp:4.0.0")
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.2.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.6.2'
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     compile 'org.postgresql:postgresql:42.2.5'
     compile 'com.jcabi:jcabi-manifests:0.7.5'
