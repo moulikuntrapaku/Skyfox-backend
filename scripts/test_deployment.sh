@@ -5,11 +5,11 @@ set -v
 echo "Running this as `whoami`"
 echo "Currently running this in $PWD"
 
-IFS='-' read -ra identifiers <<< $DEPLOYMENT_GROUP_NAME  # DEPLOYMENT_GROUP_NAME is of form neev-xx-team-xx-[backend|frontend]-[deployment|seed]-[integration|staging|production]
+IFS='-' read -ra identifiers <<< $DEPLOYMENT_GROUP_NAME  # DEPLOYMENT_GROUP_NAME is of form neev-xx-xx-[backend|frontend]-[deployment|seed]-[integration|staging|production]
 export BATCH_ID=${identifiers[1]}
-export TEAM_ID=${identifiers[3]}
-export TASK=${identifiers[5]}
-export ENVIRONMENT=${identifiers[6]}
+export TEAM_ID=${identifiers[2]}
+export TASK=${identifiers[4]}
+export ENVIRONMENT=${identifiers[5]}
 export PREFIX="/neev-$BATCH_ID/team-$TEAM_ID/$ENVIRONMENT"
 
 # horrible hack because of the horrible code deploy programming model!
