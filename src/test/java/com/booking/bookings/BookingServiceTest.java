@@ -73,7 +73,7 @@ public class BookingServiceTest {
         when(bookingRepository.bookedSeatsByShow(show.getId())).thenReturn(TOTAL_NO_OF_SEATS);
         when(showRepository.findById(TEST_SHOW_ID)).thenReturn(Optional.of(show));
         assertThrows(NoSeatAvailableException.class, () -> bookingService.book(customer, TEST_SHOW_ID, bookingDate, 2));
-        verifyZeroInteractions(customerRepository);
+        verifyNoInteractions(customerRepository);
         verify(bookingRepository, never()).save(any(Booking.class));
     }
 
@@ -86,7 +86,7 @@ public class BookingServiceTest {
 
         assertThat(emptyResultDataAccessException.getMessage(), is(equalTo("Show not found")));
         assertThat(emptyResultDataAccessException.getExpectedSize(), is(equalTo(1)));
-        verifyZeroInteractions(customerRepository);
+        verifyNoInteractions(customerRepository);
         verify(bookingRepository, never()).save(any(Booking.class));
     }
 }
