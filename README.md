@@ -8,6 +8,16 @@ java -version
 javac -version
 ```
 
+## Install lima for docker
+- Set up lima for docker
+    - `brew install lima`
+    - Once successfully installed then use `lima` command to go into linux terminal
+    - Use the following command to make `nerdctl` as docker
+        - If your terminal(`iterm`) is setup with `zsh`, execute the command `vim ~/.zshrc`
+        - Add this line in the file `alias docker=nerdctl`
+    - In the terminal type `docker ps` and you shouldn't see any error and possibly line indicating headers like "CONTAINER ID, IMAGE etc"
+
+
 ## Install postgres
 - Setup Postgres using docker
     - Install Dockerhub for mac
