@@ -21,8 +21,6 @@ javac -version
 
 ## Install postgres
 - Setup Postgres using docker
-    - Install Dockerhub for mac
-    - Create an account in the dockerhub and login
     - Start db command
     `docker run --name postgresdb -e POSTGRES_DB=bookingengine -e POSTGRES_USER=bookingengine -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres`
     - Install below tools to connect to the database
