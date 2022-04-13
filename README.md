@@ -8,14 +8,10 @@ java -version
 javac -version
 ```
 
-## Install lima for docker
+## Install colima to run containers
 - Set up lima for docker
-    - `brew install lima`
-    - Once successfully installed then use `lima` command to go into linux terminal
-    - Use the following command to make `nerdctl` as docker
-        - Execute the command `vim ~/.zshrc`
-        - Add this line in the file `alias docker="lima nerdctl"`
-        - To source and reload the sheel, execute the command `source ~/.zshrc`
+    - `brew install colima`
+    - start colima by executing `colima start`
     - In the terminal type `docker ps` and you shouldn't see any error and possibly line indicating headers like "CONTAINER ID, IMAGE etc"
 
 
