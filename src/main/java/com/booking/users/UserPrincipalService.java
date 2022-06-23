@@ -1,5 +1,6 @@
 package com.booking.users;
 
+import com.booking.exceptions.PasswordMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,12 +29,10 @@ public class UserPrincipalService implements UserDetailsService {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public void changePassword(String username, String newpassword, String oldpassword) {
+    public void changePassword(String username, String newpassword, String oldpassword) throws PasswordMismatchException {
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        if (oldpassword.equals(user.getPassword())) {
-            user.setPassword(newpassword);
-            userRepository.save(user);
-        }
-
+        if(!oldpassword.equals(user.getPassword())) throw new PasswordMismatchException("Old password incorrect");
+        user.setPassword(newpassword);
+        userRepository.save(user);
     }
 }

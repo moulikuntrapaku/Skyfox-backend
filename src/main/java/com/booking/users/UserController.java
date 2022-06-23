@@ -1,10 +1,14 @@
 package com.booking.users;
 
+import com.booking.exceptions.PasswordMismatchException;
+import com.booking.handlers.models.ErrorResponse;
+import com.booking.validations.ValidPassword;
 import io.swagger.annotations.Api;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -28,14 +32,26 @@ public class UserController {
         return userDetails;
     }
 
-    @PostMapping("/user/changePassword")
+    @PostMapping(value = "/user/changePassword")
+    @ApiOperation(value = "Change password")
+    @ResponseStatus(code = HttpStatus.OK)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Password has been changed"),
+            @ApiResponse(code = 404, message = "Record not found", response = ErrorResponse.class),
+            @ApiResponse(code = 400, message = "Server cannot process request due to client error", response = ErrorResponse.class),
+            @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
+    })
     public String changePassword(Principal principal,
-                                 @RequestParam("newpassword") String newpassword,
-                                 @RequestParam("oldpassword") String oldpassword){
+                                 @ValidPassword @RequestParam("newpassword") String newpassword,
+                                 @RequestParam("oldpassword") String oldpassword) throws PasswordMismatchException {
         String username = principal.getName();
         userPrincipalService.changePassword(username,newpassword, oldpassword);
         return username;
     }
+
+
+
+
 
 
 }
