@@ -16,6 +16,7 @@ services:
       - UI_HOST=http://localhost:3000
       - DB_PORT=5432
       - POSTGRES_PASSWORD=postgres
+
     links:
       - db
     ports:
