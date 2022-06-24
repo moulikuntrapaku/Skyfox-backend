@@ -2,8 +2,8 @@ package com.booking.bookings;
 
 import com.booking.bookings.repository.Booking;
 import com.booking.bookings.repository.BookingRepository;
-import com.booking.customers.repository.Customer;
-import com.booking.customers.repository.CustomerRepository;
+import com.booking.customers.Customer;
+import com.booking.customers.CustomerRepository;
 import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.shows.respository.Show;
 import com.booking.shows.respository.ShowRepository;
@@ -42,7 +42,7 @@ public class BookingServiceTest {
         bookingDate = Date.valueOf("2020-06-01");
         Slot slot = new Slot("13:00-16:00", Time.valueOf("13:00:00"), Time.valueOf("16:00:00"));
         show = new Show(bookingDate, slot, BigDecimal.valueOf(250), "1");
-        customer = new Customer("Customer name", "9090909090");
+        customer = new Customer("Customer name", "9090909090","ark@gmail.com");
         bookingService = new BookingService(bookingRepository, customerRepository, showRepository);
     }
 

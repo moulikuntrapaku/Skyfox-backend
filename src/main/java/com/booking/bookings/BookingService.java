@@ -2,8 +2,8 @@ package com.booking.bookings;
 
 import com.booking.bookings.repository.Booking;
 import com.booking.bookings.repository.BookingRepository;
-import com.booking.customers.repository.Customer;
-import com.booking.customers.repository.CustomerRepository;
+import com.booking.customers.Customer;
+import com.booking.customers.CustomerRepository;
 import com.booking.exceptions.NoSeatAvailableException;
 import com.booking.shows.respository.Show;
 import com.booking.shows.respository.ShowRepository;

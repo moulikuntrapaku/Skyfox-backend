@@ -1,5 +1,6 @@
-package com.booking.customers.repository;
+package com.booking.customers;
 
+import com.booking.users.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +33,32 @@ public class Customer {
     @ApiModelProperty(name = "phone number", value = "Phone number of the customer", required = true, example = "9933221100", position = 3)
     private String phoneNumber;
 
-    public Customer(String name, String phoneNumber) {
+    @Column(name = "email", nullable = false)
+    @JsonProperty
+    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
+            message = "Email id should be valid")
+    @NotBlank(message = "customer email must be provided")
+    @ApiModelProperty(name = "customer email", value = "Email of customer", required = true, example = "alex@gmail.com", position = 4)
+    private String email;
+
+//    @OneToOne(mappedBy = "customer")
+//    @JoinColumn(name = "id", insertable = false, updatable = false)
+//    private User user;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Customer(String name, String phoneNumber, String email) {
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.email = email;
     }
+
 
     public Customer() {
 

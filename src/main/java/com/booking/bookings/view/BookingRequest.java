@@ -1,6 +1,6 @@
 package com.booking.bookings.view;
 
-import com.booking.customers.repository.Customer;
+import com.booking.customers.Customer;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;

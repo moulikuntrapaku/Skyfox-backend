@@ -1,7 +1,7 @@
 package com.booking.bookings.repository;
 
 import com.booking.bookings.view.BookingConfirmationResponse;
-import com.booking.customers.repository.Customer;
+import com.booking.customers.Customer;
 import com.booking.shows.respository.Show;
 import com.booking.slots.repository.Slot;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ public class BookingTest {
         slot = new Slot("Slot name", Time.valueOf("13:00:00"), Time.valueOf("15:00:00"));
         date = Date.valueOf("2020-06-01");
         show = new Show(date, slot, BigDecimal.valueOf(245.99), "movie-1");
-        customer = new Customer("customer", "9081238761");
+        customer = new Customer("customer", "9081238761","ark@gmail.com");
     }
 
     @Test

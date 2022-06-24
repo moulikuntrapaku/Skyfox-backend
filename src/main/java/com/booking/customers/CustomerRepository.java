@@ -1,8 +1,13 @@
-package com.booking.customers.repository;
+package com.booking.customers;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
+
+
+//    boolean findByPhoneNo(boolean empty);
+//
+//    boolean findByEmail(boolean empty);
 }

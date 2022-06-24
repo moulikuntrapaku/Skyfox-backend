@@ -1,7 +1,7 @@
 package com.booking.bookings.repository;
 
 import com.booking.bookings.view.BookingConfirmationResponse;
-import com.booking.customers.repository.Customer;
+import com.booking.customers.Customer;
 import com.booking.shows.respository.Show;
 import com.booking.utilities.serializers.date.DateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;

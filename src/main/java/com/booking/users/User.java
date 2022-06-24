@@ -25,6 +25,9 @@ public class User {
     @ApiModelProperty(name = "password", value = "Password of the user", required = true, example = "password", position = 2)
     private String password;
 
+//    @OneToOne
+//    @JoinColumn(name = "customer_id")
+//    private Customer customer;
     public User() {
     }
 

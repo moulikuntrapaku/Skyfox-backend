@@ -2,7 +2,7 @@ package com.booking.bookings.view;
 
 import com.booking.App;
 import com.booking.bookings.repository.BookingRepository;
-import com.booking.customers.repository.CustomerRepository;
+import com.booking.customers.CustomerRepository;
 import com.booking.movieGateway.MovieGateway;
 import com.booking.movieGateway.exceptions.FormatException;
 import com.booking.movieGateway.models.Movie;
@@ -95,7 +95,7 @@ public class BookingControllerIntegrationTest {
         final String requestJson = "{" +
                 "\"date\": \"2020-06-01\"," +
                 "\"showId\": " + showOne.getId() + "," +
-                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
+                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\",\"email\":\"ark@gmail.com\"}," +
                 "\"noOfSeats\": 2" +
                 "}";
 
@@ -121,7 +121,7 @@ public class BookingControllerIntegrationTest {
         final String moreThanAllowedSeatsRequestJson = "{" +
                 "\"date\": \"2020-06-01\"," +
                 "\"showId\": " + showOne.getId() + "," +
-                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
+                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\",\"email\":\"ark@gmail.com\"}," +
                 "\"noOfSeats\": " + (Integer.parseInt(MAX_NO_OF_SEATS_PER_BOOKING) + 1) +
                 "}";
 
@@ -140,7 +140,7 @@ public class BookingControllerIntegrationTest {
         final String overCapacityRequest = "{" +
                 "\"date\": \"2020-06-01\"," +
                 "\"showId\": " + showOne.getId() + "," +
-                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
+                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\",\"email\":\"ark@gmail.com\"}," +
                 "\"noOfSeats\": 11" +
                 "}";
 
@@ -156,7 +156,7 @@ public class BookingControllerIntegrationTest {
         final String successRequest = "{" +
                 "\"date\": \"2020-06-01\"," +
                 "\"showId\": " + showOne.getId() + "," +
-                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\"}," +
+                "\"customer\": " + "{\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\",\"email\":\"ark@gmail.com\"}," +
                 "\"noOfSeats\": " + MAX_NO_OF_SEATS_PER_BOOKING +
                 "}";
 

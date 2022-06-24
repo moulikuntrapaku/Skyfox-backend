@@ -1,6 +1,6 @@
 package com.booking.bookings.view;
 
-import com.booking.customers.repository.Customer;
+import com.booking.customers.Customer;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;
@@ -17,7 +17,7 @@ public class BookingRequestTest {
     @Test
     public void should_not_allow_seat_booking_for_more_than_maximum() {
         final var showId = 1L;
-        final Customer customer = new Customer("customer 1", "992212399");
+        final Customer customer = new Customer("customer 1", "992212399","ark@gmail.com");
         int greaterThanMaxSeats = Integer.parseInt(MAX_NO_OF_SEATS_PER_BOOKING) + 1;
         final BookingRequest bookingRequest = new BookingRequest(Date.valueOf("2020-11-06"), showId, customer, greaterThanMaxSeats);
 
