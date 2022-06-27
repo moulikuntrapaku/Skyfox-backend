@@ -13,6 +13,10 @@ DB_HOST='localhost'
 DB_DATABASE="bookingengine"
 DB_USERNAME="bookingengine"
 DB_PASSWORD="postgres"
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6dcd1ab6364a513cf194ea81636578d0b5f12a84
 OS_TYPE=$(uname -s)
 
 number_of_weeks=$2
