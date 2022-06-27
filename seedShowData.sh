@@ -10,9 +10,9 @@ declare start_date
 declare next_date
 
 DB_HOST='localhost'
-DB_DATABASE="${POSTGRES_DB}"
-DB_USERNAME="${POSTGRES_USER}"
-
+DB_DATABASE="bookingengine"
+DB_USERNAME="bookingengine"
+DB_PASSWORD="postgres"
 OS_TYPE=$(uname -s)
 
 number_of_weeks=$2
