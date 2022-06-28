@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Table(name = "usertable")
@@ -15,15 +16,23 @@ public class User {
 
     @JsonProperty
     @NotBlank(message = "User name must be provided")
-    @Column(nullable = false, unique = true)
+    @Column(name= "USERNAME", nullable = false, unique = true)
     @ApiModelProperty(name = "username", value = "Name of user (must be unique)", required = true, example = "user_name", position = 1)
     private String username;
 
     @JsonProperty
     @NotBlank(message = "Password name must be provided")
-    @Column(nullable = false)
+    @Column(name = "PASSWORD", nullable = false)
     @ApiModelProperty(name = "password", value = "Password of the user", required = true, example = "password", position = 2)
     private String password;
+
+    @JsonProperty
+    @Column(name = "role")
+    private String role;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "USERID", referencedColumnName = "id")
+    List<PasswordHistory> passwordHistories;
 
     public User() {
     }

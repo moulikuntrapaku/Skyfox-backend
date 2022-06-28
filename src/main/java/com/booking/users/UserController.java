@@ -8,12 +8,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
+@Validated
 @Api(tags = "Users")
 @RestController
 public class UserController {
@@ -45,13 +47,10 @@ public class UserController {
                                  @ValidPassword @RequestParam("newpassword") String newpassword,
                                  @RequestParam("oldpassword") String oldpassword) throws PasswordMismatchException {
         String username = principal.getName();
-        userPrincipalService.changePassword(username,newpassword, oldpassword);
-        return username;
+        System.out.println("principal = " + principal.getName() + ", newpassword = " + newpassword + ", oldpassword = " + oldpassword);
+        userPrincipalService.changePassword(username, newpassword, oldpassword);
+        return "Password has been updated successfully";
     }
-
-
-
-
 
 
 }

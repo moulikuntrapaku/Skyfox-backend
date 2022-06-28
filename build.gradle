@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.6.6'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "org.flywaydb.flyway" version "8.5.13"
 }
 
 group 'com.booking'
@@ -89,3 +90,8 @@ dependencies {
     }
 }
 
+flyway{
+    url = 'jdbc:postgresql://localhost:5432/bookingengine'
+    user= 'bookingengine'
+    password= 'postgres'
+}
