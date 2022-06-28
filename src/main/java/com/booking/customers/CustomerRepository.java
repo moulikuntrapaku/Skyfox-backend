@@ -6,8 +6,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-
-//    boolean findByPhoneNo(boolean empty);
-//
-//    boolean findByEmail(boolean empty);
 }

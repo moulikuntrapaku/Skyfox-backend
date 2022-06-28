@@ -1,16 +1,17 @@
 package com.booking.users;
 
+import com.booking.validations.ValidPassword;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-
+@Embeddable
 @Entity
 @Table(name = "usertable")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @JsonProperty
@@ -20,14 +21,13 @@ public class User {
     private String username;
 
     @JsonProperty
-    @NotBlank(message = "Password name must be provided")
+    @NotBlank(message = "Password must be provided")
+    //@ValidPassword(message = "Password must be valid")
     @Column(nullable = false)
     @ApiModelProperty(name = "password", value = "Password of the user", required = true, example = "password", position = 2)
     private String password;
 
-//    @OneToOne
-//    @JoinColumn(name = "customer_id")
-//    private Customer customer;
+
     public User() {
     }
 

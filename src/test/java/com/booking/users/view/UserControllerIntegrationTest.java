@@ -12,10 +12,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = App.class)
 @AutoConfigureMockMvc
@@ -27,6 +26,7 @@ class UserControllerIntegrationTest {
 
     @Autowired
     private UserRepository userRepository;
+
 
     @BeforeEach
     public void before() {
@@ -41,9 +41,9 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldLoginSuccessfully() throws Exception {
-        userRepository.save(new User("test-user", "password"));
+        userRepository.save(new User("Mike", "Mike@01"));
         mockMvc.perform(get("/login")
-                .with(httpBasic("test-user", "password")))
+                        .with(httpBasic("Mike", "Mike@01")))
                 .andExpect(status().isOk());
     }
 
@@ -52,5 +52,6 @@ class UserControllerIntegrationTest {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isUnauthorized());
     }
+
 
 }

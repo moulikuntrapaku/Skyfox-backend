@@ -1,6 +1,7 @@
 package com.booking.bookings.view;
 
 import com.booking.customers.Customer;
+import com.booking.users.User;
 import org.junit.jupiter.api.Test;
 
 import javax.validation.ConstraintViolation;

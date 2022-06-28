@@ -2,31 +2,26 @@ package com.booking.customers;
 
 import com.booking.exceptions.CustomerAlreadyExistsException;
 import com.booking.users.UserRepository;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+@Service
 public class CustomerService {
 
     CustomerRepository customerRepository;
     UserRepository userRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+
+    public CustomerService(CustomerRepository customerRepository, UserRepository userRepository) {
         this.customerRepository = customerRepository;
+        this.userRepository = userRepository;
     }
 
 
-//    public List<Customer> findAllCustomers() {
-//        return customerRepository.findAll();
-//    }
-//
-//    public Customer addCustomer(Customer newCustomer) throws CustomerAlreadyExistsException {
-//        if (!(customerRepository.findByEmail(newCustomer.getEmail().isEmpty()))) {
-//            throw new CustomerAlreadyExistsException("Customer already exists with this email id " + newCustomer.getEmail());
-//        }
-//        if (!(customerRepository.findByPhoneNo(newCustomer.getPhoneNumber().isEmpty()))) {
-//            throw new CustomerAlreadyExistsException("Customer already exists with this phone no " + newCustomer.getPhoneNumber());
-//        }
-//
-//        return customerRepository.save(newCustomer);
-//    }
+
+
+    public void add(Customer newCustomer) throws CustomerAlreadyExistsException {
+        if ((userRepository.findByUsername(newCustomer.getUser().getUsername())).isPresent())
+            throw new CustomerAlreadyExistsException("User with given username already exist");
+        customerRepository.save(new Customer(newCustomer.getName(), newCustomer.getPhoneNumber(), newCustomer.getEmail(),newCustomer.getUser()));
+    }
 }

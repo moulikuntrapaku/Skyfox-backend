@@ -30,19 +30,14 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 // no whitespace
                 new WhitespaceRule()
 
+
         ));
 
         RuleResult result = validator.validate(new PasswordData(password));
         if (result.isValid()) {
             return true;
         }
-//        List<String> messages = validator.getMessages(result);
-//
-//        String messageTemplate = messages.stream()
-//                .collect(Collectors.joining(","));
-//        context.buildConstraintViolationWithTemplate(messageTemplate)
-//                .addConstraintViolation()
-//                .disableDefaultConstraintViolation();
+
         return false;
     }
 

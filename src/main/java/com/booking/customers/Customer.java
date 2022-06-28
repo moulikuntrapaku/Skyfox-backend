@@ -12,7 +12,21 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "customer")
-public class Customer{
+public class Customer {
+
+
+    public Customer(String name, String phoneNumber, String email, User user) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.user = user;
+
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +40,7 @@ public class Customer{
     @ApiModelProperty(name = "customer name", value = "Name of customer", required = true, example = "Customer name", position = 2)
     private String name;
 
+
     @Column(name = "phone_number", nullable = false)
     @JsonProperty
     @Pattern(regexp = "(^$|[0-9]{10})", message = "Phone number must have exactly 10 digits")
@@ -35,15 +50,17 @@ public class Customer{
 
     @Column(name = "email", nullable = false)
     @JsonProperty
-    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
-            message = "Email id should be valid")
-    @NotBlank(message = "customer email must be provided")
+    @Pattern(regexp = "^(.+)@(\\S+)$", message = "Email id should be valid")
     @ApiModelProperty(name = "customer email", value = "Email of customer", required = true, example = "alex@gmail.com", position = 4)
     private String email;
 
-//    @OneToOne(mappedBy = "customer")
-//    @JoinColumn(name = "id", insertable = false, updatable = false)
-//    private User user;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -53,15 +70,15 @@ public class Customer{
         return email;
     }
 
+
+    public Customer() {
+
+    }
+
     public Customer(String name, String phoneNumber, String email) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
-    }
-
-
-    public Customer() {
-
     }
 
     public String getName() {

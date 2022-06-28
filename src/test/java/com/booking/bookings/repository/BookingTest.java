@@ -4,6 +4,7 @@ import com.booking.bookings.view.BookingConfirmationResponse;
 import com.booking.customers.Customer;
 import com.booking.shows.respository.Show;
 import com.booking.slots.repository.Slot;
+import com.booking.users.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
