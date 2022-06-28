@@ -29,11 +29,16 @@ public class Movie {
     @ApiModelProperty(name = "description", value = "Description of the movie", required = true, example = "Movie Description", position = 4)
     private final String plot;
 
-    public Movie(String id, String name, Duration duration, String plot) {
+    @JsonProperty
+    @ApiModelProperty(name = "url", value = "poster url", required = true, example = "movie.com", position = 5)
+    private final String url;
+
+    public Movie(String id, String name, Duration duration, String plot, String url) {
         this.id = id;
         this.name = name;
         this.duration = duration;
         this.plot = plot;
+        this.url = url;
     }
 
     @Override
