@@ -1,5 +1,6 @@
 package com.booking.users;
 
+import com.booking.validations.ValidPassword;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -22,6 +23,7 @@ public class User {
 
     @JsonProperty
     @NotBlank(message = "Password name must be provided")
+    @ValidPassword
     @Column(name = "PASSWORD", nullable = false)
     @ApiModelProperty(name = "password", value = "Password of the user", required = true, example = "password", position = 2)
     private String password;

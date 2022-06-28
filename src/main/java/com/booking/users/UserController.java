@@ -2,7 +2,6 @@ package com.booking.users;
 
 import com.booking.exceptions.PasswordMismatchException;
 import com.booking.handlers.models.ErrorResponse;
-import com.booking.validations.ValidPassword;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -34,7 +33,7 @@ public class UserController {
         return userDetails;
     }
 
-    @PostMapping(value = "/user/changePassword")
+    @PostMapping(value = "/user/password")
     @ApiOperation(value = "Change password")
     @ResponseStatus(code = HttpStatus.OK)
     @ApiResponses(value = {
@@ -44,10 +43,9 @@ public class UserController {
             @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
     })
     public String changePassword(Principal principal,
-                                 @ValidPassword @RequestParam("newpassword") String newpassword,
+                                 @RequestParam("newpassword") String newpassword,
                                  @RequestParam("oldpassword") String oldpassword) throws PasswordMismatchException {
         String username = principal.getName();
-        System.out.println("principal = " + principal.getName() + ", newpassword = " + newpassword + ", oldpassword = " + oldpassword);
         userPrincipalService.changePassword(username, newpassword, oldpassword);
         return "Password has been updated successfully";
     }

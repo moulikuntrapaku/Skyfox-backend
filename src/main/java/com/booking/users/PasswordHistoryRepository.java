@@ -10,9 +10,4 @@ import java.util.List;
 @Repository
 public interface PasswordHistoryRepository extends JpaRepository<PasswordHistory, Long> {
 
-    @Query(value =
-            "SELECT * FROM PASSWORDHISTORY" +
-            " WHERE USERID = :userid " +
-            "ORDER BY ENTRYTIME DESC limit(3);", nativeQuery=true)
-    List<PasswordHistory> findPasswordByUserid(@Param("userid")  Long userid);
 }
