@@ -1,6 +1,9 @@
 package com.booking.handlers;
 
+import com.booking.exceptions.CustomerAlreadyExistsException;
 import com.booking.exceptions.EnumValidationException;
+import com.booking.exceptions.OldThreePasswordMatchException;
+import com.booking.exceptions.OldPasswordIncorrectException;
 import com.booking.handlers.models.ErrorResponse;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import org.jetbrains.annotations.NotNull;
@@ -64,4 +67,24 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse error = new ErrorResponse("Something went wrong", emptyDetails);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(OldThreePasswordMatchException.class)
+    public ResponseEntity<ErrorResponse> handleOldThreePasswordMatchException() {
+        ErrorResponse error = new ErrorResponse("New password shouldn't match with old 3 passwords", emptyDetails);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(CustomerAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleCustomerAlreadyExistsException() {
+        ErrorResponse error = new ErrorResponse("Username is already taken", emptyDetails);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(OldPasswordIncorrectException.class)
+    public ResponseEntity<ErrorResponse> handleOldPasswordIncorrectException() {
+        ErrorResponse error = new ErrorResponse("Old password is incorrect", emptyDetails);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 }

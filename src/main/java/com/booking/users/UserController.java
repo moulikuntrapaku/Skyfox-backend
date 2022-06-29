@@ -1,38 +1,47 @@
 package com.booking.users;
 
-import com.booking.exceptions.PasswordMismatchException;
+import com.booking.exceptions.OldThreePasswordMatchException;
+import com.booking.exceptions.OldPasswordIncorrectException;
 import com.booking.handlers.models.ErrorResponse;
+import com.booking.validations.ValidPassword;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @Validated
 @Api(tags = "Users")
 @RestController
 public class UserController {
     UserPrincipalService userPrincipalService;
+    PasswordHistoryRepository passwordHistoryRepository;
 
-    public UserController(UserPrincipalService userPrincipalService) {
+    public UserController(UserPrincipalService userPrincipalService, PasswordHistoryRepository passwordHistoryRepository) {
         this.userPrincipalService = userPrincipalService;
+        this.passwordHistoryRepository = passwordHistoryRepository;
     }
 
 
     @GetMapping("/login")
-    Map<String, Object> login(Principal principal) {
+    ResponseEntity<String> login(Principal principal) {
         String username = principal.getName();
         Map<String, Object> userDetails = new HashMap<>();
         userDetails.put("username", username);
-        return userDetails;
+        return ResponseEntity.ok("Login successful!!" + userDetails);
     }
 
-    @PostMapping(value = "/user/password")
+    @RequestMapping(value = "/user/password", method = RequestMethod.PUT)
     @ApiOperation(value = "Change password")
     @ResponseStatus(code = HttpStatus.OK)
     @ApiResponses(value = {
@@ -41,12 +50,16 @@ public class UserController {
             @ApiResponse(code = 400, message = "Server cannot process request due to client error", response = ErrorResponse.class),
             @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
     })
-    public String changePassword(Principal principal,
-                                 @RequestParam("newpassword") String newpassword,
-                                 @RequestParam("oldpassword") String oldpassword) throws PasswordMismatchException {
+    public  ResponseEntity<String> changePassword(Principal principal, @RequestParam("newPassword") String newPassword,
+                                 @RequestParam("oldPassword") String oldPassword) throws OldPasswordIncorrectException, OldThreePasswordMatchException {
         String username = principal.getName();
-        userPrincipalService.changePassword(username, newpassword, oldpassword);
-        return "Password has been updated successfully";
+        userPrincipalService.changePassword(username, newPassword, oldPassword);
+        return ResponseEntity.ok("Change password successful");
     }
 
+   @RequestMapping(value = "/lists", method = RequestMethod.GET)
+    List<PasswordHistory> getPass(Principal principal){
+        String username = principal.getName();
+        return userPrincipalService.findPassHisById(username);
+    }
 }

@@ -44,7 +44,7 @@ class UserControllerIntegrationTest {
         userRepository.save(new User("Mike", "Mike@1r566"));
         mockMvc.perform(get("/login")
                         .with(httpBasic("Mike", "Mike@1r566")))
-                .andExpect(status().isOk());
+                        .andExpect(status().isOk());
     }
 
     @Test

@@ -21,21 +21,23 @@ class UserTest {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-//    @Test
-//    void should_follow_valid_password(){
-//        final User user = new User("Priya", "priya");
-//
-//        final Set<ConstraintViolation<User>> violations = validator.validate(user);
-//
-//        assertThat(violations.iterator().next().getMessage(), is("Invalid Password"));
-//    }
-//    @Test
-//    void should_not_allow_blank_password(){
-//        final User user = new User("Priya", "");
-//
-//        final Set<ConstraintViolation<User>> violations = validator.validate(user);
-//
-//        assertThat(violations.iterator().next().getMessage(), is("Invalid Password"));
-//    }
+    @Test
+    void should_follow_valid_password(){
+        final User user = new User("Priya", "tomcat123!");
+
+        final Set<ConstraintViolation<User>> violations = validator.validate(user);
+
+
+        assertThat(violations.iterator().next().getMessage(), is("Password must be valid"));
+    }
+
+    @Test
+    void should_not_allow_blank_password(){
+        final User user = new User("Priya", "");
+
+        final Set<ConstraintViolation<User>> violations = validator.validate(user);
+
+        assertThat(violations.iterator().next().getMessage(), is("Password must be valid"));
+    }
 
 }
