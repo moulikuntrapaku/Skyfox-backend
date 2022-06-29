@@ -41,9 +41,9 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldLoginSuccessfully() throws Exception {
-        userRepository.save(new User("Mike", "Mike@01"));
+        userRepository.save(new User("Mike", "Mike@1r566"));
         mockMvc.perform(get("/login")
-                        .with(httpBasic("Mike", "Mike@01")))
+                        .with(httpBasic("Mike", "Mike@1r566")))
                 .andExpect(status().isOk());
     }
 

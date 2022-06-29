@@ -23,20 +23,19 @@ class UserTest {
 
 //    @Test
 //    void should_follow_valid_password(){
-//        final User user = new User("Priya", "priya@01");
+//        final User user = new User("Priya", "priya");
 //
 //        final Set<ConstraintViolation<User>> violations = validator.validate(user);
 //
-//        assertThat(violations.iterator().next().getMessage(), is("Password must be valid"));
+//        assertThat(violations.iterator().next().getMessage(), is("Invalid Password"));
 //    }
-//
 //    @Test
 //    void should_not_allow_blank_password(){
 //        final User user = new User("Priya", "");
 //
 //        final Set<ConstraintViolation<User>> violations = validator.validate(user);
 //
-//        assertThat(violations.iterator().next().getMessage(), is("Password must be provided"));
+//        assertThat(violations.iterator().next().getMessage(), is("Invalid Password"));
 //    }
 
 }

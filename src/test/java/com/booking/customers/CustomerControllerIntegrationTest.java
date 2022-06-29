@@ -1,7 +1,6 @@
 package com.booking.customers;
 
 import com.booking.App;
-import com.booking.bookings.repository.BookingRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @WithMockUser
-class CustomerControllerIntegrationTestTest {
+class CustomerControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,17 +41,17 @@ class CustomerControllerIntegrationTestTest {
         customerRepository.deleteAll();
     }
 
-//    @Test
-//    @AutoConfigureMockMvc(addFilters=false)
-//    public void should_save_user_and_customer_detail() throws Exception {
-//        final String requestJson = "{" +
-//                "\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\",\"email\":\"ark@gmail.com\"}," +
-//                "\"user\": " + "{\"username\": \"Customer 1\", \"password\": \"Password@01\"}" + "}";
-//        mockMvc.perform(post("/customer/add")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestJson))
-//                        .andExpect(status().isCreated());
-//
-//        assertThat(customerRepository.findAll().size(), is(1));
-//    }
+    @Test
+    @AutoConfigureMockMvc(addFilters=false)
+    public void should_save_user_and_customer_detail() throws Exception {
+        final String requestJson = "{" +
+                "\"name\": \"Customer 1\", \"phoneNumber\": \"9922334455\",\"email\":\"ark@gmail.com\"," +
+                "\"user\": " + "{\"username\": \"Customer\", \"password\": \"Password@01\"}" + "}";
+        mockMvc.perform(post("/customer/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                        .andExpect(status().isCreated());
+
+        assertThat(customerRepository.findAll().size(), is(1));
+   }
 }

@@ -31,5 +31,6 @@ fileignoreconfig:
   checksum: 7b4ec7824eb2e90f861ce7fee35509e099dc68df29e14d914123dd4122c5ec44
 - filename: build.gradle
   checksum: 24af09517762caf8d2aec418e2e3917ae4df1969b140e21b156116cdb8d64a0d
-
+- filename: src/test/java/com/booking/bookings/repository/BookingTest.java
+  checksum: f438c2bca0920dbd918f2592dccf55f22805b6d1fd555da42a075180dcb2bc8c
 

@@ -17,11 +17,9 @@ public class CustomerService {
     }
 
 
-
-
     public void add(Customer newCustomer) throws CustomerAlreadyExistsException {
         if ((userRepository.findByUsername(newCustomer.getUser().getUsername())).isPresent())
             throw new CustomerAlreadyExistsException("User with given username already exist");
-        customerRepository.save(new Customer(newCustomer.getName(), newCustomer.getPhoneNumber(), newCustomer.getEmail(),newCustomer.getUser()));
+        customerRepository.save(new Customer(newCustomer.getName(), newCustomer.getPhoneNumber(), newCustomer.getEmail(), newCustomer.getUser()));
     }
 }

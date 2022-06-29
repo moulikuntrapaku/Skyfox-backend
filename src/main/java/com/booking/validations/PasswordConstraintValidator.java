@@ -29,16 +29,10 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 
                 // no whitespace
                 new WhitespaceRule()
-
-
         ));
 
         RuleResult result = validator.validate(new PasswordData(password));
-        if (result.isValid()) {
-            return true;
-        }
-
-        return false;
+        return result.isValid();
     }
 
 }

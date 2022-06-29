@@ -1,7 +1,5 @@
 package com.booking.validations;
 
-import com.booking.validations.PasswordConstraintValidator;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Documented;
@@ -15,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
 @Constraint(validatedBy = PasswordConstraintValidator.class)
-@Target({ElementType.PARAMETER, FIELD, ANNOTATION_TYPE })
+@Target({ElementType.PARAMETER, FIELD, ANNOTATION_TYPE})
 @Retention(RUNTIME)
 public @interface ValidPassword {
 

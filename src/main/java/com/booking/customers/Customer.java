@@ -15,13 +15,7 @@ import java.util.Objects;
 public class Customer {
 
 
-    public Customer(String name, String phoneNumber, String email, User user) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.user = user;
 
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -79,6 +73,13 @@ public class Customer {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
+    }
+
+    public Customer(String name, String phoneNumber, String email, User user) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.user = user;
     }
 
     public String getName() {

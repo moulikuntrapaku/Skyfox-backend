@@ -22,8 +22,6 @@ public class User {
     private String username;
 
     @JsonProperty
-    @NotBlank(message = "Password must be provided")
-   // @ValidPassword(message = "Password must be valid")
     @Column(nullable = false)
     @ApiModelProperty(name = "password", value = "Password of the user", required = true, example = "password", position = 2)
     private String password;
