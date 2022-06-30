@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -29,17 +30,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors()
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+       http.cors();
+       http.csrf().disable();
+
+                http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/version").permitAll()
+                .antMatchers(HttpMethod.POST, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
-                .and()
-                .csrf().disable();
+
+                ;
     }
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.cors();
+//        http.csrf().disable();
+//        http.authorizeRequests().antMatchers("/**").permitAll()
+//                .and().authorizeRequests()
+//                .antMatchers("/**").authenticated().and().httpBasic().and()
+//                .formLogin().loginPage("/customer/add").failureUrl("/login?error").permitAll();
+//    }
 
     @Bean
     DaoAuthenticationProvider authenticationProvider() {
