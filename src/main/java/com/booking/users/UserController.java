@@ -2,6 +2,7 @@ package com.booking.users;
 
 import com.booking.exceptions.OldThreePasswordMatchException;
 import com.booking.exceptions.OldPasswordIncorrectException;
+import com.booking.exceptions.UserNameNotFoundException;
 import com.booking.handlers.models.ErrorResponse;
 import com.booking.validations.ValidPassword;
 import io.swagger.annotations.Api;
@@ -50,10 +51,8 @@ public class UserController {
             @ApiResponse(code = 400, message = "Server cannot process request due to client error", response = ErrorResponse.class),
             @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
     })
-    public  ResponseEntity<String> changePassword(Principal principal, @RequestParam("newPassword") String newPassword,
-                                 @RequestParam("oldPassword") String oldPassword) throws OldPasswordIncorrectException, OldThreePasswordMatchException {
-        String username = principal.getName();
-        userPrincipalService.changePassword(username, newPassword, oldPassword);
+    public  ResponseEntity<String> changePassword(@RequestBody UserDTO userDTO) throws UserNameNotFoundException,OldPasswordIncorrectException, OldThreePasswordMatchException {
+        userPrincipalService.changePassword(userDTO);
         return ResponseEntity.ok("Change password successful");
     }
 
@@ -62,4 +61,6 @@ public class UserController {
         String username = principal.getName();
         return userPrincipalService.findPassHisById(username);
     }
+
+
 }

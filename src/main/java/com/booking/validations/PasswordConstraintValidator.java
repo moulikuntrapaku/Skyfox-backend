@@ -1,10 +1,13 @@
 package com.booking.validations;
 
+import com.booking.exceptions.PasswordInvalidException;
 import org.passay.*;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
+import java.util.List;
+
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
@@ -30,9 +33,13 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 // no whitespace
                 new WhitespaceRule()
         ));
-
         RuleResult result = validator.validate(new PasswordData(password));
-        return result.isValid();
-    }
 
+        if (!result.isValid()) {
+            return false;
+        }
+
+        return true;
+
+    }
 }

@@ -62,12 +62,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleAnyException() {
-        ErrorResponse error = new ErrorResponse("Something went wrong", emptyDetails);
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @ExceptionHandler(OldThreePasswordMatchException.class)
     public ResponseEntity<ErrorResponse> handleOldThreePasswordMatchException() {
         ErrorResponse error = new ErrorResponse("New password shouldn't match with old 3 passwords", emptyDetails);
@@ -86,5 +80,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleAnyException() {
+        ErrorResponse error = new ErrorResponse("Something went wrong", emptyDetails);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }

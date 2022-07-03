@@ -5,5 +5,5 @@ fileignoreconfig:
   checksum: 416168be43841eced52b940c3a8cc74c23c23e7a47ae940bb949c884460e9cff
 - filename: src/main/java/com/booking/users/PasswordHistoryRepository.java
   checksum: 109969c059f36330a652e73f87e4f50b31a3b54c8348327e422fffae42526b2d
-- filename: src/main/java/com/booking/users/User.java
-  checksum: c28b06d6ecc6f339237a3c1718b9e0a435eff9d533360a5e383ff72f6a92220a
+- filename: src/main/java/com/booking/users/UserDTO.java
+  checksum: 750af59352108f22ec8ac6e733b671694b5a4299477d9bfee8d5cc335defbb4b

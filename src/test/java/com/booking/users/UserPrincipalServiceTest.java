@@ -1,7 +1,10 @@
 package com.booking.users;
 
+import com.booking.exceptions.OldPasswordIncorrectException;
+import com.booking.exceptions.OldThreePasswordMatchException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -18,16 +21,6 @@ class UserPrincipalServiceTest {
         userRepository = mock(UserRepository.class);
     }
 
-//    @Test
-//    public void should_change_password(){
-//        userPrincipalService.changePassword(user.getUsername(),"NewPassword1!", user.getPassword());
-//        user = new User("testuser","password");
-//        verify(userRepository).save(user);
-//    }
 
-    @Test
-    public void doNothing(){
-        assertTrue(true);
-    }
 
 }
