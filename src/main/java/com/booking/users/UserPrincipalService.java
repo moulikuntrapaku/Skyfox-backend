@@ -47,8 +47,8 @@ public class UserPrincipalService implements UserDetailsService {
 
         }
         user=userDTO.mapUserDtoToUser(userDTO, user);
-        user.getPasswordHistories().add(new PasswordHistory(user.getId(), userDTO.getNewPassword()));
         userRepository.save(user);
+        user.getPasswordHistories().add(new PasswordHistory(user.getId(), userDTO.getNewPassword()));
     }
 
     public List<PasswordHistory> findPassHisById(String username) {
