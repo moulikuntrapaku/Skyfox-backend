@@ -40,13 +40,14 @@ public class UserPrincipalService implements UserDetailsService {
 
         List<PasswordHistory> passwordHistories = passwordHistoryRepository.findTop3ByUserIdOrderByEntrytimeDesc(user.getId());
         for (PasswordHistory passwordHistory : passwordHistories){
+            System.out.println("Password"+userDTO.getNewPassword()+" "+passwordHistory.getPassword());
             if (userDTO.getNewPassword().equals(passwordHistory.getPassword())) {
                 throw new OldThreePasswordMatchException("Password should not match with last three passwords");
             }
 
         }
-
         user=userDTO.mapUserDtoToUser(userDTO, user);
+        user.getPasswordHistories().add(new PasswordHistory(user.getId(), userDTO.getNewPassword()));
         userRepository.save(user);
     }
 
