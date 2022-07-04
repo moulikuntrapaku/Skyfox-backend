@@ -46,7 +46,7 @@ class DefaultMovieGatewayTest {
 
         final var actualMovie = defaultMovieGateway.getMovieFromId("id");
 
-        final var expectedMovie = new Movie("id", "title", Duration.ofMinutes(120), "plot","url.com");
+        final var expectedMovie = new Movie("id", "title", Duration.ofMinutes(120), "plot","url.com", "10");
         assertThat(actualMovie, is(equalTo(expectedMovie)));
     }
 
