@@ -53,7 +53,7 @@ public class UserController {
     })
     public  ResponseEntity<String> changePassword(@RequestBody UserDTO userDTO) throws UserNameNotFoundException,OldPasswordIncorrectException, OldThreePasswordMatchException {
         userPrincipalService.changePassword(userDTO);
-        return ResponseEntity.ok("Change password successful");
+        return ResponseEntity.ok("Success! Login with new password ");
     }
 
    @RequestMapping(value = "/lists", method = RequestMethod.GET)

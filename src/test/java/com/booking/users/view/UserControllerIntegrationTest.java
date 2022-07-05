@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -72,12 +73,26 @@ class UserControllerIntegrationTest {
         userRepository.save(new User("Mike", "Mike@1r566"));
 
         final String requestJson = "{" +
-                "\"userName\": \"Mike\", \"oldPassword\": \"Mike@1566\",\"newPassword\":\"NewPass@123\""+"}";
+                "\"userName\": \"Mike\", \"oldPassword\": \"Mike@1r566\",\"newPassword\":\"NewPass@123\""+"}";
 
         mockMvc.perform(put("/user/password")
                         .content(requestJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    public void shouldNotChangePasswordWhenOldPasswordIsIncorrect() throws Exception{
+        userRepository.save(new User("Mike", "Mike@1r566"));
+
+        final String requestJson = "{" +
+                "\"userName\": \"Mike\", \"oldPassword\": \"Mike@1566\",\"newPassword\":\"NewPass@123\""+"}";
+
+        mockMvc.perform(put("/user/password")
+                        .content(requestJson)
+                        .with(httpBasic("Mike","Mike@1r566"))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is5xxServerError());
     }
 
     @Test
