@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,6 +28,7 @@ public class RevenueController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @ApiOperation(value = "Fetch revenue")
     @ResponseStatus(code = HttpStatus.OK)
     @ApiResponses(value = {
