@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,14 @@ public class UserController {
         Map<String, Object> userDetails = new HashMap<>();
         userDetails.put("username", username);
         return ResponseEntity.ok("Login successful!!" + userDetails);
+    }
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('ADMIN')")
+    ResponseEntity<User> role(Principal principal) {
+        String username = principal.getName();
+        User res = userPrincipalService.findUserByUsername(username);
+
+        return ResponseEntity.ok(res);
     }
 
     @RequestMapping(value = "/user/password", method = RequestMethod.PUT)
