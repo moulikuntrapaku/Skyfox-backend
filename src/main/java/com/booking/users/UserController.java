@@ -43,7 +43,6 @@ public class UserController {
         return ResponseEntity.ok("Login successful!!" + userDetails);
     }
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<User> role(Principal principal) {
         String username = principal.getName();
         User res = userPrincipalService.findUserByUsername(username);
