@@ -19,11 +19,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,9 +93,11 @@ public class RevenueControllerIntegrationTest {
                 new Booking(Date.valueOf("2019-12-31"), showThree, customer, 1, BigDecimal.valueOf(250))
         );
 
-        mockMvc.perform(get("/revenue?date=2020-01-01"))
+        mockMvc.perform(get("/revenue?date=2020-01-01")
+                        .with(httpBasic("seed-user-1","Foobar123!")))
                 .andExpect(status().isOk())
-                .andExpect(content().string("850.00"));
+                .andExpect(content().string("850.00"))
+        ;
     }
 
     @Test
@@ -112,8 +117,37 @@ public class RevenueControllerIntegrationTest {
                 new Booking(Date.valueOf("2019-12-31"), showThree, customer, 1, BigDecimal.valueOf(250))
         );
 
-        mockMvc.perform(get("/revenue?date=2020-01-01"))
+        mockMvc.perform( MockMvcRequestBuilders.get("/revenue?date=2020-01-01")
+                        .with(httpBasic("seed-user-1","Foobar123!"))
+
+                )
                 .andExpect(status().isOk())
-                .andExpect(content().string("0"));
+                .andExpect(content().string("0"))
+        ;
+    }
+
+    @Test
+    public void should_get_forbidden_status_code_for_customer() throws Exception {
+        final var slotOne =
+                slotRepository.save(new Slot("Test slot one", Time.valueOf("09:30:00"), Time.valueOf("12:00:00")));
+        final var slotTwo =
+                slotRepository.save(new Slot("Test slot two", Time.valueOf("13:30:00"), Time.valueOf("16:00:00")));
+
+        showRepository.save(new Show(Date.valueOf("2020-01-01"), slotOne, BigDecimal.valueOf(200), "movie_1"));
+        showRepository.save(new Show(Date.valueOf("2020-01-01"), slotTwo, BigDecimal.valueOf(150), "movie_1"));
+        final Show showThree =
+                showRepository.save(new Show(Date.valueOf("2020-01-02"), slotTwo, BigDecimal.valueOf(250), "movie_1"));
+        final var customer = customerRepository.save(new Customer("Name", "9999999999","ark@gmail.com"));
+
+        bookingRepository.save(
+                new Booking(Date.valueOf("2019-12-31"), showThree, customer, 1, BigDecimal.valueOf(250))
+        );
+
+        mockMvc.perform( MockMvcRequestBuilders.get("/revenue?date=2020-01-01")
+                        .with(httpBasic("seed-user-2","foobar"))
+
+                )
+                .andExpect(status().isUnauthorized())
+        ;
     }
 }
