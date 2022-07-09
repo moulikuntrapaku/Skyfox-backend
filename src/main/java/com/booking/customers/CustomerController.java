@@ -21,8 +21,8 @@ public class CustomerController {
 
 
     @PostMapping(value = "/customer/add", consumes = {"application/json"})
-    public ResponseEntity<String> addCustomer(@RequestBody Customer customer) throws CustomerAlreadyExistsException {
-        customerService.add(customer);
+    public ResponseEntity<String> addCustomer(@RequestBody CustomerDTO customerDto) throws CustomerAlreadyExistsException {
+        customerService.add(customerDto);
         return new ResponseEntity<>("Congratulations , your account has been successfully created", HttpStatus.CREATED);
     }
 }

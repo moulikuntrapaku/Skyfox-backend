@@ -1,10 +1,9 @@
 package com.booking.customers;
 
 import com.booking.exceptions.CustomerAlreadyExistsException;
-import com.booking.users.PasswordHistory;
-import com.booking.users.User;
 import com.booking.users.UserRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +12,9 @@ public class CustomerService {
     CustomerRepository customerRepository;
     UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     public CustomerService(CustomerRepository customerRepository, UserRepository userRepository) {
         this.customerRepository = customerRepository;
@@ -20,10 +22,12 @@ public class CustomerService {
     }
 
 
-    public void add(Customer newCustomer) throws CustomerAlreadyExistsException {
-        if ((userRepository.findByUsername(newCustomer.getUser().getUsername())).isPresent())
+    public void add(CustomerDTO customerDTO) throws CustomerAlreadyExistsException {
+        if ((userRepository.findByUsername(customerDTO.getUser().getUsername())).isPresent())
             throw new CustomerAlreadyExistsException("User with given username already exist");
-        customerRepository.save(new Customer(newCustomer.getName(), newCustomer.getPhoneNumber(), newCustomer.getEmail(),newCustomer.getUser()));
+        String encryptPwd = bCryptPasswordEncoder.encode(customerDTO.getUser().getPassword());
+        customerDTO.getUser().setPassword(encryptPwd);
+        customerRepository.save(new Customer(customerDTO.getName(), customerDTO.getPhoneNumber(), customerDTO.getEmail(),customerDTO.getUser()));
 
     }
 }

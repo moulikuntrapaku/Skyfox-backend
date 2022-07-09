@@ -69,6 +69,22 @@ public class Customer {
 
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Customer(String name, String phoneNumber, String email) {
         this.name = name;
         this.phoneNumber = phoneNumber;

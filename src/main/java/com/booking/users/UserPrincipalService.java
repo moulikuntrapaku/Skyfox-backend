@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class UserPrincipalService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordHistoryRepository passwordHistoryRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserPrincipalService(UserRepository userRepository, PasswordHistoryRepository passwordHistoryRepository) {
@@ -35,9 +38,7 @@ public class UserPrincipalService implements UserDetailsService {
 
     public void changePassword(UserDTO userDTO) throws OldPasswordIncorrectException, OldThreePasswordMatchException , UserNameNotFoundException {
         User user = userRepository.findByUsername(userDTO.getUserName()).orElseThrow(() -> new UserNameNotFoundException("User not found"));
-
-        if (!userDTO.getOldPassword().equals(user.getPassword())) throw new OldPasswordIncorrectException("Old password incorrect");
-
+        if(!bCryptPasswordEncoder.matches(userDTO.getOldPassword(), user.getPassword())) throw new OldPasswordIncorrectException("Old password incorrect");
         List<PasswordHistory> passwordHistories = passwordHistoryRepository.findTop3ByUserIdOrderByEntrytimeDesc(user.getId());
         for (PasswordHistory passwordHistory : passwordHistories){
             System.out.println("Password"+userDTO.getNewPassword()+" "+passwordHistory.getPassword());
@@ -46,6 +47,7 @@ public class UserPrincipalService implements UserDetailsService {
             }
 
         }
+        userDTO.setNewPassword(bCryptPasswordEncoder.encode(userDTO.getNewPassword()));
         user=userDTO.mapUserDtoToUser(userDTO, user);
         userRepository.save(user);
         user.getPasswordHistories().add(new PasswordHistory(user.getId(), userDTO.getNewPassword()));

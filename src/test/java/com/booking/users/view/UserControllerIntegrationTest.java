@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -30,6 +31,8 @@ class UserControllerIntegrationTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     @BeforeEach
     public void before() {
         userRepository.deleteAll();
@@ -43,7 +46,8 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldLoginSuccessfully() throws Exception {
-        userRepository.save(new User("Mike", "Mike@1r566"));
+        String password = bCryptPasswordEncoder.encode("Mike@1r566");
+        userRepository.save(new User("Mike", password));
         mockMvc.perform(get("/login")
                         .with(httpBasic("Mike", "Mike@1r566")))
                         .andExpect(status().isOk());
@@ -83,7 +87,9 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldNotChangePasswordWhenOldPasswordIsIncorrect() throws Exception{
-        userRepository.save(new User("Mike", "Mike@1r566"));
+        String password = bCryptPasswordEncoder.encode("Mike@1r566");
+
+        userRepository.save(new User("Mike", password));
 
         final String requestJson = "{" +
                 "\"userName\": \"Mike\", \"oldPassword\": \"Mike@1566\",\"newPassword\":\"NewPass@123\""+"}";
@@ -97,7 +103,9 @@ class UserControllerIntegrationTest {
 
     @Test
     public void shouldChangePasswordSuccessfullyWhenAuthorized() throws Exception{
-       userRepository.save(new User("Mike", "Mike@1r566"));
+        String password = bCryptPasswordEncoder.encode("Mike@1r566");
+
+        userRepository.save(new User("Mike", password));
 
         final String requestJson = "{" +
                 "\"userName\": \"Mike\", \"oldPassword\": \"Mike@1r566\",\"newPassword\":\"NewPass@123\""+"}";
