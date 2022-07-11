@@ -36,9 +36,11 @@ public class UserPrincipalService implements UserDetailsService {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public void changePassword(UserDTO userDTO) throws OldPasswordIncorrectException, OldThreePasswordMatchException , UserNameNotFoundException {
+    public void changePassword(UserDTO userDTO) throws OldPasswordIncorrectException,OldThreePasswordMatchException , UserNameNotFoundException {
         User user = userRepository.findByUsername(userDTO.getUserName()).orElseThrow(() -> new UserNameNotFoundException("User not found"));
+
         if(!bCryptPasswordEncoder.matches(userDTO.getOldPassword(), user.getPassword())) throw new OldPasswordIncorrectException("Old password incorrect");
+
         List<PasswordHistory> passwordHistories = passwordHistoryRepository.findTop3ByUserIdOrderByEntrytimeDesc(user.getId());
         for (PasswordHistory passwordHistory : passwordHistories){
             System.out.println("Password"+userDTO.getNewPassword()+" "+passwordHistory.getPassword());
@@ -51,6 +53,7 @@ public class UserPrincipalService implements UserDetailsService {
         user=userDTO.mapUserDtoToUser(userDTO, user);
         userRepository.save(user);
         user.getPasswordHistories().add(new PasswordHistory(user.getId(), userDTO.getNewPassword()));
+
     }
 
     public List<PasswordHistory> findPassHisById(String username) {

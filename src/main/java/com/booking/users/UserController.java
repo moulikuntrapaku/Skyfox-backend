@@ -4,7 +4,6 @@ import com.booking.exceptions.OldThreePasswordMatchException;
 import com.booking.exceptions.OldPasswordIncorrectException;
 import com.booking.exceptions.UserNameNotFoundException;
 import com.booking.handlers.models.ErrorResponse;
-import com.booking.validations.ValidPassword;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -19,8 +18,6 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @Validated
 @Api(tags = "Users")
