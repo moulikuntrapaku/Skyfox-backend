@@ -1,9 +1,6 @@
 package com.booking.handlers;
 
-import com.booking.exceptions.CustomerAlreadyExistsException;
-import com.booking.exceptions.EnumValidationException;
-import com.booking.exceptions.OldThreePasswordMatchException;
-import com.booking.exceptions.OldPasswordIncorrectException;
+import com.booking.exceptions.*;
 import com.booking.handlers.models.ErrorResponse;
 import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import org.jetbrains.annotations.NotNull;
@@ -77,6 +74,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(OldPasswordIncorrectException.class)
     public ResponseEntity<ErrorResponse> handleOldPasswordIncorrectException() {
         ErrorResponse error = new ErrorResponse("Old password is incorrect", emptyDetails);
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(NewAndOldPasswordMatchException.class)
+    public ResponseEntity<ErrorResponse> handleNewAndOldPasswordMatchException() {
+        ErrorResponse error = new ErrorResponse("Old password and new password can't be same", emptyDetails);
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
