@@ -1,8 +1,10 @@
 package com.booking.customers;
 
 import com.booking.exceptions.CustomerAlreadyExistsException;
+import com.booking.users.User;
 import com.booking.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,13 @@ public class CustomerService {
         String encryptPwd = bCryptPasswordEncoder.encode(customerDTO.getUser().getPassword());
         customerDTO.getUser().setPassword(encryptPwd);
         customerRepository.save(new Customer(customerDTO.getName(), customerDTO.getPhoneNumber(), customerDTO.getEmail(),customerDTO.getUser()));
+
+    }
+
+    public Customer get(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Customer customer = customerRepository.findByUserId(user.getId());
+        return customer;
 
     }
 }
