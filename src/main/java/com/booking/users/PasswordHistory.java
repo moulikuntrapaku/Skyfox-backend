@@ -38,10 +38,6 @@ public class PasswordHistory {
     public Long getId() {
         return id;
     }
-    public Timestamp getEntrytime() {
-        return entrytime;
-    }
-
 
 
     public PasswordHistory(Long userid, String password) {

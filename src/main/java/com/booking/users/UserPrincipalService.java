@@ -43,9 +43,8 @@ public class UserPrincipalService implements UserDetailsService {
         if(!bCryptPasswordEncoder.matches(userDTO.getOldPassword(), user.getPassword())) throw new OldPasswordIncorrectException("Old password incorrect");
         if (userDTO.getOldPassword().equals(userDTO.getNewPassword())) throw new NewAndOldPasswordMatchException("Old password and New password can't be same");
 
-        List<PasswordHistory> passwordHistories = passwordHistoryRepository.findTop3ByUserIdOrderByEntrytimeDesc(user.getId());
+        List<PasswordHistory> passwordHistories = passwordHistoryRepository.findTop2ByUserIdOrderByEntrytimeDesc(user.getId());
         for (PasswordHistory passwordHistory : passwordHistories){
-            System.out.println("Password"+userDTO.getNewPassword()+" "+passwordHistory.getPassword());
             if (userDTO.getNewPassword().equals(passwordHistory.getPassword())) {
                 throw new OldThreePasswordMatchException("Password should not match with last three passwords");
             }
@@ -56,11 +55,5 @@ public class UserPrincipalService implements UserDetailsService {
         user.getPasswordHistories().add(new PasswordHistory(user.getId(), userDTO.getOldPassword()));
         userRepository.save(user);
     }
-
-    public List<PasswordHistory> findPassHisById(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return passwordHistoryRepository.findTop3ByUserIdOrderByEntrytimeDesc(user.getId());
-    }
-
 
 }

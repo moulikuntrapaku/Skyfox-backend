@@ -2,9 +2,9 @@ fileignoreconfig:
 - filename: src/main/java/com/booking/users/UserController.java
   checksum: ef1288df4b6c61c250d59e2e4763ab52d2620850eac349b9cd84d4d611b6babf
 - filename: src/main/java/com/booking/users/UserPrincipalService.java
-  checksum: 416168be43841eced52b940c3a8cc74c23c23e7a47ae940bb949c884460e9cff
+  checksum: 1507832ab2cb27ba1452f2957797dce7feb78b2ac41949bb764589b1ed1bdb98
 - filename: src/main/java/com/booking/users/PasswordHistoryRepository.java
-  checksum: 109969c059f36330a652e73f87e4f50b31a3b54c8348327e422fffae42526b2d
+  checksum: de951ac9fe4b78dc4cb39b91d7bc6f24a4cf5b8956dd5a875f89777eb17e94f2
 - filename: src/main/java/com/booking/users/UserDTO.java
   checksum: 750af59352108f22ec8ac6e733b671694b5a4299477d9bfee8d5cc335defbb4b
 - filename: src/test/java/com/booking/users/view/UserControllerIntegrationTest.java

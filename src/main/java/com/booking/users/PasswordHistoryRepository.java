@@ -13,8 +13,6 @@ public interface PasswordHistoryRepository extends JpaRepository<PasswordHistory
 
     List<PasswordHistory> findAll();
 
-    PasswordHistory findTopByUserIdOrderByEntrytimeDesc(Long userid);
-
-    List<PasswordHistory> findTop3ByUserIdOrderByEntrytimeDesc(Long userid);
+    List<PasswordHistory> findTop2ByUserIdOrderByEntrytimeDesc(Long userid);
 
 }

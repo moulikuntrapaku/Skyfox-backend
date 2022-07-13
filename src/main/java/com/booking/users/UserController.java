@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,12 +60,5 @@ public class UserController {
         userPrincipalService.changePassword(userDTO);
         return ResponseEntity.ok("Success! Login with new password ");
     }
-
-   @RequestMapping(value = "/lists", method = RequestMethod.GET)
-    List<PasswordHistory> getPass(Principal principal){
-        String username = principal.getName();
-        return userPrincipalService.findPassHisById(username);
-    }
-
 
 }
