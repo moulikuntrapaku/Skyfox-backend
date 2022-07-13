@@ -7,3 +7,5 @@ fileignoreconfig:
   checksum: 109969c059f36330a652e73f87e4f50b31a3b54c8348327e422fffae42526b2d
 - filename: src/main/java/com/booking/users/UserDTO.java
   checksum: 750af59352108f22ec8ac6e733b671694b5a4299477d9bfee8d5cc335defbb4b
+- filename: src/test/java/com/booking/users/view/UserControllerIntegrationTest.java
+  checksum: 10ba43d0a7d8baffaae19112fcc20af87555371fc1cc72bc2701bf7f386c69e4

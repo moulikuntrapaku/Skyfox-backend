@@ -1,5 +1,6 @@
 package com.booking.users;
 
+import com.booking.exceptions.NewAndOldPasswordMatchException;
 import com.booking.exceptions.OldThreePasswordMatchException;
 import com.booking.exceptions.OldPasswordIncorrectException;
 import com.booking.exceptions.UserNameNotFoundException;
@@ -56,7 +57,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "Server cannot process request due to client error", response = ErrorResponse.class),
             @ApiResponse(code = 500, message = "Something failed in the server", response = ErrorResponse.class)
     })
-    public  ResponseEntity<String> changePassword(@RequestBody UserDTO userDTO) throws UserNameNotFoundException,OldPasswordIncorrectException, OldThreePasswordMatchException {
+    public  ResponseEntity<String> changePassword(@RequestBody UserDTO userDTO) throws UserNameNotFoundException, OldPasswordIncorrectException, OldThreePasswordMatchException, NewAndOldPasswordMatchException {
         userPrincipalService.changePassword(userDTO);
         return ResponseEntity.ok("Success! Login with new password ");
     }

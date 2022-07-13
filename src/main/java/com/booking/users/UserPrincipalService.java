@@ -1,5 +1,6 @@
 package com.booking.users;
 
+import com.booking.exceptions.NewAndOldPasswordMatchException;
 import com.booking.exceptions.OldThreePasswordMatchException;
 import com.booking.exceptions.OldPasswordIncorrectException;
 import com.booking.exceptions.UserNameNotFoundException;
@@ -36,10 +37,11 @@ public class UserPrincipalService implements UserDetailsService {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    public void changePassword(UserDTO userDTO) throws OldPasswordIncorrectException,OldThreePasswordMatchException , UserNameNotFoundException {
+    public void changePassword(UserDTO userDTO) throws OldPasswordIncorrectException, OldThreePasswordMatchException, UserNameNotFoundException, NewAndOldPasswordMatchException {
         User user = userRepository.findByUsername(userDTO.getUserName()).orElseThrow(() -> new UserNameNotFoundException("User not found"));
 
         if(!bCryptPasswordEncoder.matches(userDTO.getOldPassword(), user.getPassword())) throw new OldPasswordIncorrectException("Old password incorrect");
+        if (userDTO.getOldPassword().equals(userDTO.getNewPassword())) throw new NewAndOldPasswordMatchException("Old password and New password can't be same");
 
         List<PasswordHistory> passwordHistories = passwordHistoryRepository.findTop3ByUserIdOrderByEntrytimeDesc(user.getId());
         for (PasswordHistory passwordHistory : passwordHistories){
@@ -51,9 +53,8 @@ public class UserPrincipalService implements UserDetailsService {
         }
         userDTO.setNewPassword(bCryptPasswordEncoder.encode(userDTO.getNewPassword()));
         user=userDTO.mapUserDtoToUser(userDTO, user);
+        user.getPasswordHistories().add(new PasswordHistory(user.getId(), userDTO.getOldPassword()));
         userRepository.save(user);
-        user.getPasswordHistories().add(new PasswordHistory(user.getId(), userDTO.getNewPassword()));
-
     }
 
     public List<PasswordHistory> findPassHisById(String username) {
